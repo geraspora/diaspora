@@ -10,6 +10,7 @@ app/assets/images/custom/
 config/diaspora.yml
 config/heroku.yml
 config/initializers/secret_token.rb
+config/initializers/raven.rb
 config/redis.conf
 config/deploy_config.yml
 config/schedule.rb

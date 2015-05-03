@@ -1,3 +1,10 @@
+GIT
+  remote: https://github.com/getsentry/raven-ruby.git
+  revision: c7b9eabe4c22f8e40a62ad07b792846b372cb9f3
+  specs:
+    sentry-raven (0.13.1)
+      faraday (>= 0.7.6)
+
 GEM
   remote: https://rubygems.org/
   remote: https://rails-assets.org/
@@ -796,6 +803,7 @@ DEPENDENCIES
   ruby-oembed (= 0.8.12)
   sass-rails (= 5.0.1)
   selenium-webdriver (= 2.45.0)
+  sentry-raven!
   shoulda-matchers (= 2.8.0)
   sidekiq (= 3.3.3)
   sidetiq (= 0.6.3)

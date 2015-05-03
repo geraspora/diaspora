@@ -273,3 +273,5 @@ group :development, :test do
   gem "rails-assets-jasmine-ajax", "3.1.0", source: "https://rails-assets.org"
   gem "sinon-rails",               "1.10.3"
 end
+
+gem "sentry-raven", :git => "https://github.com/getsentry/raven-ruby.git"
