@@ -1,0 +1,114 @@
+<style type="text/css">
+  #landing_content {
+    width: 900px;
+    margin: 0 auto;
+  }
+    
+  .logo {
+    width: 200px;
+    margin: 20px auto;
+  }
+  
+  .headline {
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 20px;
+  }
+  
+  .headline h2 {
+    text-align: center;
+    margin: 15px 0;
+  }
+
+  .threeboxes:before,
+  .threeboxes:after {
+    content: ".";    
+    display: block;    
+    height: 0;    
+    overflow: hidden;	
+  }
+  .threeboxes:after {
+    clear: both;
+  }
+  
+  .infobox {
+    text-align: center;
+    width: 258px;
+    height: 170px;
+    float: left;
+    padding: 0 20px;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+  }
+  
+  .letmein {
+    text-align: center;
+    font-size: 2em;
+    line-height: 2em;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    margin-top: 20px;
+  }
+  
+  .legal {
+    text-align: center;
+  }
+  
+  .legal p, .legal a {
+    color: #999;
+  }
+  
+  .legal p {
+    padding: 5px;
+  }
+  
+  .legal a {
+    text-decoration: underline;
+  }
+</style>
+
+<div class="container" id="landing_content">
+  <div class="logo">
+    <img src="/images/gerasporaStar.png" alt="Geraspora" width="200" />
+  </div>
+  
+  <div class="headline">
+    <h2>Willkommen bei Geraspora, dem größten deutschen Diaspora-Pod.</h2>
+  </div>
+    
+  <div class="threeboxes">
+    <div class="infobox">
+      <h2>Deine Freiheit</h2>
+      <p>
+        Geraspora lässt dich deine Kontakte in Gruppen einordnen. Deine Fotos, Geschichten und Witze
+        werden durch diese Aspekte nur mit den Menschen geteilt, für die sie gedacht sind &ndash;
+        einzigartig bei Geraspora.
+      </p>
+    </div>
+    
+    <div class="infobox">
+      <h2>Dein Eigentum</h2>
+      <p>
+        Deine Bilder gehören dir. Um sie zu teilen, musst du darauf nicht verzichten: Alles,
+        was du auf Geraspora teilst, bleibt dein Eigentum – mit voller Kontrolle über die Verbreitung.
+      </p>
+    </div>
+    
+    <div class="infobox">
+      <h2>Ganz einfach</h2>
+      <p>
+        Geraspora macht das Teilen von Inhalten klar und einfach – dasselbe gilt für den Schutz deiner Privatsphäre.
+        Geraspora ist von sich aus privat, seitenweise Einstellungen für die Profilsicherheit sind nicht nötig.
+      </p>
+    </div>
+  </div>
+  
+  <div class="letmein">
+    <%= link_to "Einloggen", new_user_session_path %> oder <%= link_to "registrieren", new_user_registration_path %>
+  </div>
+  <div class="legal">
+    <p>
+      CC-BY-SA Geraspora Team, <a href="http://pages.geraspora.de/legal.html" target="_blank">Impressum, Nutzungsbedingungen und Datenschutz</a>
+    </p>
+  </div>
+</div>
