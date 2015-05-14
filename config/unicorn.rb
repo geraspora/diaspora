@@ -4,7 +4,7 @@ require File.expand_path('../load_config', __FILE__)
 #user  = 'diaspora'
 #group = 'diaspora'
 
-worker_processes 12
+worker_processes AppConfig.server.unicorn_worker.to_i
 
 ## Load the app before spawning workers
 preload_app true
@@ -14,28 +14,24 @@ timeout AppConfig.server.unicorn_timeout.to_i
 
 @sidekiq_pid = nil
 
-pid '/var/run/diaspora/diaspora.pid'
-listen '/var/run/diaspora/diaspora.sock'
-
 #pid '/var/run/diaspora/diaspora.pid'
 #listen '/var/run/diaspora/diaspora.sock', :backlog => 2048
 
 
-stderr_path AppConfig.server.stderr_log.get if AppConfig.server.stderr_log.present?
-stdout_path AppConfig.server.stdout_log.get if AppConfig.server.stdout_log.present?
-
+stderr_path AppConfig.server.stderr_log.get if AppConfig.server.stderr_log?
+stdout_path AppConfig.server.stdout_log.get if AppConfig.server.stdout_log?
 
 before_fork do |server, worker|
   # If using preload_app, enable this line
   ActiveRecord::Base.connection.disconnect!
 
   # disconnect redis if in use
-  unless AppConfig.single_process_mode?
+  unless AppConfig.environment.single_process_mode?
     Sidekiq.redis {|redis| redis.client.disconnect }
   end
-  
+
   if AppConfig.server.embed_sidekiq_worker?
-    @sidekiq_pid ||= spawn('bundle exec sidekiq')
+    @sidekiq_pid ||= spawn('bin/bundle exec sidekiq')
   end
 
   old_pid = '/var/run/diaspora/diaspora.pid.oldbin'

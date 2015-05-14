@@ -534,7 +534,6 @@ ActiveRecord::Schema.define(version: 20150220001357) do
     t.string   "language",                           limit: 255
     t.string   "email",                              limit: 255, default: "",    null: false
     t.string   "encrypted_password",                 limit: 128, default: "",    null: false
-    t.string   "password_salt",                      limit: 255, default: "",    null: false
     t.string   "invitation_token",                   limit: 20
     t.datetime "invitation_sent_at"
     t.string   "reset_password_token",               limit: 255
