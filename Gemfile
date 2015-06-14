@@ -13,7 +13,7 @@ gem "responders", "2.1.0"
 
 # Appserver
 
-gem "unicorn", "4.9.0", require: false
+gem "puma"
 
 # API and JSON
 
@@ -293,3 +293,5 @@ group :development, :test do
   # silence assets
   gem "quiet_assets", "1.1.0"
 end
+
+gem "sentry-raven", :git => "https://github.com/getsentry/raven-ruby.git"
