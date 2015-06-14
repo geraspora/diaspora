@@ -1,7 +1,12 @@
 require 'spec_helper'
 
 describe Diaspora::MessageRenderer do
-  def message text, opts={}
+  MESSAGE_NORMALIZTIONS = {
+    "\u202a#\u200eUSA\u202c" => "#USA",
+    "ള്‍"                     => "ള്‍"
+  }
+
+  def message(text, opts={})
     Diaspora::MessageRenderer.new(text, opts)
   end
 
@@ -30,9 +35,10 @@ describe Diaspora::MessageRenderer do
         end
       end
 
-      context 'without a Markdown header of less than 200 characters on first line ' do
-        it 'truncates posts to the 20 first characters' do
-          expect(message("Very, very, very long post").title).to eq "Very, very, very ..."
+      context "without a Markdown header of less than 200 characters on first line" do
+        it "truncates posts to the 70 first characters" do
+          text = "Chillwave heirloom small batch semiotics, brunch cliche yr gluten-free whatever bitters selfies."
+          expect(message(text).title).to eq "Chillwave heirloom small batch semiotics, brunch cliche yr gluten-f..."
         end
       end
     end
@@ -121,10 +127,10 @@ describe Diaspora::MessageRenderer do
       ).to include 'href="http://joindiaspora.com/"'
     end
 
-    it 'normalizes' do
-      expect(
-        message("\u202a#\u200eUSA\u202c").markdownified
-      ).to eq %(<p><a class="tag" href="/tags/USA">#USA</a></p>\n)
+    it "normalizes" do
+      MESSAGE_NORMALIZTIONS.each do |input, output|
+        expect(message(input).plain_text_for_json).to eq output
+      end
     end
 
     context 'when formatting status messages' do
@@ -199,13 +205,28 @@ describe Diaspora::MessageRenderer do
       text = "[![Image](https://www.antifainfoblatt.de/sites/default/files/public/styles/front_full/public/jockpalfreeman.png?itok=OPjHKpmt)](https://www.antifainfoblatt.de/artikel/%E2%80%9Eschlie%C3%9Flich-waren-es-zu-viele%E2%80%9C)"
       expect(message(text).urls).to eq ["https://www.antifainfoblatt.de/sites/default/files/public/styles/front_full/public/jockpalfreeman.png?itok=OPjHKpmt", "https://www.antifainfoblatt.de/artikel/%E2%80%9Eschlie%C3%9Flich-waren-es-zu-viele%E2%80%9C"]
     end
+
+    it "encodes extracted urls" do
+      url = "http://www.example.com/url/with/umlauts/ä/index.html"
+      expect(message(url).urls).to eq ["http://www.example.com/url/with/umlauts/%C3%A4/index.html"]
+    end
+
+    it "not double encodes an already encoded url" do
+      encoded_url = "http://www.example.com/url/with/umlauts/%C3%A4/index.html"
+      expect(message(encoded_url).urls).to eq [encoded_url]
+    end
+
+    it "parses IDN correctly" do
+      url = "http://www.hören.at/"
+      expect(message(url).urls).to eq ["http://www.xn--hren-5qa.at/"]
+    end
   end
 
   describe "#plain_text_for_json" do
-    it 'normalizes' do
-      expect(
-        message("\u202a#\u200eUSA\u202c").plain_text_for_json
-      ).to eq '#USA'
+    it "normalizes" do
+      MESSAGE_NORMALIZTIONS.each do |input, output|
+        expect(message(input).plain_text_for_json).to eq output
+      end
     end
   end
 end

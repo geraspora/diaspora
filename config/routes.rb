@@ -66,6 +66,9 @@ Diaspora::Application.routes.draw do
   resources :aspects do
     put :toggle_contact_visibility
     put :toggle_chat_privilege
+    collection do
+      put "order" => :update_order
+    end
   end
 
   get 'bookmarklet' => 'status_messages#bookmarklet'
@@ -91,7 +94,11 @@ Diaspora::Application.routes.draw do
 
   resources :tags, :only => [:index]
 
-  resources "tag_followings", :only => [:create, :destroy, :index]
+  resources "tag_followings", only: %i(create destroy index) do
+    collection do
+      get :manage
+    end
+  end
 
   get 'tags/:name' => 'tags#show', :as => 'tag'
 

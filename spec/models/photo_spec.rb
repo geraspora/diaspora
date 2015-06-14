@@ -172,7 +172,7 @@ describe Photo, :type => :model do
       expect(image.exif.length).to eq(0)
     end
   end
-  
+
   describe 'non-image files' do
     it 'should not store' do
       file = File.open(@fail_fixture_name)
@@ -213,7 +213,6 @@ describe Photo, :type => :model do
     end
 
     it 'should set the remote_photo on marshalling' do
-      #security hax
       user2 = FactoryGirl.create(:user)
       aspect2 = user2.aspects.create(:name => "foobars")
       connect_users(@user, @aspect, user2, aspect2)
@@ -276,6 +275,21 @@ describe Photo, :type => :model do
         @photo2.status_message.reload
         @photo2.destroy
       }.to_not change(StatusMessage, :count)
+    end
+  end
+
+  describe "#receive_public" do
+    it "updates the photo if it is already persisted" do
+      allow(@photo).to receive(:persisted_shareable).and_return(@photo2)
+      expect(@photo2).to receive(:update_attributes)
+      @photo.receive_public
+    end
+
+    it "does not update the photo if the author mismatches" do
+      @photo.author = bob.person
+      allow(@photo).to receive(:persisted_shareable).and_return(@photo2)
+      expect(@photo).not_to receive(:update_existing_sharable)
+      @photo.receive_public
     end
   end
 end

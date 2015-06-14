@@ -13,7 +13,7 @@ class StatusMessage < Post
   validates_length_of :text, :maximum => 65535, :message => proc {|p, v| I18n.t('status_messages.too_long', :count => 65535, :current_length => v[:value].length)}
 
   # don't allow creation of empty status messages
-  validate :presence_of_content, on: :create, if: proc { |sm| sm.author.local? }
+  validate :presence_of_content, on: :create, if: proc {|sm| sm.author && sm.author.local? }
 
   xml_name :status_message
   xml_attr :raw_message
@@ -116,6 +116,7 @@ class StatusMessage < Post
 
   def update_and_dispatch_attached_photos(sender)
     if self.photos.any?
+      logger.info "dispatch photos for StatusMessage:#{guid}"
       Photo.where(status_message_guid: guid).update_all(:public => self.public)
       self.photos.each do |photo|
         if photo.pending
@@ -128,7 +129,7 @@ class StatusMessage < Post
   end
 
   def comment_email_subject
-    message.title length: 70
+    message.title
   end
 
   def first_photo_url(*args)

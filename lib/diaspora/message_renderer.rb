@@ -16,7 +16,7 @@ module Diaspora
         end
 
         def normalize message
-          message.delete("\u202a-\u202e\u200b-\u200f")
+          message.gsub(/[\u202a\u202b]#[\u200e\u200f\u202d\u202e](\S+)\u202c/u, "#\\1")
         end
       end
 
@@ -213,9 +213,8 @@ module Diaspora
 
     # Get a short summary of the message
     # @param [Hash] opts Additional options
-    # @option opts [Integer] :length (20 | first heading) Truncate the title to
-    #   this length. If not given defaults to 20 and to not truncate
-    #   if a heading is found.
+    # @option opts [Integer] :length (70) Truncate the title to
+    #   this length. If not given defaults to 70.
     def title opts={}
       # Setext-style header
       heading = if /\A(?<setext_content>.{1,200})\n(?:={1,200}|-{1,200})(?:\r?\n|$)/ =~ @raw_message.lstrip
@@ -227,19 +226,19 @@ module Diaspora
 
       heading &&= self.class.new(heading).plain_text_without_markdown
 
-      if heading && opts[:length]
-        heading.truncate opts[:length]
-      elsif heading
-        heading
+      if heading
+        heading.truncate opts.fetch(:length, 70)
       else
-        plain_text_without_markdown squish: true, truncate: opts.fetch(:length, 20)
+        plain_text_without_markdown squish: true, truncate: opts.fetch(:length, 70)
       end
     end
 
     # Extracts all the urls from the raw message and return them in the form of a string
     # Different URLs are seperated with a space
     def urls
-      @urls ||= Twitter::Extractor.extract_urls(plain_text_without_markdown)
+      @urls ||= Twitter::Extractor.extract_urls(plain_text_without_markdown).map {|url|
+        Addressable::URI.parse(url).normalize.to_s
+      }
     end
 
     def raw

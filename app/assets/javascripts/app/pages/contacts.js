@@ -16,8 +16,14 @@ app.pages.Contacts = Backbone.View.extend({
     this.chat_toggle = $("#chat_privilege_toggle .entypo");
     this.stream = opts.stream;
     this.stream.render();
-    $("#people_stream.contacts .header .entypo").tooltip({ 'placement': 'bottom'});
-    $(document).on('ajax:success', 'form.edit_aspect', this.updateAspectName);
+    $("#people_stream.contacts .header .entypo").tooltip({"placement": "bottom"});
+    $(document).on("ajax:success", "form.edit_aspect", this.updateAspectName);
+    app.events.on("aspect:create", function(){ window.location.reload() });
+
+    this.aspectCreateView = new app.views.AspectCreate({ el: $("#newAspectContainer") });
+    this.aspectCreateView.render();
+
+    this.setupAspectSorting();
   },
 
   toggleChatPrivilege: function() {
@@ -26,13 +32,13 @@ app.pages.Contacts = Backbone.View.extend({
                       .removeClass("enabled")
                       .removeAttr("data-original-title")
                       .attr("title", Diaspora.I18n.t("contacts.aspect_chat_is_not_enabled"))
-                      .tooltip({'placement': 'bottom'});
+                      .tooltip({"placement": "bottom"});
     } else {
       this.chat_toggle.tooltip("destroy")
                       .addClass("enabled")
                       .removeAttr("data-original-title")
                       .attr("title", Diaspora.I18n.t("contacts.aspect_chat_is_enabled"))
-                      .tooltip({'placement': 'bottom'});
+                      .tooltip({"placement": "bottom"});
     }
   },
 
@@ -43,7 +49,7 @@ app.pages.Contacts = Backbone.View.extend({
                             .tooltip("destroy")
                             .removeAttr("data-original-title")
                             .attr("title", Diaspora.I18n.t("contacts.aspect_list_is_not_visible"))
-                            .tooltip({'placement': 'bottom'});
+                            .tooltip({"placement": "bottom"});
     }
     else {
       this.visibility_toggle.removeClass("lock")
@@ -51,7 +57,7 @@ app.pages.Contacts = Backbone.View.extend({
                             .tooltip("destroy")
                             .removeAttr("data-original-title")
                             .attr("title", Diaspora.I18n.t("contacts.aspect_list_is_visible"))
-                            .tooltip({'placement': 'bottom'});
+                            .tooltip({"placement": "bottom"});
     }
   },
 
@@ -69,6 +75,21 @@ app.pages.Contacts = Backbone.View.extend({
 
   searchContactList: function(e) {
     this.stream.search($(e.target).val());
+  },
+
+  setupAspectSorting: function() {
+    $("#aspect_nav .nav").sortable({
+      items: "li.aspect[data-aspect-id]",
+      update: function() {
+        $("#aspect_nav .ui-sortable").removeClass("synced");
+        var data = JSON.stringify({ ordered_aspect_ids: $(this).sortable("toArray", { attribute: "data-aspect-id" }) });
+        $.ajax(Routes.orderAspects(),
+          { type: "put", dataType: "text", contentType: "application/json", data: data })
+          .done(function() { $("#aspect_nav .ui-sortable").addClass("synced"); });
+      },
+      revert: true,
+      helper: "clone"
+    });
   }
 });
 // @license-end
