@@ -1,3 +1,11 @@
+GIT
+  remote: https://github.com/getsentry/raven-ruby.git
+  revision: c45c399d9c29c719822970c4f67a837d3626169d
+  specs:
+    sentry-raven (0.14.0)
+      certifi
+      faraday (>= 0.7.6)
+
 GEM
   remote: https://rubygems.org/
   remote: https://rails-assets.org/
@@ -49,14 +57,14 @@ GEM
       activesupport (>= 3.0.0)
       rack (>= 1.1.0)
     addressable (2.3.8)
-    arel (6.0.0)
+    arel (6.0.2)
     asset_sync (1.1.0)
       activemodel
       fog (>= 1.8.0)
       unf
     ast (2.0.0)
-    astrolabe (1.3.0)
-      parser (>= 2.2.0.pre.3, < 3.0)
+    astrolabe (1.3.1)
+      parser (~> 2.2)
     autoprefixer-rails (5.2.1)
       execjs
       json
@@ -70,7 +78,7 @@ GEM
       sass (~> 3.2)
     buftok (0.2.0)
     builder (3.2.2)
-    byebug (4.0.5)
+    byebug (5.0.0)
       columnize (= 0.9.0)
     capybara (2.4.4)
       mime-types (>= 1.16)
@@ -88,6 +96,7 @@ GEM
     celluloid-io (0.16.2)
       celluloid (>= 0.16.0)
       nio4r (>= 1.1.0)
+    certifi (14.5.14)
     childprocess (0.5.6)
       ffi (~> 1.0, >= 1.0.11)
     chunky_png (1.3.4)
@@ -178,7 +187,7 @@ GEM
     ethon (0.7.4)
       ffi (>= 1.3.0)
     eventmachine (1.0.7)
-    excon (0.45.3)
+    excon (0.45.4)
     execjs (2.5.2)
     eye (0.7.pre)
       celluloid (~> 0.16.0)
@@ -201,7 +210,7 @@ GEM
       http-cookie (~> 1.0.0)
     faraday_middleware (0.9.1)
       faraday (>= 0.7.4, < 0.10)
-    ffi (1.9.8)
+    ffi (1.9.10)
     fission (0.5.0)
       CFPropertyList (~> 2.2)
     fixture_builder (0.4.1)
@@ -233,26 +242,26 @@ GEM
     fog-atmos (0.1.0)
       fog-core
       fog-xml
-    fog-aws (0.5.0)
+    fog-aws (0.7.3)
       fog-core (~> 1.27)
       fog-json (~> 1.0)
       fog-xml (~> 0.1)
       ipaddress (~> 0.8)
-    fog-brightbox (0.7.1)
+    fog-brightbox (0.8.0)
       fog-core (~> 1.22)
       fog-json
       inflecto (~> 0.0.2)
-    fog-core (1.31.1)
+    fog-core (1.32.0)
       builder
       excon (~> 0.45)
       formatador (~> 0.2)
       mime-types
       net-scp (~> 1.1)
       net-ssh (>= 2.1.3)
-    fog-ecloud (0.1.3)
+    fog-ecloud (0.3.0)
       fog-core
       fog-xml
-    fog-google (0.0.5)
+    fog-google (0.0.7)
       fog-core
       fog-json
       fog-xml
@@ -265,7 +274,7 @@ GEM
       fog-core (~> 1.27)
       fog-json (~> 1.0)
       fog-xml (~> 0.1)
-    fog-profitbricks (0.0.3)
+    fog-profitbricks (0.0.5)
       fog-core
       fog-xml
       nokogiri
@@ -283,7 +292,7 @@ GEM
     fog-serverlove (0.1.2)
       fog-core
       fog-json
-    fog-softlayer (0.4.6)
+    fog-softlayer (0.4.7)
       fog-core
       fog-json
     fog-storm_on_demand (0.1.1)
@@ -390,11 +399,10 @@ GEM
       multi_json (>= 1.3)
       rake
     json (1.8.3)
-    jwt (1.5.0)
+    jwt (1.5.1)
     kaminari (0.16.3)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
-    kgio (2.9.3)
     listen (2.10.1)
       celluloid (~> 0.16.0)
       rb-fsevent (>= 0.9.3)
@@ -425,18 +433,17 @@ GEM
     mobile-fu (1.3.1)
       rack-mobile-detect
       rails
-    multi_json (1.11.1)
+    multi_json (1.11.2)
     multi_test (0.1.2)
     multi_xml (0.5.5)
     multipart-post (2.0.0)
-    mysql2 (0.3.18)
     naught (1.0.0)
     nenv (0.2.0)
     nested_form (0.3.2)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (2.9.2)
-    nio4r (1.1.0)
+    nio4r (1.1.1)
     nokogiri (1.6.6.2)
       mini_portile (~> 0.6.0)
     notiffany (0.0.6)
@@ -457,7 +464,7 @@ GEM
     omniauth-oauth (1.1.0)
       oauth
       omniauth (~> 1.0)
-    omniauth-oauth2 (1.3.0)
+    omniauth-oauth2 (1.3.1)
       oauth2 (~> 1.0)
       omniauth (~> 1.2)
     omniauth-tumblr (1.1)
@@ -471,19 +478,21 @@ GEM
       faraday (~> 0.9.0)
       nokogiri (~> 1.6)
     orm_adapter (0.5.0)
-    parser (2.2.2.5)
+    parser (2.2.2.6)
       ast (>= 1.1, < 3.0)
+    pg (0.18.2)
     phantomjs (1.9.8.0)
     powerpack (0.1.1)
     pry (0.10.1)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
-    pry-byebug (3.1.0)
-      byebug (~> 4.0)
+    pry-byebug (3.2.0)
+      byebug (~> 5.0)
       pry (~> 0.10)
     pry-debundle (0.8)
       pry
+    puma (2.12.2)
     quiet_assets (1.1.0)
       railties (>= 3.1, < 5.0)
     rack (1.6.4)
@@ -586,7 +595,6 @@ GEM
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
     rainbow (2.0.0)
-    raindrops (0.13.0)
     rake (10.4.2)
     rb-fsevent (0.9.5)
     rb-inotify (0.9.5)
@@ -596,7 +604,7 @@ GEM
     redis-namespace (1.5.2)
       redis (~> 3.0, >= 3.0.4)
     remotipart (1.2.1)
-    request_store (1.1.0)
+    request_store (1.2.0)
     responders (2.1.0)
       railties (>= 4.2.0, < 5)
     roxml (3.1.6)
@@ -606,14 +614,14 @@ GEM
       rspec-core (~> 3.3.0)
       rspec-expectations (~> 3.3.0)
       rspec-mocks (~> 3.3.0)
-    rspec-core (3.3.1)
+    rspec-core (3.3.2)
       rspec-support (~> 3.3.0)
-    rspec-expectations (3.3.0)
+    rspec-expectations (3.3.1)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.3.0)
     rspec-instafail (0.2.6)
       rspec
-    rspec-mocks (3.3.1)
+    rspec-mocks (3.3.2)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.3.0)
     rspec-rails (3.3.2)
@@ -635,7 +643,7 @@ GEM
     ruby-progressbar (1.7.5)
     rubyzip (1.1.7)
     safe_yaml (1.0.4)
-    sass (3.4.13)
+    sass (3.4.16)
     sass-rails (5.0.1)
       railties (>= 4.0.0, < 5.0)
       sass (~> 3.1)
@@ -681,7 +689,7 @@ GEM
       spring (>= 0.9.1)
     spring-commands-rspec (1.0.4)
       spring (>= 0.9.1)
-    sprockets (2.12.3)
+    sprockets (2.12.4)
       hike (~> 1.2)
       multi_json (~> 1.0)
       rack (~> 1.0)
@@ -723,10 +731,6 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.1)
-    unicorn (4.9.0)
-      kgio (~> 2.6)
-      rack
-      raindrops (~> 0.7)
     uuid (2.3.8)
       macaddr (~> 1.0)
     warden (1.2.3)
@@ -797,7 +801,6 @@ DEPENDENCIES
   mini_magick (= 4.2.7)
   minitest
   mobile-fu (= 1.3.1)
-  mysql2 (= 0.3.18)
   nokogiri (= 1.6.6.2)
   omniauth (= 1.2.2)
   omniauth-facebook (= 2.0.1)
@@ -805,9 +808,11 @@ DEPENDENCIES
   omniauth-twitter (= 1.2.0)
   omniauth-wordpress (= 0.2.2)
   open_graph_reader (= 0.6.1)
+  pg (= 0.18.2)
   pry
   pry-byebug
   pry-debundle
+  puma
   quiet_assets (= 1.1.0)
   rack-cors (= 0.4.0)
   rack-google-analytics (= 1.2.0)
@@ -850,6 +855,7 @@ DEPENDENCIES
   rubyzip (= 1.1.7)
   sass-rails (= 5.0.1)
   selenium-webdriver (= 2.45.0)
+  sentry-raven!
   shoulda-matchers (= 2.8.0)
   sidekiq (= 3.4.1)
   sidetiq (= 0.6.3)
@@ -866,7 +872,6 @@ DEPENDENCIES
   twitter-text (= 1.12.0)
   typhoeus (= 0.7.2)
   uglifier (= 2.7.1)
-  unicorn (= 4.9.0)
   uuid (= 2.3.8)
   webmock (= 1.21.0)
   will_paginate (= 3.0.7)
