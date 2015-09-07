@@ -377,7 +377,6 @@ ActiveRecord::Schema.define(version: 20150724152052) do
     t.integer  "reshares_count",                    default: 0
     t.datetime "interacted_at"
     t.string   "frame_name",            limit: 255
-    t.boolean  "favorite",                          default: false
     t.string   "facebook_id",           limit: 255
     t.string   "tweet_id",              limit: 255
     t.integer  "open_graph_cache_id"
