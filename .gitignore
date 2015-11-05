@@ -81,3 +81,7 @@ diaspora.iml
 
 # Dolphin's directory's preferences files
 *.directory
+
+# Geraspora deployment files
+.config/
+config/puma.rb
