@@ -5,7 +5,9 @@
 %header
   - unless current_user
     .container{style: "position:relative;"}
-      = link_to content_tag(:div, nil, class: 'diaspora_header_logo logos-header-logo'), root_path
+      = link_to root_path do
+        %div.diaspora_header_logo
+          = image_tag "/diacontents/current/header-logo.png"
 
       %ul#landing_nav
         - if AppConfig.settings.enable_registrations? && !current_page?(controller: '/registrations', action: :new)

@@ -1,6 +1,9 @@
 - content_for(:head) do
   = stylesheet_link_tag :home, media: "all"
 
+  = stylesheet_link_tag '/diacontents/current/overwrites.css', :media => 'all'
+  = javascript_include_tag '/diacontents/current/overwrites.js'
+
 #page.container
   %header#header
     %a#login-link.btn{href: "login"} Log In
