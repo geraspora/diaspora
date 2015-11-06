@@ -44,8 +44,8 @@
     = yield(:head)
     = csrf_meta_tag
 
-    = stylesheet_link_tag '/diacontents/current/overwrites.css', :media => 'all'
-    = javascript_include_tag '/diacontents/current/overwrites.js'
+    = stylesheet_link_tag '/diacontents/current/overwrites.css', {id: 'diacontents_css', media: 'all'}
+    = javascript_include_tag '/diacontents/current/overwrites.js', {id: 'diacontents_js'}
 
     = include_gon(:camel_case => true)
 
