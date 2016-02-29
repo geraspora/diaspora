@@ -7,7 +7,7 @@
     .container{style: "position:relative;"}
       = link_to root_path do
         #diacontents_logo.diaspora_header_logo
-          = image_tag "/diacontents/current/header-logo.png"
+          = image_tag "/diacontents/header-logo.png"
 
       %ul#landing_nav
         - if AppConfig.settings.enable_registrations? && !current_page?(controller: '/registrations', action: :new)
