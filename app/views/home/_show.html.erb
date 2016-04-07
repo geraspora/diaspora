@@ -1,114 +1,57 @@
-<style type="text/css">
-  #landing_content {
-    width: 900px;
-    margin: 0 auto;
-  }
-    
-  .logo {
-    width: 200px;
-    margin: 20px auto;
-  }
-  
-  .headline {
-    border-top: 1px solid #ccc;
-    border-bottom: 1px solid #ccc;
-    margin-bottom: 20px;
-  }
-  
-  .headline h2 {
-    text-align: center;
-    margin: 15px 0;
-  }
+<%- content_for(:head) do %>
+  <%= stylesheet_link_tag "geraspora/landing", media: "all" %>
+<% end %>
 
-  .threeboxes:before,
-  .threeboxes:after {
-    content: ".";    
-    display: block;    
-    height: 0;    
-    overflow: hidden;	
-  }
-  .threeboxes:after {
-    clear: both;
-  }
-  
-  .infobox {
-    text-align: center;
-    width: 258px;
-    height: 170px;
-    float: left;
-    padding: 0 20px;
-    border-left: 1px solid #ccc;
-    border-right: 1px solid #ccc;
-  }
-  
-  .letmein {
-    text-align: center;
-    font-size: 2em;
-    line-height: 2em;
-    border-top: 1px solid #ccc;
-    border-bottom: 1px solid #ccc;
-    margin-top: 20px;
-  }
-  
-  .legal {
-    text-align: center;
-  }
-  
-  .legal p, .legal a {
-    color: #999;
-  }
-  
-  .legal p {
-    padding: 5px;
-  }
-  
-  .legal a {
-    text-decoration: underline;
-  }
-</style>
+<div id="custom-home-page" class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 text-center">
+      <img src="/images/gerasporaStar.png" alt="Geraspora" width="200" />
+    </div>
+  </div>
 
-<div class="container" id="landing_content">
-  <div class="logo">
-    <img src="/images/gerasporaStar.png" alt="Geraspora" width="200" />
+  <div id="welcome-container" class="text-center">
+    <h3>Willkommen bei Geraspora,</h3>
+    <h4>dem größten deutschen Diaspora-Pod.</h4>
   </div>
-  
-  <div class="headline">
-    <h2>Willkommen bei Geraspora, dem größten deutschen Diaspora-Pod.</h2>
-  </div>
-    
-  <div class="threeboxes">
-    <div class="infobox">
-      <h2>Deine Freiheit</h2>
+
+  <div id="pro-container" class="row">
+    <div class="col-sm-4">
+      <h2 class="text-center">Deine Freiheit</h2>
       <p>
-        Geraspora lässt dich deine Kontakte in Gruppen einordnen. Deine Fotos, Geschichten und Witze
-        werden durch diese Aspekte nur mit den Menschen geteilt, für die sie gedacht sind &ndash;
-        einzigartig bei Geraspora.
+        Geraspora lässt dich deine Kontakte in Gruppen einordnen. Deine Fotos,
+        Geschichten und Witze werden durch diese Aspekte nur mit den Menschen
+        geteilt, für die sie gedacht sind &ndash; einzigartig bei Geraspora.
       </p>
     </div>
-    
-    <div class="infobox">
-      <h2>Dein Eigentum</h2>
+    <div class="col-sm-4">
+      <h2 class="text-center">Dein Eigentum</h2>
       <p>
-        Deine Bilder gehören dir. Um sie zu teilen, musst du darauf nicht verzichten: Alles,
-        was du auf Geraspora teilst, bleibt dein Eigentum – mit voller Kontrolle über die Verbreitung.
+        Deine Bilder gehören dir. Um sie zu teilen, musst du darauf nicht
+        verzichten: Alles, was du auf Geraspora teilst, bleibt dein Eigentum –
+        mit voller Kontrolle über die Verbreitung.
       </p>
     </div>
-    
-    <div class="infobox">
-      <h2>Ganz einfach</h2>
+    <div class="col-sm-4">
+      <h2 class="text-center">Ganz einfach</h2>
       <p>
-        Geraspora macht das Teilen von Inhalten klar und einfach – dasselbe gilt für den Schutz deiner Privatsphäre.
-        Geraspora ist von sich aus privat, seitenweise Einstellungen für die Profilsicherheit sind nicht nötig.
+        Geraspora macht das Teilen von Inhalten klar und einfach – dasselbe
+        gilt für den Schutz deiner Privatsphäre. Geraspora ist von sich aus
+        privat, seitenweise Einstellungen für die Profilsicherheit sind nicht
+        nötig.
       </p>
     </div>
   </div>
-  
-  <div class="letmein">
-    <%= link_to "Einloggen", new_user_session_path %> oder <%= link_to "registrieren", new_user_registration_path %>
-  </div>
-  <div class="legal">
-    <p>
-      CC-BY-SA Geraspora Team, <a href="http://pages.geraspora.de/legal.html" target="_blank">Impressum, Nutzungsbedingungen und Datenschutz</a>
-    </p>
+
+  <div id="action-container" class="text-center">
+    <h3>
+      <%= link_to "Einloggen", new_user_session_path %> oder
+      <%= link_to "registrieren", new_user_registration_path %>.
+    </h3>
+    <div class="legal">
+      <p>
+        CC-BY-SA Geraspora Team, <a href="http://pages.geraspora.de/legal.html"
+        target="_blank">Impressum, Nutzungsbedingungen und Datenschutz</a>
+      </p>
+    </div>
   </div>
 </div>

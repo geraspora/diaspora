@@ -1,0 +1,29 @@
+$border: 1px solid #ccc;
+
+.page-home {
+  color: #000;
+  margin-bottom: 0;
+  padding-bottom: 25px;
+  padding-top: 30px;
+
+  #welcome-container, #pro-container {
+    padding-bottom: 15px;
+  }
+
+  #welcome-container {
+    border-bottom: $border;
+  }
+
+  #action-container {
+    border-top: $border;
+  }
+
+  h3 {
+    font-size: 40px;
+    line-height: 60px;
+  }
+
+  footer {
+    display: none;
+  }
+}
