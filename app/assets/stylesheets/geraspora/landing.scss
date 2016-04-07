@@ -1,9 +1,9 @@
-$border: 1px solid #ccc;
+$home-divider: 1px solid #ccc;
 
 .page-home {
   color: #000;
   margin-bottom: 0;
-  padding-bottom: 25px;
+  padding-bottom: 80px;
   padding-top: 30px;
 
   #welcome-container, #pro-container {
@@ -11,19 +11,15 @@ $border: 1px solid #ccc;
   }
 
   #welcome-container {
-    border-bottom: $border;
+    border-bottom: $home-divider;
   }
 
   #action-container {
-    border-top: $border;
+    border-top: $home-divider;
   }
 
   h3 {
     font-size: 40px;
     line-height: 60px;
-  }
-
-  footer {
-    display: none;
   }
 }
