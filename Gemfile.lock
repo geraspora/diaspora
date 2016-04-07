@@ -1,3 +1,10 @@
+GIT
+  remote: https://github.com/getsentry/raven-ruby.git
+  revision: 5868ef0e45fd300fb560b6f3b8069fd42def421e
+  specs:
+    sentry-raven (0.15.6)
+      faraday (>= 0.7.6)
+
 GEM
   remote: https://rubygems.org/
   remote: https://rails-assets.org/
@@ -471,7 +478,6 @@ GEM
     kaminari (0.16.3)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
-    kgio (2.10.0)
     leaflet-rails (0.7.4)
     listen (3.0.5)
       rb-fsevent (>= 0.9.3)
@@ -589,6 +595,7 @@ GEM
       pry (~> 0.10)
     pry-debundle (0.8)
       pry
+    puma (3.3.0)
     quiet_assets (1.1.0)
       railties (>= 3.1, < 5.0)
     rack (1.6.4)
@@ -695,7 +702,6 @@ GEM
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
     rainbow (2.1.0)
-    raindrops (0.15.0)
     rake (10.5.0)
     rb-fsevent (0.9.7)
     rb-inotify (0.9.7)
@@ -856,10 +862,6 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.2)
-    unicorn (5.0.1)
-      kgio (~> 2.6)
-      rack
-      raindrops (~> 0.7)
     url_safe_base64 (0.2.2)
     uuid (2.3.8)
       macaddr (~> 1.0)
@@ -973,6 +975,7 @@ DEPENDENCIES
   pry
   pry-byebug
   pry-debundle
+  puma
   quiet_assets (= 1.1.0)
   rack-cors (= 0.4.0)
   rack-google-analytics (= 1.2.0)
@@ -1014,6 +1017,7 @@ DEPENDENCIES
   rubyzip (= 1.1.7)
   sass-rails (= 5.0.4)
   selenium-webdriver (= 2.47.1)
+  sentry-raven!
   shoulda-matchers (= 3.1.1)
   sidekiq (= 4.1.0)
   sidekiq-cron (= 0.4.2)
@@ -1031,7 +1035,6 @@ DEPENDENCIES
   twitter-text (= 1.13.3)
   typhoeus (= 1.0.1)
   uglifier (= 2.7.2)
-  unicorn (= 5.0.1)
   uuid (= 2.3.8)
   versionist (= 1.4.1)
   webmock (= 1.22.6)
