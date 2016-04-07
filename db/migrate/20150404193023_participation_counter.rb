@@ -20,7 +20,9 @@ class ParticipationCounter < ActiveRecord::Migration
                   .where("polls.status_message_id = participations.target_id")
                   .to_sql
     Participation.update_all("count = (#{posts_count}) + (#{likes_count}) + (#{comments_count}) + (#{polls_count})")
-    Participation.where(count: 0).delete_all
+
+    # Disabled due to #6786
+    # Participation.where(count: 0).delete_all
   end
 
   def down
