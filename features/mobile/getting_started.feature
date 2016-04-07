@@ -3,7 +3,7 @@ Feature: editing the getting started in the mobile view
 
   Background:
     Given I am on the login page
-    When I follow "Sign up"
+    When I follow "Sign up" within ".navbar"
     And I fill in the new user form
     And I submit the form
     Then I should be on the getting started page
@@ -30,3 +30,13 @@ Feature: editing the getting started in the mobile view
     When I follow "awesome_button"
     Then I should be on the stream page
     And I should not see "awesome_button"
+
+  Scenario: new user completes getting started and signs in again later
+    When I sign out manually on the mobile website
+    And I sign in manually as "ohai" with password "secret" on the mobile website
+    Then I should be on the getting started page
+    When I follow "awesome_button"
+    Then I should be on the stream page
+    When I sign out manually on the mobile website
+    And I sign in manually as "ohai" with password "secret" on the mobile website
+    Then I should be on the stream page

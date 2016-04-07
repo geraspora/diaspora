@@ -917,7 +917,6 @@ de:
       closed_account: "Dieses Konto wurde geschlossen."
       does_not_exist: "Diese Person existiert nicht!"
       has_not_shared_with_you_yet: "%{name} hat bisher noch keine Beiträge mit dir geteilt!"
-      ignoring: "Du ignorierst alle Beiträge von %{name}."
       incoming_request: "Du hast eine eingehende Anfrage von %{name}."
       mention: "Erwähnen"
       message: "Nachricht"
@@ -1005,8 +1004,6 @@ de:
       your_location: "Dein Ort"
       your_name: "Dein Name"
       your_photo: "Dein Profilbild"
-      your_private_profile: "Dein privates Profil"
-      your_public_profile: "Dein öffentliches Profil"
       your_tags: "Beschreibe dich in 5 Worten"
       your_tags_placeholder: "Zum Beispiel: #Diaspora #lustig #Kätzchen #Musik"
     update:

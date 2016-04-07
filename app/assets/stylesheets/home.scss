@@ -1,5 +1,8 @@
+@import 'color-variables';
+@import 'bootstrap-variables';
+
 body {
-  margin-top: 50px;
+  margin-top: $navbar-height;
   background-color: white;
   background-image : none;
 }

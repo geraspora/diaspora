@@ -113,7 +113,6 @@ en_valspeak:
       contacts: "BFFs <33"
       edit: "edit!"
       gender: "So Im like..."
-      ignoring: "U r ignorin all posties from <%= name %>."
       location: "My crib"
       photos: "Pics and selfies <3"
       posts: "Posties!!"

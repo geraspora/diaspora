@@ -896,7 +896,6 @@ nl:
       closed_account: "Deze account is gesloten."
       does_not_exist: "Die persoon bestaat niet!"
       has_not_shared_with_you_yet: "%{name} heeft nog geen berichten met je gedeeld!"
-      ignoring: "Je negeert alle berichten van %{name}."
       incoming_request: "%{name} wil met je delen"
       mention: "Noemen"
       message: "Bericht"
@@ -984,8 +983,6 @@ nl:
       your_location: "Jouw locatie"
       your_name: "Je naam"
       your_photo: "Je profielfoto"
-      your_private_profile: "Je privé-profiel"
-      your_public_profile: "Je openbare profiel"
       your_tags: "Jezelf: in 5 #tags"
       your_tags_placeholder: "b.v. #diaspora #strijken #kittens #muziek"
     update:

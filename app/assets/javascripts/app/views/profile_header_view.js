@@ -3,6 +3,11 @@
 app.views.ProfileHeader = app.views.Base.extend({
   templateName: 'profile_header',
 
+  events: {
+    "click #mention_button": "showMentionModal",
+    "click #message_button": "showMessageModal"
+  },
+
   initialize: function(opts) {
     app.events.on('aspect:create', this.postRenderTemplate, this);
     this.photos = _.has(opts, 'photos') ? opts.photos : null;
@@ -40,6 +45,14 @@ app.views.ProfileHeader = app.views.Base.extend({
     return (this.contacts && this.contacts.count > 0);
   },
 
+  showMentionModal: function(){
+    app.helpers.showModal("#mentionModal");
+  },
+
+  showMessageModal: function(){
+    app.helpers.showModal("#conversationModal");
+  },
+
   postRenderTemplate: function() {
     var dropdownEl = this.$('.aspect_membership_dropdown.placeholder');
     if( dropdownEl.length === 0 ) {
@@ -52,9 +65,6 @@ app.views.ProfileHeader = app.views.Base.extend({
     $.get(href, function(resp) {
       dropdownEl.html(resp);
       new app.views.AspectMembership({el: $('.aspect_dropdown',dropdownEl)});
-
-      // UGLY (re-)attach the facebox
-      self.$('a[rel*=facebox]').facebox();
     });
   }
 });

@@ -109,7 +109,6 @@ hu:
       contacts: "ismerősök"
       edit: "szerkesztés"
       gender: "nem"
-      ignoring: "<%= name %> minden hozzászólását mellőzöd"
       location: "lakóhely"
       photos: "képek"
       posts: "bejegyzések"

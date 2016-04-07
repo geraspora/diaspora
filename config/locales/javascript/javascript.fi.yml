@@ -128,7 +128,6 @@ fi:
       contacts: "Kontaktit"
       edit: "Muokkaa"
       gender: "Sukupuoli"
-      ignoring: "Sivuutat nyt kaikki julkaisut, jotka <%= name %> lähettää."
       location: "Sijainti"
       photos: "Kuvat"
       posts: "Julkaisut"

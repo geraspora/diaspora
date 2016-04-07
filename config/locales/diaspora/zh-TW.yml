@@ -682,7 +682,6 @@ zh-TW:
       closed_account: "帳號已經關閉了。"
       does_not_exist: "聯絡人不存在！"
       has_not_shared_with_you_yet: "%{name} 還沒跟你分享任何貼文！"
-      ignoring: "你目前會忽視 %{name} 的所有貼文。"
       incoming_request: "%{name} 希望能和你分享"
       mention: "指指點點"
       message: "送訊息"
@@ -765,8 +764,6 @@ zh-TW:
       your_location: "你所在的地方"
       your_name: "你的名字"
       your_photo: "你的相片"
-      your_private_profile: "你的私人檔案"
-      your_public_profile: "你的公開檔案"
       your_tags: "用五個詞來表現你自己"
       your_tags_placeholder: "像是: #電影 #貓咪 #旅行 #老師 #紐約"
     update:

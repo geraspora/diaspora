@@ -85,10 +85,6 @@ configuration: ## Section
       ## Set it to false to disable it completely.
       #retry: 10
 
-      ## Namespace to use in Redis. Useful if you need to run
-      ## multiple instances of Diaspora using the same Redis instance.
-      #namespace: "diaspora"
-
       ## Lines of backtrace that are stored on failure (default=15).
       ## Set n to the required value. Set this to false to reduce memory
       ## usage (and log size) if you're not interested in this data.
@@ -162,14 +158,10 @@ configuration: ## Section
 
   ## Settings affecting how ./script/server behaves.
   server: ## Section
-    ## Where the appserver should listen to (default=0.0.0.0:3000)
-    #listen: '127.0.0.1:3000'
+    ## Where the appserver should listen to (default=unix:tmp/diaspora.sock)
     #listen: 'unix:tmp/diaspora.sock'
     #listen: 'unix:/run/diaspora/diaspora.sock'
-
-    ## The port on which the appserver should listen (default=none).
-    ## Note: this setting is deprecated, use listen instead.
-    #port: 3000
+    #listen: '127.0.0.1:3000'
 
     ## Set the path for the PID file of the unicorn master process (default=none)
     #pid: '/run/diaspora/diaspora.pid'
@@ -330,6 +322,20 @@ configuration: ## Section
         ## Set the logging level to debug, info, warn, error, or fatal.
         ## The debug level logs all XML sent and received by the server.
         #level: 'info'
+
+  ## Displays the location of a post in a map. Per default we are using the map
+  ## tiles of the Heidelberg University (http://giscience.uni-hd.de).
+  ## You also have the possibility to use the map tiles of https://www.mapbox.com
+  ## which is probably more reliable. There you have to create an account to get
+  ## an ID and an access token which is limited. If you want to get an unlimited
+  ## account you can write an email to team@diasporafoundation.org.
+  ## Please enable mapbox and fill out your id and access_token.
+  map: ##Section
+
+    mapbox:
+    # enabled: false
+    # id: 'your.id'
+    # access_token: 'youraccesstoken'
 
   ## Settings potentially affecting the privacy of your users.
   privacy: ## Section
@@ -582,6 +588,13 @@ configuration: ## Section
     ## If not set your pod will provide a downloadable archive.
     #source_url: 'https://example.org/username/diaspora'
 
+    ## Default color theme
+    ## You can change which color theme is displayed when a user is not signed in
+    ## or has not selected any color theme from the available ones. You simply have
+    ## to enter the name of the theme's folder in "app/assets/stylesheets/color_themes/".
+    ## ("original" for the theme in "app/assets/stylesheets/color_themes/original/", for
+    ## example).
+    #default_color_theme: "original"
   ## Posting from Diaspora to external services (all are disabled by default).
   services: ## Section
 
@@ -689,6 +702,38 @@ configuration: ## Section
 
     ## E-mail address to contact the administrator.
     #podmin_email: 'podmin@example.org'
+
+  ## Settings related to relays
+  relay: ## Section
+
+    ## Relays are applications that exist to push public posts around to
+    ## pods which want to subscribe to them but would not otherwise
+    ## receive them due to not having direct contact with the remote pods.
+    ##
+    ## See more regarding relays: https://wiki.diasporafoundation.org/Relay_servers_for_public_posts
+
+    outbound: ## Section
+      ## Enable this setting to send out public posts from this pod to a relay
+      #send: false
+      ## Change default remote relay handle used for sending out here
+      #handle: 'relay@relay.iliketoast.net'
+
+    inbound: ## Section
+      ## Enable this to receive public posts from relays
+      #subscribe: false
+
+      ## Scope is either 'all' or 'tags' (default).
+      ## - 'all', means this pod wants to receive all public posts from a relay
+      ## - 'tags', means this pod wants only posts tagged with certain tags
+      #scope: tags
+
+      ## If scope is 'tags', should we include tags that users on this pod follow?
+      ## These are added in addition to 'pod_tags', if set.
+      #include_user_tags: false
+
+      ## If scope is 'tags', a comma separated list of tags here can be set.
+      ## For example "linux,diaspora", to receive posts related to these tags
+      #pod_tags:
 
 ## Here you can override settings defined above if you need
 ## to have them different in different environments.

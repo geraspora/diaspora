@@ -31,7 +31,7 @@ FactoryGirl.define do
 
   factory(:person, aliases: %i(author)) do
     sequence(:diaspora_handle) {|n| "bob-person-#{n}#{r_str}@example.net" }
-    url AppConfig.pod_uri.to_s
+    pod { Pod.find_or_create_by(url: "http://example.net") }
     serialized_public_key OpenSSL::PKey::RSA.generate(1024).public_key.export
     after(:build) do |person|
       unless person.profile.first_name.present?
@@ -69,10 +69,11 @@ FactoryGirl.define do
     password_confirmation { |u| u.password }
     serialized_private_key  OpenSSL::PKey::RSA.generate(1024).export
     after(:build) do |u|
-      u.person = FactoryGirl.build(:person, :profile => FactoryGirl.build(:profile),
-                                  :owner_id => u.id,
-                                  :serialized_public_key => u.encryption_key.public_key.export,
-                                  :diaspora_handle => "#{u.username}#{User.diaspora_id_host}")
+      u.person = FactoryGirl.build(:person,
+                                   profile:               FactoryGirl.build(:profile),
+                                   pod:                   nil,
+                                   serialized_public_key: u.encryption_key.public_key.export,
+                                   diaspora_handle:       "#{u.username}#{User.diaspora_id_host}")
     end
     after(:create) do |u|
       u.person.save
@@ -99,6 +100,12 @@ FactoryGirl.define do
     factory(:status_message_with_poll) do
       after(:build) do |sm|
         FactoryGirl.create(:poll, status_message: sm)
+      end
+    end
+
+    factory(:status_message_with_location) do
+      after(:build) do |sm|
+        FactoryGirl.create(:location, status_message: sm)
       end
     end
 
@@ -137,8 +144,9 @@ FactoryGirl.define do
   end
 
   factory(:location) do
-    lat 1
-    lng 2
+    address "Fernsehturm Berlin, Berlin, Germany"
+    lat 52.520645
+    lng 13.409779
   end
 
   factory(:poll) do
@@ -204,6 +212,11 @@ FactoryGirl.define do
     sequence(:name) { |num| "Rob Fergus the #{num.ordinalize}" }
     association :service
     photo_url "/assets/user/adams.jpg"
+  end
+
+  factory :pod do
+    sequence(:host) {|n| "pod#{n}.example#{r_str}.com" }
+    ssl true
   end
 
   factory(:comment) do
@@ -298,12 +311,65 @@ FactoryGirl.define do
 
   factory(:status, :parent => :status_message)
 
+  factory :o_auth_application, class: Api::OpenidConnect::OAuthApplication do
+    client_name "Diaspora Test Client"
+    redirect_uris %w(http://localhost:3000/)
+  end
+
+  factory :o_auth_application_with_image, class: Api::OpenidConnect::OAuthApplication do
+    client_name "Diaspora Test Client"
+    redirect_uris %w(http://localhost:3000/)
+    logo_uri "/assets/user/default.png"
+  end
+
+  factory :o_auth_application_with_ppid, class: Api::OpenidConnect::OAuthApplication do
+    client_name "Diaspora Test Client"
+    redirect_uris %w(http://localhost:3000/)
+    ppid true
+    sector_identifier_uri "https://example.com/uri"
+  end
+
+  factory :o_auth_application_with_ppid_with_specific_id, class: Api::OpenidConnect::OAuthApplication do
+    client_name "Diaspora Test Client"
+    redirect_uris %w(http://localhost:3000/)
+    ppid true
+    sector_identifier_uri "https://example.com/uri"
+  end
+
+  factory :o_auth_application_with_multiple_redirects, class: Api::OpenidConnect::OAuthApplication do
+    client_name "Diaspora Test Client"
+    redirect_uris %w(http://localhost:3000/ http://localhost/)
+  end
+
+  factory :o_auth_application_with_xss, class: Api::OpenidConnect::OAuthApplication do
+    client_name "<script>alert(0);</script>"
+    redirect_uris %w(http://localhost:3000/)
+  end
+
+  factory :auth_with_read, class: Api::OpenidConnect::Authorization do
+    o_auth_application
+    user
+    scopes %w(openid sub aud profile picture nickname name read)
+  end
+
+  factory :auth_with_read_and_ppid, class: Api::OpenidConnect::Authorization do
+    association :o_auth_application, factory: :o_auth_application_with_ppid
+    user
+    scopes %w(openid sub aud profile picture nickname name read)
+  end
+
+  factory :auth_with_read_and_write, class: Api::OpenidConnect::Authorization do
+    o_auth_application
+    user
+    scopes %w(openid sub aud profile picture nickname name read write)
+  end
+
   # Factories for the DiasporaFederation-gem
 
   factory(:federation_person_from_webfinger, class: DiasporaFederation::Entities::Person) do
     sequence(:guid) { UUID.generate :compact }
     sequence(:diaspora_id) {|n| "bob-person-#{n}#{r_str}@example.net" }
-    url AppConfig.pod_uri.to_s
+    url "https://example.net/"
     exported_key OpenSSL::PKey::RSA.generate(1024).public_key.export
     profile {
       DiasporaFederation::Entities::Profile.new(

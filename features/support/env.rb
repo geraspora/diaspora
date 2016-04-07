@@ -12,6 +12,9 @@ require "capybara/cucumber"
 require "capybara/session"
 require "selenium/webdriver"
 
+require "cucumber/api_steps"
+require "json_spec/cucumber"
+
 # Ensure we know the appservers port
 Capybara.server_port = AppConfig.pod_uri.port
 Rails.application.routes.default_url_options[:host] = AppConfig.pod_uri.host
@@ -80,6 +83,7 @@ include HelperMethods
 
 Before do
   Devise.mailer.deliveries = []
+  page.driver.browser.manage.window.resize_to(1024, 500)
   # Delete all files in "tmp/downloads"
   DownloadHelpers.clear_downloads
 end

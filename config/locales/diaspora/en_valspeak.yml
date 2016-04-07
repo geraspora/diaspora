@@ -807,7 +807,6 @@ en_valspeak:
       closed_account: "this profile is gone dude..."
       does_not_exist: "they dont like... exist :\\"
       has_not_shared_with_you_yet: "%{name} has like... not shared ne posties wit u yet!"
-      ignoring: "U r like... ignorin all posties from %{name}."
       incoming_request: "%{name} wants 2 like... share wit u"
       mention: "Tag person"
       message: "Txt"
@@ -891,8 +890,6 @@ en_valspeak:
       your_location: "Ur place"
       your_name: "Ur name"
       your_photo: "Ur pic"
-      your_private_profile: "Ur like... private profile..."
-      your_public_profile: "Ur like... profile where every1 can like... c it..."
       your_tags: "Describe urself in like... 5 werdz"
       your_tags_placeholder: "like #twilight #selfies #Belieber #iphone #mtv"
     update:

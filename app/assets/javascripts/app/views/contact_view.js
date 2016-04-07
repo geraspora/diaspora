@@ -19,7 +19,6 @@ app.views.Contact = app.views.Base.extend({
   },
 
   postRenderTemplate: function() {
-    var self = this;
     var dropdownEl = this.$('.aspect_membership_dropdown.placeholder');
     if( dropdownEl.length === 0 ) {
       return;
@@ -31,39 +30,54 @@ app.views.Contact = app.views.Base.extend({
     $.get(href, function(resp) {
       dropdownEl.html(resp);
       new app.views.AspectMembership({el: $('.aspect_dropdown',dropdownEl)});
-
-      // UGLY (re-)attach the facebox
-      self.$('a[rel*=facebox]').facebox();
     });
   },
 
   addContactToAspect: function(){
     var self = this;
-    this.model.aspect_memberships.create({
-      'person_id': this.model.get('person_id'),
-      'aspect_id': app.aspect.get('id')
+    // do we create the first aspect membership for this person?
+    var startSharing = this.model.aspectMemberships.length === 0;
+    this.model.aspectMemberships.create({
+      "person_id": this.model.get("person_id"),
+      "aspect_id": app.aspect.get("id")
     },{
       success: function(){
+        app.events.trigger("aspect_membership:create", {
+          membership: {
+            aspectId: app.aspect.get("id"),
+            personId: self.model.get("person_id")
+          },
+          startSharing: startSharing
+        });
         self.render();
       },
       error: function(){
-        var msg = Diaspora.I18n.t('contacts.error_add', { 'name': self.model.get('person').name });
-        Diaspora.page.flashMessages.render({ 'success':false, 'notice':msg });
+        var msg = Diaspora.I18n.t("contacts.error_add", { "name": self.model.get("person").name });
+        app.flashMessages.error(msg);
       }
     });
   },
 
   removeContactFromAspect: function(){
     var self = this;
-    this.model.aspect_memberships
-      .find(function(membership){ return membership.get('aspect').id === app.aspect.id; })
+    // do we destroy the last aspect membership for this person?
+    var stopSharing = this.model.aspectMemberships.length <= 1;
+    this.model.aspectMemberships
+      .find(function(membership){ return membership.get("aspect").id === app.aspect.id; })
       .destroy({
         success: function(){
+          app.events.trigger("aspect_membership:destroy", {
+            membership: {
+              aspectId: app.aspect.get("id"),
+              personId: self.model.get("person_id")
+            },
+            stopSharing: stopSharing
+          });
           self.render();
         },
         error: function(){
-          var msg = Diaspora.I18n.t('contacts.error_remove', { 'name': self.model.get('person').name });
-          Diaspora.page.flashMessages.render({ 'success':false, 'notice':msg });
+          var msg = Diaspora.I18n.t("contacts.error_remove", { "name": self.model.get("person").name });
+          app.flashMessages.error(msg);
         }
       });
   }

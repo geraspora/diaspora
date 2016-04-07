@@ -3,7 +3,7 @@
 #   the COPYRIGHT file.
 
 class UsersController < ApplicationController
-  before_action :authenticate_user!, :except => [:new, :create, :public, :user_photo]
+  before_action :authenticate_user!, except: %i(new create public user_photo)
   respond_to :html
 
   def edit
@@ -68,6 +68,12 @@ class UsersController < ApplicationController
           flash[:notice] = I18n.t 'users.update.follow_settings_changed'
         else
           flash[:error] = I18n.t 'users.update.follow_settings_not_changed'
+        end
+      elsif u[:color_theme]
+        if @user.update_attributes(u)
+          flash[:notice] = I18n.t "users.update.color_theme_changed"
+        else
+          flash[:error] = I18n.t "users.update.color_theme_not_changed"
         end
       end
     end
@@ -181,6 +187,7 @@ class UsersController < ApplicationController
       :password,
       :password_confirmation,
       :language,
+      :color_theme,
       :disable_mail,
       :invitation_service,
       :invitation_identifier,

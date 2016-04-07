@@ -134,7 +134,6 @@ pt-BR:
       contacts: "Contatos"
       edit: "Editar"
       gender: "Sexo"
-      ignoring: "Você está ignorando todas as publicações de <%= name %>."
       location: "Localização"
       photos: "Fotos"
       posts: "Publicações"

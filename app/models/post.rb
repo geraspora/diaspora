@@ -19,6 +19,8 @@ class Post < ActiveRecord::Base
 
   xml_attr :provider_display_name
 
+  has_many :reports, as: :item
+
   has_many :mentions, :dependent => :destroy
 
   has_many :reshares, :class_name => "Reshare", :foreign_key => :root_guid, :primary_key => :guid
@@ -103,11 +105,17 @@ class Post < ActiveRecord::Base
     excluding_blocks(user).excluding_hidden_shareables(user)
   end
 
-  def self.for_a_stream(max_time, order, user=nil)
+  def self.for_a_stream(max_time, order, user=nil, ignore_blocks=false)
     scope = self.for_visible_shareable_sql(max_time, order).
       includes_for_a_stream
 
-    scope = scope.excluding_hidden_content(user) if user.present?
+    if user.present?
+      if ignore_blocks
+        scope = scope.excluding_hidden_shareables(user)
+      else
+        scope = scope.excluding_hidden_content(user)
+      end
+    end
 
     scope
   end
@@ -125,12 +133,9 @@ class Post < ActiveRecord::Base
   #############
 
   def self.diaspora_initialize(params)
-    new_post = self.new params.to_hash.stringify_keys.slice(*self.column_names)
-    new_post.author = params[:author]
-    new_post.public = params[:public] if params[:public]
-    new_post.pending = params[:pending] if params[:pending]
-    new_post.diaspora_handle = new_post.author.diaspora_handle
-    new_post
+    new(params.to_hash.stringify_keys.slice(*column_names)).tap do |new_post|
+      new_post.author = params[:author]
+    end
   end
 
   # @return Returns true if this Post will accept updates (i.e. updates to the caption of a photo).
@@ -148,22 +153,5 @@ class Post < ActiveRecord::Base
 
   def nsfw
     self.author.profile.nsfw?
-  end
-
-  def self.find_public(id)
-    where(post_key(id) => id).includes(:author, comments: :author).first.tap do |post|
-      raise ActiveRecord::RecordNotFound.new("could not find a post with id #{id}") unless post
-      raise Diaspora::NonPublic unless post.public?
-    end
-  end
-
-  def self.find_non_public_by_guid_or_id_with_user(id, user)
-    user.find_visible_shareable_by_id(Post, id, key: post_key(id)).tap do |post|
-      raise ActiveRecord::RecordNotFound.new("could not find a post with id #{id}") unless post
-    end
-  end
-
-  def self.post_key(id)
-    id.to_s.length <= 8 ? :id : :guid
   end
 end

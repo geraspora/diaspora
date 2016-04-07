@@ -23,12 +23,14 @@ class User < ActiveRecord::Base
 
   before_validation :strip_and_downcase_username
   before_validation :set_current_language, :on => :create
+  before_validation :set_default_color_theme, on: :create
 
   validates :username, :presence => true, :uniqueness => true
   validates_format_of :username, :with => /\A[A-Za-z0-9_]+\z/
   validates_length_of :username, :maximum => 32
   validates_exclusion_of :username, :in => AppConfig.settings.username_blacklist
   validates_inclusion_of :language, :in => AVAILABLE_LANGUAGE_CODES
+  validates :color_theme, inclusion: {in: AVAILABLE_COLOR_THEME_CODES}, allow_blank: true
   validates_format_of :unconfirmed_email, :with  => Devise.email_regexp, :allow_blank => true
 
   validates_presence_of :person, :unless => proc {|user| user.invitation_token.present?}
@@ -37,7 +39,7 @@ class User < ActiveRecord::Base
 
   serialize :hidden_shareables, Hash
 
-  has_one :person, :foreign_key => :owner_id
+  has_one :person, inverse_of: :owner, foreign_key: :owner_id
   has_one :profile, through: :person
 
   delegate :guid, :public_key, :posts, :photos, :owns?, :image_url,
@@ -74,8 +76,13 @@ class User < ActiveRecord::Base
 
   has_many :reports
 
-  before_save :guard_unconfirmed_email,
-              :save_person!
+  has_many :pairwise_pseudonymous_identifiers, class_name: "Api::OpenidConnect::PairwisePseudonymousIdentifier"
+  has_many :authorizations, class_name: "Api::OpenidConnect::Authorization"
+  has_many :o_auth_applications, through: :authorizations, class_name: "Api::OpenidConnect::OAuthApplication"
+
+  has_many :share_visibilities
+
+  before_save :guard_unconfirmed_email
 
   def self.all_sharing_with_person(person)
     User.joins(:contacts).where(:contacts => {:person_id => person.id})
@@ -106,6 +113,10 @@ class User < ActiveRecord::Base
 
   def invitation_code
     InvitationCode.find_or_create_by(user_id: self.id)
+  end
+
+  def receive_shareable(shareable)
+    ShareVisibility.create!(shareable_id: shareable.id, shareable_type: shareable.class.base_class.to_s, user_id: id)
   end
 
   def hidden_shareables
@@ -196,6 +207,10 @@ class User < ActiveRecord::Base
 
   def set_current_language
     self.language = I18n.locale.to_s if self.language.blank?
+  end
+
+  def set_default_color_theme
+    self.color_theme ||= AppConfig.settings.default_color_theme
   end
 
   # This override allows a user to enter either their email address or their username into the username field.
@@ -376,10 +391,10 @@ class User < ActiveRecord::Base
       retraction = Retraction.for(target)
     end
 
-   if target.is_a?(Post)
-     opts[:additional_subscribers] = target.resharers
-     opts[:services] = self.services
-   end
+    if target.is_a?(Post)
+      opts[:additional_subscribers] = target.resharers
+      opts[:services] = services
+    end
 
     mailman = Postzord::Dispatcher.build(self, retraction, opts)
     mailman.post
@@ -432,6 +447,8 @@ class User < ActiveRecord::Base
     self.email = opts[:email]
     self.language = opts[:language]
     self.language ||= I18n.locale.to_s
+    self.color_theme = opts[:color_theme]
+    self.color_theme ||= AppConfig.settings.default_color_theme
     self.valid?
     errors = self.errors
     errors.delete :person
@@ -442,7 +459,6 @@ class User < ActiveRecord::Base
   end
 
   def set_person(person)
-    person.url = AppConfig.pod_uri.to_s
     person.diaspora_handle = "#{self.username}#{User.diaspora_id_host}"
     self.person = person
   end
@@ -521,16 +537,6 @@ class User < ActiveRecord::Base
     end
   end
 
-  # Sometimes we access the person in a strange way and need to do this
-  # @note we should make this method depricated.
-  #
-  # @return [Person]
-  def save_person!
-    self.person.save if self.person && self.person.changed?
-    self.person
-  end
-
-
   def no_person_with_same_username
     diaspora_id = "#{self.username}#{User.diaspora_id_host}"
     if self.username_changed? && Person.exists?(:diaspora_handle => diaspora_id)
@@ -593,12 +599,10 @@ class User < ActiveRecord::Base
   private
 
   def clearable_fields
-    self.attributes.keys - ["id", "username", "encrypted_password",
-                            "created_at", "updated_at", "locked_at",
-                            "serialized_private_key", "getting_started",
-                            "disable_mail", "show_community_spotlight_in_stream",
-                            "strip_exif", "email", "remove_after",
-                            "export", "exporting", "exported_at",
-                            "exported_photos_file", "exporting_photos", "exported_photos_at"]
+    attributes.keys - %w(id username encrypted_password created_at updated_at locked_at
+                         serialized_private_key getting_started
+                         disable_mail show_community_spotlight_in_stream
+                         strip_exif email remove_after export exporting exported_at
+                         exported_photos_file exporting_photos exported_photos_at)
   end
 end

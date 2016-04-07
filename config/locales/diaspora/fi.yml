@@ -837,7 +837,6 @@ fi:
       closed_account: "Tämä käyttäjätili on suljettu."
       does_not_exist: "Henkilöä ei ole olemassa!"
       has_not_shared_with_you_yet: "%{name} ei ole jakanut vielä yhtään julkaisua kanssasi!"
-      ignoring: "Sivuutat nyt kaikki julkaisut, jotka %{name} lähettää."
       incoming_request: "%{name} haluaisi jakaa kanssasi"
       mention: "Mainitse"
       message: "Viesti"
@@ -921,8 +920,6 @@ fi:
       your_location: "Sijaintisi"
       your_name: "Nimesi"
       your_photo: "Profiilikuvasi"
-      your_private_profile: "Yksityinen profiilisi"
-      your_public_profile: "Julkinen profiilisi"
       your_tags: "Kuvaile itseäsi viidellä sanalla"
       your_tags_placeholder: "Esim. #elokuvat #kissat #matkailu #opettaja #turku"
     update:

@@ -26,10 +26,10 @@ module PublishingCukeHelpers
   end
 
   def submit_publisher
-    txt = find('#publisher #status_message_fake_text').value
-    find('#publisher .creation').click
+    txt = find("#publisher #status_message_fake_text").value
+    find("#publisher .btn-primary").click
     # wait for the content to appear
-    expect(find('#main_stream')).to have_content(txt)
+    expect(find("#main_stream")).to have_content(txt)
   end
 
   def click_and_post(text)
@@ -108,14 +108,6 @@ module PublishingCukeHelpers
 
   def stream_posts
     all('.stream_element')
-  end
-
-  def comment_on_post(post_text, comment_text)
-    within_post(post_text) do
-      focus_comment_box
-      make_comment(comment_text)
-    end
-    step %Q(I should see "#{comment_text}" within ".comment")
   end
 
   def comment_on_show_page(comment_text)

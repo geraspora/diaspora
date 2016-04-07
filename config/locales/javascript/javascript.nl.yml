@@ -137,7 +137,6 @@ nl:
       contacts: "Contacten"
       edit: "Bewerken"
       gender: "Geslacht"
-      ignoring: "Je negeert alle berichten van <%= name %>"
       location: "Locatie"
       photos: "Foto's"
       posts: "Berichten"

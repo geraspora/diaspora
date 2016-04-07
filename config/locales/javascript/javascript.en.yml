@@ -29,6 +29,56 @@ en:
     edit: "Edit"
     no_results: "No results found"
 
+    admins:
+      dashboard:
+        up_to_date: "Your pod is up to date!"
+        outdated: "Your pod is outdated."
+        compare_versions: "The latest diaspora* release is <%= latestVersion %>, your pod is running <%= podVersion %>."
+        error: "Unable to determine latest diaspora* version."
+    admin:
+      pods:
+        pod: "Pod"
+        ssl: "SSL"
+        ssl_enabled: "SSL enabled"
+        ssl_disabled: "SSL disabled"
+        added: "Added"
+        status: "Status"
+        states:
+          unchecked: "Unchecked"
+          no_errors: "OK"
+          dns_failed: "Name resolution (DNS) failed"
+          net_failed: "Connection attempt failed"
+          ssl_failed: "Secure connection (SSL) failed"
+          http_failed: "HTTP connection failed"
+          version_failed: "Unable to retrieve software version"
+          unknown_error: "An unspecified error has happened during the check"
+        actions: "Actions"
+        offline_since: "offline since:"
+        last_check: "last check:"
+        more_info: "show more information"
+        check: "perform connection test"
+        recheck:
+          success: "The pod was just checked again."
+          failure: "The check was not performed."
+        follow_link: "open link in browser"
+        no_info: "No additional information available at this point"
+        server_software: "Server software:"
+        response_time: "Response time:"
+        ms:
+          one: "<%= count %>ms"
+          other: "<%= count %>ms"
+        unknown: "unknown"
+        not_available: "not available"
+        unchecked:
+          one: "There is still one pod that hasn't been checked at all."
+          other: "There are still <%= count %> pods that haven't been checked at all."
+        version_failed:
+          one: "There is one pod that has no version (old pod, no NodeInfo)."
+          other: "There are <%= count %> pods that have no version (old pods, no NodeInfo)."
+        errors:
+          one: "The connection test returned an error for one pod."
+          other: "The connection test returned an error for <%= count %> pods."
+
     aspects:
       make_aspect_list_visible: "Make contacts in this aspect visible to each other?"
       name: "Name"
@@ -103,8 +153,9 @@ en:
         one: "In <%= count %> aspect"
         other: "In <%= count %> aspects"
     show_more: "Show more"
-    failed_to_like: "Failed to like!"
+    failed_to_like: "Failed to like. Maybe the author is ignoring you?"
     failed_to_reshare: "Failed to reshare!"
+    failed_to_comment: "Failed to comment. Maybe the author is ignoring you?"
     failed_to_post_message: "Failed to post message!"
     failed_to_remove: "Failed to remove the entry!"
     comments:
@@ -147,7 +198,6 @@ en:
       edit: "Edit"
       add_some: "Add some"
       you_have_no_tags: "You have no tags!"
-      ignoring: "You are ignoring all posts from <%= name %>."
       bio: "Bio"
       location: "Location"
       gender: "Gender"
@@ -181,6 +231,7 @@ en:
       unfollow: "Unfollow"
       enable_post_notifications: "Enable notifications for this post"
       disable_post_notifications: "Disable notifications for this post"
+      permalink: "Permalink"
       via: "via <%= provider %>"
 
       likes:
@@ -210,6 +261,11 @@ en:
         stop_following_confirm: "Stop following #<%= tag %>?"
         follow_error: "Couldn’t follow #<%= tag %> :("
         stop_following_error: "Couldn’t stop following #<%= tag %> :("
+      
+      reactions:
+        zero: "<%= count%> reactions"
+        one: "<%= count%> reaction"
+        other: "<%= count%> reactions"
 
     header:
       home: "Home"
@@ -220,6 +276,8 @@ en:
       admin: "Admin"
       moderator: "Moderator"
       log_out: "Log out"
+      toggle_navigation: "Toggle navigation"
+      toggle_mobile: "Toggle mobile"
 
       notifications: "Notifications"
       conversations: "Conversations"
@@ -249,5 +307,9 @@ en:
       count:
         one: "1 vote so far"
         other: "<%=count%> votes so far"
+      answer_count:
+        zero: "0 votes"
+        one: "1 vote"
+        other: "<%=count%> votes"
       show_result: "Show result"
       close_result: "Hide result"

@@ -32,12 +32,12 @@ gem "simple_captcha2", "0.4.0", require: "simple_captcha"
 
 # Background processing
 
-gem "sidekiq", "3.4.2"
+gem "sidekiq", "4.1.0"
 gem "sinatra", "1.4.7"
 
 # Scheduled processing
 
-gem "sidetiq", "0.6.3"
+gem "sidekiq-cron", "0.4.2"
 
 # Compression
 
@@ -53,17 +53,20 @@ gem "rack-cors", "0.4.0", require: "rack/cors"
 
 # CSS
 
-gem "bootstrap-sass", "2.3.2.2"
+gem "bootstrap-sass", "3.3.6"
 gem "compass-rails",  "2.0.5"
 gem "sass-rails",     "5.0.4"
 gem "autoprefixer-rails", "6.3.3.1"
+gem "bootstrap-switch-rails", "3.3.3"
 
 # Database
 
-ENV["DB"] ||= "mysql"
-
-gem "mysql2", "0.4.3" if ENV["DB"] == "all" || ENV["DB"] == "mysql"
-gem "pg",     "0.18.4" if ENV["DB"] == "all" || ENV["DB"] == "postgres"
+group :mysql, optional: true do
+  gem "mysql2", "0.4.3"
+end
+group :postgresql, optional: true do
+  gem "pg",     "0.18.4"
+end
 
 gem "activerecord-import", "0.11.0"
 
@@ -79,7 +82,7 @@ gem "uuid", "2.3.8"
 
 # Icons
 
-gem "entypo-rails", "2.2.3"
+gem "entypo-rails", "3.0.0.pre.rc2"
 
 # JavaScript
 
@@ -101,17 +104,16 @@ source "https://rails-assets.org" do
   gem "rails-assets-markdown-it-sub",                     "1.0.0"
   gem "rails-assets-markdown-it-sup",                     "1.0.0"
   gem "rails-assets-highlightjs",                         "9.1.0"
+  gem "rails-assets-typeahead.js",                        "0.11.1"
 
   # jQuery plugins
 
-  gem "rails-assets-jeresig--jquery.hotkeys",       "0.2.0"
   gem "rails-assets-jquery-placeholder",            "2.3.1"
   gem "rails-assets-jquery-textchange",             "0.2.3"
   gem "rails-assets-perfect-scrollbar",             "0.6.10"
-  gem "rails-assets-jakobmattsson--jquery-elastic", "1.6.11"
+  gem "rails-assets-autosize",                      "3.0.15"
+  gem "rails-assets-blueimp-gallery",               "2.17.0"
 end
-
-gem "facebox-rails", "0.2.0"
 
 # Localization
 
@@ -123,6 +125,9 @@ gem "rails-i18n",           "4.0.8"
 
 gem "markerb",             "1.1.0"
 gem "messagebus_ruby_api", "1.0.3"
+
+# Map
+gem "leaflet-rails",       "0.7.4"
 
 # Parsing
 
@@ -142,13 +147,16 @@ gem "omniauth-twitter",   "1.2.1"
 gem "twitter",            "5.16.0"
 gem "omniauth-wordpress", "0.2.2"
 
+# OpenID Connect
+gem "openid_connect", "0.10.0"
+
 # Serializers
 
 gem "active_model_serializers", "0.9.4"
 
 # XMPP chat dependencies
 gem "diaspora-vines",             "~> 0.2.0.develop"
-gem "rails-assets-diaspora_jsxc", "~> 0.1.4", source: "https://rails-assets.org"
+gem "rails-assets-diaspora_jsxc", "~> 0.1.5.develop", source: "https://rails-assets.org"
 
 # Tags
 
@@ -165,7 +173,7 @@ gem "typhoeus",           "1.0.1"
 # Views
 
 gem "gon",                     "6.0.1"
-gem "haml",                    "4.0.7"
+gem "hamlit",                  "2.2.1"
 gem "mobile-fu",               "1.3.1"
 gem "will_paginate",           "3.1.0"
 gem "rails-timeago",           "2.11.0"
@@ -184,6 +192,8 @@ gem "rubyzip", "1.1.7", require: "zip"
 # https://github.com/gitlabhq/gitlabhq/pull/3852
 # https://github.com/discourse/discourse/pull/238
 gem "minitest"
+
+gem "versionist", "1.4.1"
 
 # Windows and OSX have an execjs compatible runtime built-in, Linux users should
 # install Node.js or use "therubyracer".
@@ -208,7 +218,7 @@ group :production do # we don"t install these on travis to speed up test runs
 
   # Process management
 
-  gem "eye", "0.7"
+  gem "eye", "0.8"
 
   # Redirects
 
@@ -231,8 +241,14 @@ group :development do
   gem "rb-inotify",     "0.9.7", require: false
 
   # Linters
-  gem "jshintrb", "0.3.0"
-  gem "rubocop",  "0.35.1"
+  gem "jshintrb",       "0.3.0"
+  gem "rubocop",        "0.35.1"
+  gem "haml_lint",      "0.15.2"
+  gem "pronto",         "0.5.3"
+  gem "pronto-jshint",  "0.5.0"
+  gem "pronto-rubocop", "0.5.0"
+  gem "pronto-haml",    "0.5.0"
+  gem "pronto-scss",    "0.5.0", require: false
 
   # Preloading environment
 
@@ -264,6 +280,9 @@ group :test do
   gem "capybara",           "2.6.2"
   gem "database_cleaner" ,  "1.5.1"
   gem "selenium-webdriver", "2.47.1"
+
+  gem "cucumber-api-steps", "0.13", require: false
+  gem "json_spec", "1.1.4"
 
   # General helpers
 

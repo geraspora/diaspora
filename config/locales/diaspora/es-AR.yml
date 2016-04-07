@@ -906,7 +906,6 @@ es-AR:
       closed_account: "Esta cuenta ha sido cerrada."
       does_not_exist: "¡Ese usuario no existe!"
       has_not_shared_with_you_yet: "¡%{name} no compartió ninguna publicación con vos todavía!"
-      ignoring: "Estás ignorando todas las publicaciones de %{name}."
       incoming_request: "%{name} quiere compartir con vos"
       mention: "Mención"
       message: "Mensaje"
@@ -991,8 +990,6 @@ es-AR:
       your_location: "Tu ubicación"
       your_name: "Tu nombre"
       your_photo: "Tu foto"
-      your_private_profile: "Tu perfil privado"
-      your_public_profile: "Tu perfil público"
       your_tags: "Vos en 5 palabras"
       your_tags_placeholder: "Por ejemplo #arte #viajes #linux #música #cine"
     update:

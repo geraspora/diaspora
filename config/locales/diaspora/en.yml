@@ -91,18 +91,21 @@ en:
     helper:
       invalid_fields: "Invalid fields"
       correct_the_following_errors_and_try_again: "Correct the following errors and try again."
-    post_not_public: "The post you are trying to view is not public!"
-    post_not_public_or_not_exist: "The post you are trying to view is not public, or does not exist!"
-    login_try_again: "Please <a href='%{login_link}'>login</a> and try again."
+    need_javascript: "This website requires JavaScript to function properly. If you disabled JavaScript, please enable it and refresh this page."
 
   admins:
     admin_bar:
       pages: "Pages"
+      dashboard: "Dashboard"
       user_search: "User search"
       weekly_user_stats: "Weekly user stats"
       pod_stats: "Pod stats"
       report: "Reports"
       sidekiq_monitor: "Sidekiq monitor"
+      pod_network: "Pod network"
+    dashboard:
+      pod_status: "Pod status"
+      fetching_diaspora_version: "Determining latest diaspora* version..."
     user_search:
       you_currently:
         zero: "You currently have no invites left %{link}"
@@ -111,6 +114,8 @@ en:
       view_profile: "View profile"
       add_invites: "Add invites"
       close_account: "Close account"
+      lock_account: "Lock account"
+      unlock_account: "Unlock account"
       are_you_sure: "Are you sure you want to close this account?"
       are_you_sure_lock_account: "Are you sure you want to lock this account?"
       are_you_sure_unlock_account: "Are you sure you want to unlock this account?"
@@ -167,6 +172,8 @@ en:
       current_segment: "The current segment is averaging <b>%{post_yest}</b> posts per user, from <b>%{post_day}</b>"
       50_most: "50 most popular tags"
       tag_name: "Tag name: <b>%{name_tag}</b> Count: <b>%{count_tag}</b>"
+    pods:
+      pod_network: "Pod network"
   application:
     helper:
       unknown_person: "Unknown person"
@@ -192,7 +199,8 @@ en:
       start_talking: "Nobody has said anything yet!"
     no_contacts_message:
       you_should_add_some_more_contacts: "You should add some more contacts!"
-      try_adding_some_more_contacts: "You can search or invite more contacts."
+      try_adding_some_more_contacts: "You can search or %{invite_link} more contacts."
+      invite_link_text: "invite"
       or_spotlight:  "Or you can share with %{link}"
       community_spotlight: "Community spotlight"
     aspect_listings:
@@ -337,10 +345,12 @@ en:
       replying: "Replying..."
       hide: "Hide and mute conversation"
       delete: "Delete conversation"
+      last_message: "Last message received %{timeago}"
     new:
       to: "To"
       subject: "Subject"
       subject_default: "No subject"
+      message: "Message"
       send: "Send"
       sending: "Sending..."
       abandon_changes: "Abandon changes?"
@@ -635,6 +645,7 @@ en:
       admin: "Admin"
       view_all: "View all"
       recent_notifications: "Recent notifications"
+      toggle_navigation: "Toggle navigation"
     application:
       powered_by: "Powered by diaspora*"
       whats_new: "What’s new?"
@@ -780,6 +791,8 @@ en:
 
           the %{type} with ID %{id} was marked as offensive.
 
+          Reason: %{reason}
+
           [%{url}][1]
 
           Please review as soon as possible!
@@ -869,6 +882,48 @@ en:
         Hoping to see you again,
 
         The diaspora* email robot!
+  api:
+    openid_connect:
+      authorizations:
+        new:
+          redirection_message: "Are you sure you want to give access to %{redirect_uri}?"
+          access: "%{name} requires access to:"
+          no_requirement: "%{name} requires no permissions"
+          approve: "Approve"
+          deny: "Deny"
+          bad_request: "Missing client id or redirect URI"
+          client_id_not_found: "No client with client_id %{client_id} with redirect URI %{redirect_uri} found"
+        destroy:
+          fail: "The attempt to revoke the authorization with ID %{id} failed"
+      user_applications:
+        index:
+          edit_applications: "Applications"
+          title: "Authorized applications"
+          access: "%{name} has access to:"
+          no_requirement: "%{name} requires no permissions"
+        no_applications: "You have no authorized applications"
+        revoke_autorization: "Revoke"
+        tos: "See the application's terms of service"
+        policy: "See the application's privacy policy"
+      scopes:
+        openid:
+          name: "basic profile"
+          description: "This allows the application to read your basic profile"
+        extended:
+          name: "extended profile"
+          description: "This allows the application to read your extended profile"
+        read:
+          name: "read profile, stream and conversations"
+          description: "This allows the application to read your stream, your conversations and your complete profile"
+        write:
+          name: "send posts, conversations and reactions"
+          description: "This allows the application to send new posts, write conversations, and send reactions"
+      error_page:
+        title: "Oh! Something went wrong :("
+        contact_developer: "You should contact the developer of the application and include the following detailed error message:"
+        login_required: "You must first login before you can authorize this application"
+        could_not_authorize: "The application could not be authorized"
+
   people:
     zero: "No people"
     one: "1 person"
@@ -902,7 +957,6 @@ en:
       start_sharing: "Start sharing"
       message: "Message"
       mention: "Mention"
-      ignoring: "You are ignoring all posts from %{name}."
       closed_account: "This account has been closed."
     sub_header:
       you_have_no_tags: "You have no tags!"
@@ -964,10 +1018,17 @@ en:
       or_select_one_existing: "or select one from your already existing %{photos}"
     comment_email_subject: "%{name}’s photo"
 
+  polls:
+    votes:
+      zero: "%{count} votes so far"
+      one: "%{count} vote so far"
+      other: "%{count} votes so far"
+
   posts:
     presenter:
       title: "A post from %{name}"
     show:
+      location: "Posted from: %{location}"
       destroy: "Delete"
       permalink: "Permalink"
       not_found: "Sorry, we couldn’t find that post."
@@ -986,6 +1047,7 @@ en:
     reason_label: "Reason: %{text}"
     review_link: "Mark as reviewed"
     delete_link: "Delete item"
+    reported_user_details: "Details on reported user"
     confirm_deletion: "Are you sure to delete the item?"
     not_found: "<u>The post/comment was not found. It seems that it was deleted by the user!</u>"
     status:
@@ -1001,8 +1063,14 @@ en:
 
   profiles:
     edit:
-      your_public_profile: "Your public profile"
-      your_private_profile: "Your private profile"
+      basic: "My basic profile"
+      extended: "My extended profile"
+      settings: "Profile settings"
+      extended_visibility_text: "Visibility of your extended profile:"
+      public: "Public"
+      limited: "Limited"
+      basic_hint: "Every item in your profile is optional. Your basic profile will always be publicly visible."
+      extended_hint: "Click the switch to set your extended profile data visibility. Public means it is visible to the internet, limited means only people who you share with will see this information."
       your_name: "Your name"
       first_name: "First name"
       last_name: "Last name"
@@ -1095,14 +1163,15 @@ en:
       twitter: "Twitter"
       wordpress: "WordPress"
     index:
+      title: "Manage connected services"
       connect: "Connect"
       disconnect: "Disconnect"
       logged_in_as: "Logged in as %{nickname}."
-      no_services_available: "There are no services on this pod available."
+      no_services_available: "There are no services available on this pod."
       not_logged_in: "Currently not logged in."
       really_disconnect: "Disconnect %{service}?"
       edit_services: "Edit services"
-      services_explanation: "Connecting to services gives you the ability to publish your posts to them as you write them in diaspora*."
+      services_explanation: "Connecting to third-party sharing services gives you the ability to publish your posts to them as you write them in diaspora*."
     create:
       success: "Authentication successful."
       failure: "Authentication failed."
@@ -1312,6 +1381,7 @@ en:
       current_password_expl: "the one you sign in with..."
       character_minimum_expl: "must be at least six characters"
       change_language: "Change language"
+      change_color_theme: "Change color theme"
       close_account_text: "Close account"
       stream_preferences: "Stream preferences"
       show_community_spotlight: "Show “community spotlight” in stream"
@@ -1355,7 +1425,7 @@ en:
       title: "Privacy settings"
       strip_exif: "Strip metadata such as location, author, and camera model from uploaded images (recommended)"
       ignored_users: "Ignored users"
-      stop_ignoring: "stop ignoring"
+      stop_ignoring: "Stop ignoring"
       no_user_ignored_message: "You are not currently ignoring any other user"
 
     destroy:
@@ -1390,6 +1460,8 @@ en:
       unconfirmed_email_not_changed: "Email change failed"
       follow_settings_changed: "Follow settings changed"
       follow_settings_not_changed: "Follow settings change failed."
+      color_theme_changed: "Color theme successfully changed."
+      color_theme_not_changed: "An error occurred while changing the color theme."
     public:
       does_not_exist: "User %{username} does not exist!"
     confirm_email:

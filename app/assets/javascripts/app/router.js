@@ -9,6 +9,9 @@ app.Router = Backbone.Router.extend({
     "conversations": "conversations",
     "user/edit": "settings",
     "users/sign_up": "registration",
+    "profile/edit": "settings",
+    "admins/dashboard": "adminDashboard",
+    "admin/pods": "adminPods",
 
     "posts/:id": "singlePost",
     "p/:id": "singlePost",
@@ -42,13 +45,25 @@ app.Router = Backbone.Router.extend({
     app.help.render(section);
   },
 
+  adminDashboard: function() {
+    app.page = new app.pages.AdminDashboard();
+  },
+
+  adminPods: function() {
+    this.renderPage(function() {
+      return new app.pages.AdminPods({
+        el: $("#pod-list")
+      });
+    });
+  },
+
   contacts: function() {
     app.aspect = new app.models.Aspect(gon.preloads.aspect);
-    app.contacts = new app.collections.Contacts(app.parsePreload('contacts'));
+    app.contacts = new app.collections.Contacts(app.parsePreload("contacts"));
 
     var stream = new app.views.ContactStream({
       collection: app.contacts,
-      el: $('.stream.contacts #contact_stream'),
+      el: $(".stream.contacts #contact_stream"),
     });
 
     app.page = new app.pages.Contacts({stream: stream});
@@ -76,7 +91,7 @@ app.Router = Backbone.Router.extend({
     app.page.render();
 
     if( !$.contains(document, app.page.el) ) {
-      // view element isn't already attached to the DOM, insert it
+      // view element isn"t already attached to the DOM, insert it
       $("#container").empty().append(app.page.el);
     }
   },
@@ -91,7 +106,7 @@ app.Router = Backbone.Router.extend({
     this.renderPage(function() {
       return new app.pages.Profile({
         person_id: guid,
-        el: $('body > .container-fluid'),
+        el: $("body > #profile_container"),
         streamCollection: app.collections.Photos,
         streamView: app.views.Photos
       });
@@ -126,7 +141,7 @@ app.Router = Backbone.Router.extend({
   },
 
   aspects_stream : function(){
-    var ids = app.aspects.selectedAspects('id');
+    var ids = app.aspects.selectedAspects("id");
     app.stream = new app.models.StreamAspects([], { aspects_ids: ids });
     app.stream.fetch();
     this._initializeStreamView();
@@ -136,14 +151,16 @@ app.Router = Backbone.Router.extend({
   bookmarklet: function() {
     var contents = (window.gon) ? gon.preloads.bookmarklet : {};
     app.bookmarklet = new app.views.Bookmarklet(
-      _.extend({}, {el: $('#bookmarklet')}, contents)
+      _.extend({}, {el: $("#bookmarklet")}, contents)
     ).render();
   },
 
   profile: function() {
-    this.renderPage(function() { return new app.pages.Profile({
-      el: $('body > .container-fluid')
-    }); });
+    this.renderPage(function() {
+      return new app.pages.Profile({
+        el: $("body > #profile_container")
+      });
+    });
   },
 
   _hideInactiveStreamLists: function() {
@@ -163,13 +180,12 @@ app.Router = Backbone.Router.extend({
     }
 
     app.page = new app.views.Stream({model : app.stream});
-    app.publisher = app.publisher || new app.views.Publisher({collection : app.stream.items});
     app.shortcuts = app.shortcuts || new app.views.StreamShortcuts({el: $(document)});
-
-    var streamFacesView = new app.views.StreamFaces({collection : app.stream.items});
+    if($("#publisher").length !== 0) {
+      app.publisher = app.publisher || new app.views.Publisher({collection : app.stream.items});
+    }
 
     $("#main_stream").html(app.page.render().el);
-    $("#selected_aspect_contacts .content").html(streamFacesView.render().el);
     this._hideInactiveStreamLists();
   }
 });

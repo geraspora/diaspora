@@ -137,7 +137,6 @@ sv:
       contacts: "Kontakter"
       edit: "Ändra"
       gender: "Kön"
-      ignoring: "Du ignorerar alla inlägg från <%= name %>."
       location: "Plats"
       photos: "Foton"
       posts: "Inlägg"

@@ -4,7 +4,8 @@ app.views.AspectCreate = app.views.Base.extend({
   templateName: "aspect_create_modal",
 
   events: {
-    "click .btn.creation": "createAspect"
+    "click .btn.btn-primary": "createAspect",
+    "keypress input#aspect_name": "inputKeypress"
   },
 
   initialize: function(opts) {
@@ -30,6 +31,13 @@ app.views.AspectCreate = app.views.Base.extend({
     return this.$("#aspect_name").val();
   },
 
+  inputKeypress: function(evt) {
+    if(evt.which === Keycodes.ENTER) {
+      evt.preventDefault();
+      this.createAspect();
+    }
+  },
+
   createAspect: function() {
     var aspect = new app.models.Aspect({
       "person_id": this._personId,
@@ -44,18 +52,12 @@ app.views.AspectCreate = app.views.Base.extend({
 
       self.modal.modal("hide");
       app.events.trigger("aspect:create", aspectId);
-      Diaspora.page.flashMessages.render({
-        "success": true,
-        "notice": Diaspora.I18n.t("aspects.create.success", {"name": aspectName})
-      });
+      app.flashMessages.success(Diaspora.I18n.t("aspects.create.success", {"name": aspectName}));
     });
 
     aspect.on("error", function() {
       self.modal.modal("hide");
-      Diaspora.page.flashMessages.render({
-        "success": false,
-        "notice": Diaspora.I18n.t("aspects.create.failure")
-      });
+      app.flashMessages.error(Diaspora.I18n.t("aspects.create.failure"));
     });
     return aspect.save();
   }

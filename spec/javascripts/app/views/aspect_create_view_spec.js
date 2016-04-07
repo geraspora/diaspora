@@ -32,7 +32,7 @@ describe("app.views.AspectCreate", function() {
         expect(this.view.$("#newAspectModal form").length).toBe(1);
         expect(this.view.$("#newAspectModal input#aspect_name").length).toBe(1);
         expect(this.view.$("#newAspectModal input#aspect_contacts_visible").length).toBe(1);
-        expect(this.view.$("#newAspectModal .btn.creation").length).toBe(1);
+        expect(this.view.$("#newAspectModal .btn-primary").length).toBe(1);
       });
 
       it("shouldn't show a hidden person id input", function() {
@@ -40,10 +40,30 @@ describe("app.views.AspectCreate", function() {
       });
     });
 
+    describe("#inputKeypress", function() {
+      beforeEach(function() {
+        this.view.render();
+        spyOn(this.view, "createAspect");
+      });
+
+      it("should call createAspect if the enter key was pressed", function() {
+        var e = $.Event("keypress", { which: Keycodes.ENTER });
+        this.view.inputKeypress(e);
+        expect(this.view.createAspect).toHaveBeenCalled();
+      });
+
+      it("shouldn't call createAspect if another key was pressed", function() {
+        var e = $.Event("keypress", { which: Keycodes.TAB });
+        this.view.inputKeypress(e);
+        expect(this.view.createAspect).not.toHaveBeenCalled();
+      });
+    });
 
     describe("#createAspect", function() {
       beforeEach(function() {
         this.view.render();
+        this.view.$el.append($("<div id='flash-container'/>"));
+        app.flashMessages = new app.views.FlashMessages({ el: this.view.$("#flash-container") });
       });
 
       it("should send the correct name to the server", function() {
@@ -86,7 +106,8 @@ describe("app.views.AspectCreate", function() {
         });
 
         it("should hide the modal", function() {
-          this.view.$(".modal").modal("show");
+          this.view.$(".modal").removeClass("fade");
+          this.view.$(".modal").modal("toggle");
           expect(this.view.$(".modal")).toHaveClass("in");
           this.view.createAspect();
           jasmine.Ajax.requests.mostRecent().respondWith(this.response);
@@ -96,7 +117,7 @@ describe("app.views.AspectCreate", function() {
         it("should display a flash message", function() {
           this.view.createAspect();
           jasmine.Ajax.requests.mostRecent().respondWith(this.response);
-          expect($("[id^=\"flash\"]")).toBeSuccessFlashMessage(
+          expect(this.view.$(".flash-message")).toBeSuccessFlashMessage(
             Diaspora.I18n.t("aspects.create.success", {name: "new name"})
           );
         });
@@ -108,6 +129,7 @@ describe("app.views.AspectCreate", function() {
         });
 
         it("should hide the modal", function() {
+          this.view.$(".modal").removeClass("fade");
           this.view.$(".modal").modal("show");
           expect(this.view.$(".modal")).toHaveClass("in");
           this.view.createAspect();
@@ -118,7 +140,7 @@ describe("app.views.AspectCreate", function() {
         it("should display a flash message", function() {
           this.view.createAspect();
           jasmine.Ajax.requests.mostRecent().respondWith(this.response);
-          expect($("[id^=\"flash\"]")).toBeErrorFlashMessage(
+          expect(this.view.$(".flash-message")).toBeErrorFlashMessage(
             Diaspora.I18n.t("aspects.create.failure")
           );
         });
@@ -141,7 +163,7 @@ describe("app.views.AspectCreate", function() {
         expect(this.view.$("#newAspectModal form").length).toBe(1);
         expect(this.view.$("#newAspectModal input#aspect_name").length).toBe(1);
         expect(this.view.$("#newAspectModal input#aspect_contacts_visible").length).toBe(1);
-        expect(this.view.$("#newAspectModal .btn.creation").length).toBe(1);
+        expect(this.view.$("#newAspectModal .btn-primary").length).toBe(1);
       });
 
       it("should show a hidden person id input", function() {

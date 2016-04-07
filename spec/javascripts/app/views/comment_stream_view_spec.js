@@ -15,16 +15,18 @@ describe("app.views.CommentStream", function(){
 
   describe("postRenderTemplate", function(){
     it("autoResizes the new comment textarea", function(){
-      spyOn($.fn, "autoResize");
+      spyOn(window.autosize, "update");
       this.view.postRenderTemplate();
-      expect($.fn.autoResize).toHaveBeenCalled();
-      expect($.fn.autoResize.calls.mostRecent().object.selector).toBe("textarea");
+      expect(window.autosize.update).toHaveBeenCalled();
+      expect(window.autosize.update.calls.mostRecent().args[0].selector).toBe("textarea");
     });
   });
 
   describe("createComment", function() {
     beforeEach(function() {
       this.view.render();
+      this.view.$el.append($("<div id='flash-container'/>"));
+      app.flashMessages = new app.views.FlashMessages({ el: this.view.$("#flash-container") });
       this.view.expandComments();
     });
 
@@ -48,11 +50,14 @@ describe("app.views.CommentStream", function(){
       });
 
       it("doesn't add the comment to the view, when the request fails", function(){
-        Diaspora.I18n.load({failed_to_post_message: "posting failed!"});
+        // disable jshint camelcase for i18n
+        /* jshint camelcase: false */
+        Diaspora.I18n.load({failed_to_comment: "posting failed!"});
+        /* jshint camelcase: true */
         this.request.respondWith({status: 500});
 
         expect(this.view.$(".comment-content p").text()).not.toEqual("a new comment");
-        expect($('*[id^="flash"]')).toBeErrorFlashMessage("posting failed!");
+        expect(this.view.$(".flash-message")).toBeErrorFlashMessage("posting failed!");
       });
     });
 
@@ -102,8 +107,7 @@ describe("app.views.CommentStream", function(){
       var form = this.view.$("form");
       form.submit(submitCallback);
 
-      var e = $.Event("keydown", { keyCode: 13 });
-      e.ctrlKey = false;
+      var e = $.Event("keydown", { which: Keycodes.ENTER, ctrlKey: false });
       this.view.keyDownOnCommentBox(e);
 
       expect(submitCallback).not.toHaveBeenCalled();
@@ -114,12 +118,10 @@ describe("app.views.CommentStream", function(){
       var form = this.view.$("form");
       form.submit(submitCallback);
 
-      var e = $.Event("keydown", { keyCode: 13 });
-      e.ctrlKey = true;
+      var e = $.Event("keydown", { which: Keycodes.ENTER, ctrlKey: true });
       this.view.keyDownOnCommentBox(e);
 
       expect(submitCallback).toHaveBeenCalled();
     });
   });
-
 });

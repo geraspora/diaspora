@@ -880,7 +880,6 @@ hy:
       closed_account: "Այս հաշիվը փակվել է։"
       does_not_exist: "Այս անձը գոյություն չունի։ Համենայն դեպս դիասպորա*յում։"
       has_not_shared_with_you_yet: "%{name} դեռ չի կիսվել քո հետ որևէ գրառմամբ։"
-      ignoring: "Դու արհամարհում ես %{name}-ի բոլոր գրառումները։"
       incoming_request: "%{name} ցանկանում է կիսվել քեզ հետ"
       mention: "Նշել"
       message: "Հաղորդագրություն"
@@ -967,8 +966,6 @@ hy:
       your_location: "Որտե՞ղ ես"
       your_name: "Անունդ"
       your_photo: "Նկարդ"
-      your_private_profile: "Քո փակ էջը"
-      your_public_profile: "Քո հրապարակային էջը"
       your_tags: "Նկարագրիր քեզ 5 բառով"
       your_tags_placeholder: "օրինակ՝ #կինո #կատու #Երևան"
     update:

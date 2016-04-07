@@ -475,7 +475,6 @@ ja:
       closed_account: "このアカウントは削除されています"
       does_not_exist: "存在しない連絡先です！"
       has_not_shared_with_you_yet: "%{name}さんはまだあなたにどの投稿も共有していません！"
-      ignoring: "%{name}さんからの全ての投稿を無視しています。"
       incoming_request: "%{name}さんは共有の許可を求めています"
       mention: "メンション"
       message: "メッセージ"
@@ -558,8 +557,6 @@ ja:
       your_location: "所在地"
       your_name: "姓名"
       your_photo: "写真"
-      your_private_profile: "非公開プロフィール"
-      your_public_profile: "公開プロフィール"
       your_tags: "自分を表す５つの#タグ"
       your_tags_placeholder: "例：#diaspora #kaji #nyanko #ongaku"
     update:

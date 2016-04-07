@@ -111,21 +111,6 @@ describe User, :type => :model do
     end
   end
 
-  context 'callbacks' do
-    describe '#save_person!' do
-      it 'saves the corresponding user if it has changed' do
-        alice.person.url = "http://stuff.com"
-        expect_any_instance_of(Person).to receive(:save)
-        alice.save
-      end
-
-      it 'does not save the corresponding user if it has not changed' do
-        expect_any_instance_of(Person).not_to receive(:save)
-        alice.save
-      end
-    end
-  end
-
   describe 'hidden_shareables' do
     before do
       @sm = FactoryGirl.create(:status_message)
@@ -362,6 +347,13 @@ describe User, :type => :model do
         I18n.locale = :fr
         user = User.build(:username => 'max', :email => 'foo@bar.com', :password => 'password', :password_confirmation => 'password', :language => 'de')
         expect(user.language).to eq('de')
+      end
+    end
+
+    describe "of color_theme" do
+      it "requires availability" do
+        alice.color_theme = "some invalid theme"
+        expect(alice).not_to be_valid
       end
     end
   end
@@ -1055,6 +1047,7 @@ describe User, :type => :model do
           unconfirmed_email
           confirm_email_token
           last_seen
+          color_theme
         }.sort)
       end
     end
@@ -1184,8 +1177,7 @@ describe User, :type => :model do
       invited_user.save(validate: false)
 
       closed_account = FactoryGirl.create(:user)
-      closed_account.person.closed_account = true
-      closed_account.save
+      closed_account.person.lock_access!
     end
 
     it "returns total_users excluding closed accounts & users without usernames" do

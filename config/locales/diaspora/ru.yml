@@ -920,7 +920,6 @@ ru:
       closed_account: "Эта учётная запись была закрыта."
       does_not_exist: "Нет такого пользователя!"
       has_not_shared_with_you_yet: "%{name} ещё не делился с вами записями!"
-      ignoring: "Вы блокируете все записи пользователя %{name}."
       incoming_request: "%{name} хочет добавить вас"
       mention: "Упоминание"
       message: "Сообщение"
@@ -1007,8 +1006,6 @@ ru:
       your_location: "Ваше местоположение"
       your_name: "Ваше имя"
       your_photo: "Ваша фотография"
-      your_private_profile: "Ваш личный профиль"
-      your_public_profile: "Ваш публичный профиль"
       your_tags: "Опишите себя в пяти словах"
       your_tags_placeholder: "например, #кино #котята #путешествия #учитель #москва"
     update:

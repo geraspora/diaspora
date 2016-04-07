@@ -4,7 +4,7 @@
 
 defaults:
   version:
-    number: "0.5.8.0" # Do not touch unless doing a release, do not backport the version number that's in master
+    number: "0.5.99.0" # Do not touch unless doing a release, do not backport the version number that's in master
   heroku: false
   environment:
     url: "http://localhost:3000/"
@@ -13,7 +13,6 @@ defaults:
     require_ssl: true
     single_process_mode: false
     sidekiq:
-      namespace:
       concurrency: 5
       retry: 10
       backtrace: 15
@@ -39,7 +38,6 @@ defaults:
         sql: false
         federation: false
   server:
-    port:
     listen: '0.0.0.0:3000'
     rails_environment: 'development'
     pid:
@@ -77,6 +75,11 @@ defaults:
       log:
         file: 'log/vines.log'
         level: 'info'
+  map:
+    mapbox:
+      enabled: false
+      id:
+      access_token:
   privacy:
     jquery_cdn: false
     google_analytics_key:
@@ -152,6 +155,7 @@ defaults:
         warn_days: 30
         limit_removals_to_per_day: 100
     source_url:
+    default_color_theme: "original"
   services:
     facebook:
       enable: false
@@ -194,6 +198,15 @@ defaults:
   admins:
     account:
     podmin_email:
+  relay:
+    outbound:
+      send: false
+      handle: 'relay@relay.iliketoast.net'
+    inbound:
+      subscribe: false
+      scope: tags
+      include_user_tags: false
+      pod_tags:
   # List valid environment variables
   redistogo_url:
 
@@ -212,7 +225,8 @@ development:
     autofollow_on_join: false
     autofollow_on_join_user: ''
 production:
-  i_am_a_dummy: # Remove if you add an actual override
+  server:
+    listen: 'unix:tmp/diaspora.sock'
 test:
   environment:
     url: 'http://localhost:9887/'

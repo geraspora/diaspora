@@ -342,11 +342,12 @@ describe "diaspora federation callbacks" do
 
   describe ":fetch_person_url_to" do
     it "returns the url with with the pod of the person" do
-      person = FactoryGirl.create(:person, url: "https://example.org")
+      pod = FactoryGirl.create(:pod)
+      person = FactoryGirl.create(:person, pod: pod)
 
       expect(
         DiasporaFederation.callbacks.trigger(:fetch_person_url_to, person.diaspora_handle, "/path/on/pod")
-      ).to eq("https://example.org/path/on/pod")
+      ).to eq("https://#{pod.host}/path/on/pod")
     end
   end
 end

@@ -132,7 +132,6 @@ zh-TW:
       contacts: "聯絡資訊"
       edit: "編輯"
       gender: "性別"
-      ignoring: "你目前會忽視 <%= name %> 的所有貼文。"
       location: "地點"
       photos: "相片"
       posts: "貼文"

@@ -10,7 +10,21 @@ describe Comment, :type => :model do
   let(:status_bob) { bob.post(:status_message, text: "hello", to: bob.aspects.first.id) }
   let(:comment_alice) { alice.comment!(status_bob, "why so formal?") }
 
-  describe 'comment#notification_type' do
+  describe "#destroy" do
+    it "should delete a participation" do
+      comment_alice
+      expect { comment_alice.destroy }.to change { Participation.count }.by(-1)
+    end
+
+    it "should decrease count participation" do
+      alice.comment!(status_bob, "Are you there?")
+      comment_alice.destroy
+      participations = Participation.where(target_id: comment_alice.commentable_id, author_id: comment_alice.author_id)
+      expect(participations.first.count).to eq(1)
+    end
+  end
+
+  describe "comment#notification_type" do
     it "returns 'comment_on_post' if the comment is on a post you own" do
       expect(comment_alice.notification_type(bob, alice.person)).to eq(Notifications::CommentOnPost)
     end
@@ -56,6 +70,12 @@ describe Comment, :type => :model do
       expect {
         comment_alice
       }.to change { Comment.count }.by(1)
+    end
+
+    it "should create a participation" do
+      comment_alice
+      participations = Participation.where(target_id: comment_alice.commentable_id, author_id: comment_alice.author_id)
+      expect(participations.count).to eq(1)
     end
 
     it "does not create a participation if comment validation failed" do
