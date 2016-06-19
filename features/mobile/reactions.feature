@@ -15,7 +15,16 @@ Feature: reactions mobile post
 
   Scenario: like on a mobile post
     When I should see "No reactions" within ".show-comments"
-    And I click on selector "span.show-comments"
+    And I click on selector "a.like-action.inactive"
+    Then I should see a "a.like-action.active"
+    When I go to the stream page
+    And I should see "1 reaction" within ".show-comments"
+    And I click on selector "a.show-comments"
+    Then I should see "1" within ".like-count"
+
+  Scenario: liking from the profile view
+    When I am on "alice@alice.alice"'s page
+    Then I should see "No reactions" within ".show-comments"
     And I click on selector "a.like-action.inactive"
     Then I should see a "a.like-action.active"
     When I go to the stream page
@@ -34,6 +43,5 @@ Feature: reactions mobile post
     And I click on selector "a.show-comments"
     And I should see "1" within ".comment-count"
     When I click on selector "a.comment-action"
-    And I click on selector "a.remove"
-    And I confirm the alert
+    And I confirm the alert after I click on selector "a.remove"
     Then I should not see "1 reaction" within ".show-comments"

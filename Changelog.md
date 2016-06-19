@@ -108,6 +108,8 @@ before.
 * Adjusted Facebook integration for a successful review [#6778](https://github.com/diaspora/diaspora/pull/6778)
 * Redirect to the sign-in page instead of the stream on account deletion [#6784](https://github.com/diaspora/diaspora/pull/6784)
 * Removed own unicorn killer by a maintained third-party gem [#6792](https://github.com/diaspora/diaspora/pull/6792)
+* Removed deprecated `REDISTOGO_URL` environment variable [#6863](https://github.com/diaspora/diaspora/pull/6863)
+* Use Poltergeist instead of Selenium [#6768](https://github.com/diaspora/diaspora/pull/6768)
 
 ## Bug fixes
 * Destroy Participation when removing interactions with a post [#5852](https://github.com/diaspora/diaspora/pull/5852)
@@ -154,6 +156,9 @@ before.
 # 0.5.10.0
 
 ## Refactor
+
+* Removed the publisher from a user's photo stream due to various issues [#6851](https://github.com/diaspora/diaspora/pull/6851)
+* Don't implicitly ignore missing templateName in app.views.Base [#6877](https://github.com/diaspora/diaspora/pull/6877)
 
 ## Bug fixes
 
