@@ -1,0 +1,29 @@
+.dandelion-background
+  .jumbotron
+    .container-fluid.home-user
+      .row
+        .col-md-8.text-center
+          %h1
+            Willkommen bei Geraspora,
+          %h2
+            dem größten deutschen diaspora*-Pod.
+        .col-md-4.login-form
+          = render partial: "sessions/form", locals: {mobile: false, resource: User.new, resource_name: :user}
+
+.container-fluid
+  .row
+    .col-md-4
+      .landing-info-card
+        %h3.text-center
+          Deine Freiheit
+        diaspora* lässt dich deine Kontakte in Gruppen einordnen. Deine Fotos, Geschichten und Witze werden durch diese Aspekte nur mit den Menschen geteilt, für die sie gedacht sind &ndash; einzigartig bei diaspora*.
+    .col-md-4
+      .landing-info-card
+        %h3.text-center
+          Dein Eigentum
+        Deine Bilder gehören dir. Um sie zu teilen, musst du darauf nicht verzichten: Alles, was du auf diaspora* teilst, bleibt dein Eigentum – mit voller Kontrolle über die Verbreitung.
+    .col-md-4
+      .landing-info-card
+        %h3.text-center
+          Ganz einfach
+        diaspora* macht das Teilen von Inhalten klar und einfach – dasselbe gilt für den Schutz deiner Privatsphäre. diaspora* ist von sich aus privat, seitenweise Einstellungen für die Profilsicherheit sind nicht nötig.

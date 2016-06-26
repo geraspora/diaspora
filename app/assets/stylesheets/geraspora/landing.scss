@@ -1,25 +1,5 @@
-$home-divider: 1px solid #ccc;
-
-.page-home {
-  color: #000;
-  margin-bottom: 0;
-  padding-bottom: 80px;
-  padding-top: 30px;
-
-  #welcome-container, #pro-container {
-    padding-bottom: 15px;
-  }
-
-  #welcome-container {
-    border-bottom: $home-divider;
-  }
-
-  #action-container {
-    border-top: $home-divider;
-  }
-
-  h3 {
-    font-size: 40px;
-    line-height: 60px;
+@media screen and (min-width: 768px) {
+  .page-home .jumbotron h1 {
+    font-size: 50px;
   }
 }
