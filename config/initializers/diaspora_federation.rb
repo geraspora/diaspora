@@ -5,6 +5,9 @@ DiasporaFederation.configure do |config|
 
   config.certificate_authorities = AppConfig.environment.certificate_authorities.get
 
+  config.http_concurrency = AppConfig.settings.typhoeus_concurrency.to_i
+  config.http_verbose = AppConfig.settings.typhoeus_verbose?
+
   config.define_callbacks do
     on :fetch_person_for_webfinger do |diaspora_id|
       person = Person.where(diaspora_handle: diaspora_id, closed_account: false).where.not(owner: nil).first
@@ -108,7 +111,7 @@ DiasporaFederation.configure do |config|
     end
 
     on :fetch_person_url_to do |diaspora_id, path|
-      Pod.joins(:people).find_by(people: {diaspora_handle: diaspora_id}).url_to(path)
+      Person.find_or_fetch_by_identifier(diaspora_id).url_to(path)
     end
 
     on :update_pod do |url, status|
