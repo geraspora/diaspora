@@ -142,7 +142,7 @@ describe Diaspora::Federation::Entities do
       expect(federation_entity.location).to eq(diaspora_entity.location)
       expect(federation_entity.searchable).to eq(diaspora_entity.searchable)
       expect(federation_entity.nsfw).to eq(diaspora_entity.nsfw)
-      expect(federation_entity.tag_string).to eq(diaspora_entity.tag_string)
+      expect(federation_entity.tag_string.split(" ")).to match_array(diaspora_entity.tag_string.split(" "))
     end
 
     it "builds a reshare" do
@@ -167,7 +167,7 @@ describe Diaspora::Federation::Entities do
         expect(federation_entity).to be_instance_of(DiasporaFederation::Entities::StatusMessage)
         expect(federation_entity.author).to eq(diaspora_entity.author.diaspora_handle)
         expect(federation_entity.guid).to eq(diaspora_entity.guid)
-        expect(federation_entity.raw_message).to eq(diaspora_entity.text)
+        expect(federation_entity.text).to eq(diaspora_entity.text)
         expect(federation_entity.public).to eq(diaspora_entity.public)
         expect(federation_entity.created_at).to eq(diaspora_entity.created_at)
         expect(federation_entity.provider_display_name).to eq(diaspora_entity.provider_display_name)

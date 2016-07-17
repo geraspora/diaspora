@@ -495,7 +495,7 @@ describe Diaspora::Federation::Receive do
 
         expect(received).to eq(status_message)
         expect(status_message.author).to eq(sender)
-        expect(status_message.raw_message).to eq(status_message_entity.raw_message)
+        expect(status_message.text).to eq(status_message_entity.text)
         expect(status_message.public).to eq(status_message_entity.public)
         expect(status_message.created_at.iso8601).to eq(status_message_entity.created_at.iso8601)
         expect(status_message.provider_display_name).to eq(status_message_entity.provider_display_name)
@@ -588,6 +588,19 @@ describe Diaspora::Federation::Receive do
         expect(received).to eq(status_message)
         expect(status_message.author).to eq(sender)
 
+        expect(status_message.photos.map(&:guid)).to include(photo1.guid, photo2.guid)
+      end
+
+      it "receives a status message only with photos and without text" do
+        entity = DiasporaFederation::Entities::StatusMessage.new(status_message_entity.to_h.merge(text: nil))
+        received = Diaspora::Federation::Receive.perform(entity)
+
+        status_message = StatusMessage.find_by!(guid: status_message_entity.guid)
+
+        expect(received).to eq(status_message)
+        expect(status_message.author).to eq(sender)
+
+        expect(status_message.text).to be_nil
         expect(status_message.photos.map(&:guid)).to include(photo1.guid, photo2.guid)
       end
 

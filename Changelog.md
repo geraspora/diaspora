@@ -112,6 +112,7 @@ before.
 * Use Poltergeist instead of Selenium [#6768](https://github.com/diaspora/diaspora/pull/6768)
 * Redesigned the landing page and added dedicated notes for podmins [#6268](https://github.com/diaspora/diaspora/pull/6268)
 * Moved the entire federation implementation into its own gem. 🎉 [#6873](https://github.com/diaspora/diaspora/pull/6873)
+* Remove `StatusMessage#raw_message` [#6921](https://github.com/diaspora/diaspora/pull/6921)
 
 ## Bug fixes
 * Destroy Participation when removing interactions with a post [#5852](https://github.com/diaspora/diaspora/pull/5852)
@@ -132,6 +133,8 @@ before.
 * Fix typeahead for non-latin characters [#6741](https://github.com/diaspora/diaspora/pull/6741)
 * Fix upload size error on mobile [#6803](https://github.com/diaspora/diaspora/pull/6803)
 * Connection tester handles invalid NodeInfo implementations [#6890](https://github.com/diaspora/diaspora/pull/6890)
+* Do not allow to change email to an already used one [#6905](https://github.com/diaspora/diaspora/pull/6905)
+* Correctly filter mentions on the server side [#6902](https://github.com/diaspora/diaspora/pull/6902)
 
 ## Features
 * Support color themes [#6033](https://github.com/diaspora/diaspora/pull/6033)
@@ -155,6 +158,8 @@ before.
 * Add reason for post report to email sent to admins [#6679](https://github.com/diaspora/diaspora/pull/6679)
 * Add links to the single post view of the related post to photos in the photo stream [#6621](https://github.com/diaspora/diaspora/pull/6621)
 * Add a note for people with disabled JavaScript [#6777](https://github.com/diaspora/diaspora/pull/6777)
+* Do not include conversation subject in notification mail [#6910](https://github.com/diaspora/diaspora/pull/6910)
+* Add 'Be excellent to each other!' to the sidebar [#6914](https://github.com/diaspora/diaspora/pull/6910)
 
 # 0.5.11.0
 
@@ -163,6 +168,10 @@ before.
 ## Bug fixes
 
 ## Features
+
+# 0.5.10.1
+
+We made a mistake and removed `mysql2` from the `Gemfile.lock` in a recent gem update. Since this could cause some issues for some installations, we decided to release a hotfix.
 
 # 0.5.10.0
 

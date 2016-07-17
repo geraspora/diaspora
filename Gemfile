@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-gem "rails", "4.2.6"
+gem "rails", "4.2.7"
 
 # Legacy Rails features, remove me!
 # responders (class level)
@@ -12,7 +12,7 @@ gem "puma"
 
 # Federation
 
-gem "diaspora_federation-rails", "0.1.1"
+gem "diaspora_federation-rails", "0.1.2"
 
 # API and JSON
 
@@ -125,7 +125,6 @@ gem "rails-i18n",           "4.0.8"
 # Mail
 
 gem "markerb",             "1.1.0"
-gem "messagebus_ruby_api", "1.0.3"
 
 # Map
 gem "leaflet-rails",       "0.7.7"
@@ -287,7 +286,10 @@ group :test do
   gem "webmock",            "2.1.0", require: false
   gem "shoulda-matchers",   "3.1.1"
 
-  gem "diaspora_federation-test", "0.1.1"
+  gem "diaspora_federation-test", "0.1.2"
+
+  # Coverage
+  gem 'coveralls', require: false
 end
 
 group :development, :test do

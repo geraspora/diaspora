@@ -54,20 +54,11 @@ class Post < ActiveRecord::Base
     joins(:likes).where(:likes => {:author_id => person.id})
   }
 
-  def self.visible_from_author(author, current_user=nil)
-    if current_user.present?
-      current_user.posts_from(author)
-    else
-      author.posts.all_public
-    end
-  end
-
   def post_type
     self.class.name
   end
 
   def root; end
-  def raw_message; ""; end
   def mentioned_people; []; end
   def photos; []; end
 

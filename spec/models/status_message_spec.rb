@@ -81,11 +81,6 @@ describe StatusMessage, type: :model do
       expect(status).to receive(:build_tags)
       status.save
     end
-
-    it "calls filter_mentions" do
-      expect(status).to receive(:filter_mentions)
-      status.save
-    end
   end
 
   describe ".after_create" do
@@ -96,7 +91,7 @@ describe StatusMessage, type: :model do
     end
   end
 
-  context "emptyness" do
+  context "emptiness" do
     it "needs either a message or at least one photo" do
       post = user.build_post(:status_message, text: nil)
       expect(post).not_to be_valid
@@ -114,14 +109,14 @@ describe StatusMessage, type: :model do
       post.photos << photo
       expect(post).to be_valid
       expect(post.message.to_s).to be_empty
-      expect(post.raw_message).to eq ""
-      expect(post.nsfw).to be_falsy
+      expect(post.text).to be_nil
+      expect(post.nsfw).to be_falsey
       expect(post.errors.full_messages).to eq([])
     end
 
-    it "doesn't check for content when author is remote (federation...)" do
+    it "also checks for content when author is remote" do
       post = FactoryGirl.build(:status_message, text: nil)
-      expect(post).to be_valid
+      expect(post).not_to be_valid
     end
   end
 
@@ -187,28 +182,6 @@ describe StatusMessage, type: :model do
 
       it "returns false if the person was not mentioned" do
         expect(status_message.mentions?(FactoryGirl.build(:person))).to be false
-      end
-    end
-
-    describe "#filter_mentions" do
-      it "calls Diaspora::Mentionable#filter_for_aspects" do
-        msg = FactoryGirl.build(:status_message_in_aspect)
-
-        msg_txt = msg.raw_message
-        author_usr = msg.author.owner
-        aspect_id = author_usr.aspects.first.id
-
-        expect(Diaspora::Mentionable).to receive(:filter_for_aspects)
-                             .with(msg_txt, author_usr, aspect_id)
-
-        msg.send(:filter_mentions)
-      end
-
-      it "doesn't do anything when public" do
-        msg = FactoryGirl.build(:status_message, public: true)
-        expect(Diaspora::Mentionable).not_to receive(:filter_for_aspects)
-
-        msg.send(:filter_mentions)
       end
     end
   end
