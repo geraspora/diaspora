@@ -118,8 +118,10 @@ Then /^I should have (\d) contacts? in "([^"]*)"$/ do |n_contacts, aspect_name|
   @me.aspects.where(:name => aspect_name).first.contacts.count.should == n_contacts.to_i
 end
 
-When /^I (?:add|remove) the person (?:to|from) my "([^\"]*)" aspect$/ do |aspect_name|
-  toggle_aspect_via_ui(aspect_name)
+When /^I (?:add|remove) the person (?:to|from) my "([^\"]*)" aspect(?: within "([^"]*)")?$/ do |aspect_name, within_selector| # rubocop:disable Metrics/LineLength
+  with_scope(within_selector) do
+    toggle_aspect_via_ui(aspect_name)
+  end
 end
 
 When /^I post a status with the text "([^\"]*)"$/ do |text|
@@ -156,9 +158,14 @@ Then /^I should not see "([^\"]*)" in the last sent email$/ do |text|
   email_text.should_not match(text)
 end
 
-When /^"([^\"]+)" has posted a status message with a photo$/ do |email|
+When /^"([^\"]+)" has posted a (public )?status message with a photo$/ do |email, public_status|
   user = User.find_for_database_authentication(:username => email)
-  post = FactoryGirl.create(:status_message_with_photo, :text => "Look at this dog", :author => user.person)
+  post = FactoryGirl.create(
+    :status_message_with_photo,
+    text:   "Look at this dog",
+    author: user.person,
+    public: public_status.present?
+  )
   [post, post.photos.first].each do |p|
     user.add_to_streams(p, user.aspects)
     user.dispatch_post(p)

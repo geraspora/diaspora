@@ -19,6 +19,7 @@ describe("app.views.PublisherMention", function() {
       expect(call.args[0].typeaheadInput.selector).toBe("#publisher .typeahead-mention-box");
       expect(call.args[0].customSearch).toBeTruthy();
       expect(call.args[0].autoselect).toBeTruthy();
+      expect(call.args[0].remoteRoute).toBe("/contacts");
     });
 
     it("calls bindTypeaheadEvents", function() {
@@ -195,6 +196,13 @@ describe("app.views.PublisherMention", function() {
       this.view.updateMessageTexts();
       expect(this.view.mentionsBox.find(".mentions").html())
         .toBe("@user1 Text before <strong><span>user1</span></strong>\ntext after");
+    });
+
+    it("properly escapes the user input", function() {
+      this.view.inputBox.val("<img src=\"/default.png\"> @user1 Text before \u200Buser1\ntext after");
+      this.view.updateMessageTexts();
+      expect(this.view.mentionsBox.find(".mentions").html())
+        .toBe("&lt;img src=\"/default.png\"&gt; @user1 Text before <strong><span>user1</span></strong>\ntext after");
     });
   });
 

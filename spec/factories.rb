@@ -52,12 +52,6 @@ FactoryGirl.define do
     end
   end
 
-  factory :searchable_person, :parent => :person do
-    after(:build) do |person|
-      person.profile = FactoryGirl.build(:profile, :person => person, :searchable => true)
-    end
-  end
-
   factory :like do
     association :author, :factory => :person
     association :target, :factory => :status_message
@@ -302,6 +296,28 @@ FactoryGirl.define do
     association :conversation
     sequence(:text) {|n| "message text ##{n}" }
     after(:build) {|m| m.conversation.participants << m.author }
+  end
+
+  factory(:signature_order) do
+    order "guid parent_guid text author"
+  end
+
+  factory(:comment_signature) do
+    author_signature "some signature"
+    association :signature_order, order: "guid parent_guid text author new_property"
+    additional_data { {"new_property" => "some text"} }
+  end
+
+  factory(:like_signature) do
+    author_signature "some signature"
+    association :signature_order, order: "positive guid parent_type parent_guid author new_property"
+    additional_data { {"new_property" => "some text"} }
+  end
+
+  factory(:poll_participation_signature) do
+    author_signature "some signature"
+    association :signature_order, order: "guid parent_guid author poll_answer_guid new_property"
+    additional_data { {"new_property" => "some text"} }
   end
 
   #templates

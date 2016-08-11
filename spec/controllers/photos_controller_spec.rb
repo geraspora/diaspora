@@ -9,7 +9,7 @@ describe PhotosController, :type => :controller do
     @alices_photo = alice.post(:photo, :user_file => uploaded_photo, :to => alice.aspects.first.id, :public => false)
     @bobs_photo = bob.post(:photo, :user_file => uploaded_photo, :to => bob.aspects.first.id, :public => true)
 
-    sign_in :user, alice
+    sign_in alice, scope: :user
     request.env["HTTP_REFERER"] = ''
   end
 
@@ -109,11 +109,11 @@ describe PhotosController, :type => :controller do
         eve.post(:photo, :user_file => uploaded_photo, :to => eve.aspects.first.id, :public => true)
       end
       get :index, :person_id => eve.person.to_param
-      expect(response.body).to include '"photos":{"count":16}'
+      expect(response.body).to include ',"photos_count":16'
 
       eve.post(:photo, :user_file => uploaded_photo, :to => eve.aspects.first.id, :public => false)
       get :index, :person_id => eve.person.to_param
-      expect(response.body).to include '"photos":{"count":16}' # eve is not sharing with alice
+      expect(response.body).to include ',"photos_count":16' # eve is not sharing with alice
     end
 
     it "returns json when requested" do
@@ -160,11 +160,11 @@ describe PhotosController, :type => :controller do
           eve.post(:photo, user_file: uploaded_photo, to: eve.aspects.first.id, public: true)
         end
         get :index, person_id: eve.person.to_param
-        expect(response.body).to include '"photos":{"count":16}'
+        expect(response.body).to include ',"photos_count":16'
 
         eve.post(:photo, user_file: uploaded_photo, to: eve.aspects.first.id, public: false)
         get :index, person_id: eve.person.to_param
-        expect(response.body).to include '"photos":{"count":16}'
+        expect(response.body).to include ',"photos_count":16'
       end
 
       it "displays a person's pictures" do

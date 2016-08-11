@@ -12,7 +12,7 @@ gem "puma"
 
 # Federation
 
-gem "diaspora_federation-rails", "0.1.2"
+gem "diaspora_federation-rails", "0.1.3"
 
 # API and JSON
 
@@ -22,9 +22,9 @@ gem "json-schema", "2.6.2"
 
 # Authentication
 
-gem "devise", "3.5.6"
+gem "devise", "4.2.0"
 gem "devise_lastseenable", "0.0.6"
-gem "devise-token_authenticatable", "0.4.6"
+gem "devise-token_authenticatable", "0.5.2"
 
 # Captcha
 
@@ -95,17 +95,16 @@ gem "js_image_paths",    "0.1.0"
 gem "js-routes",         "1.2.6"
 
 source "https://rails-assets.org" do
-  gem "rails-assets-jquery",                              "1.12.0" # Should be kept in sync with jquery-rails
+  gem "rails-assets-jquery",                              "2.2.1" # Should be kept in sync with jquery-rails
 
   gem "rails-assets-markdown-it",                         "6.0.5"
   gem "rails-assets-markdown-it-hashtag",                 "0.4.0"
   gem "rails-assets-markdown-it-diaspora-mention",        "0.4.0"
-  gem "rails-assets-markdown-it-sanitizer",               "0.4.1"
+  gem "rails-assets-markdown-it-sanitizer",               "0.4.2"
   gem "rails-assets-markdown-it--markdown-it-for-inline", "0.1.1"
   gem "rails-assets-markdown-it-sub",                     "1.0.0"
   gem "rails-assets-markdown-it-sup",                     "1.0.0"
   gem "rails-assets-highlightjs",                         "9.4.0"
-  gem "rails-assets-typeahead.js",                        "0.11.1"
 
   # jQuery plugins
 
@@ -233,7 +232,7 @@ group :development do
   # Automatic test runs
   gem "guard",          "2.14.0", require: false
   gem "guard-cucumber", "2.1.2", require: false
-  gem "guard-rspec",    "4.7.2", require: false
+  gem "guard-rspec",    "4.7.3", require: false
   gem "guard-rubocop",  "1.2.0", require: false
   gem "rb-fsevent",     "0.9.7", require: false
   gem "rb-inotify",     "0.9.7", require: false
@@ -241,11 +240,11 @@ group :development do
   # Linters
   gem "rubocop",        "0.40.0"
   gem "haml_lint",      "0.17.1"
-  gem "pronto",         "0.6.0"
-  gem "pronto-eslint",  "0.6.1"
-  gem "pronto-rubocop", "0.6.2"
-  gem "pronto-haml",    "0.6.0"
-  gem "pronto-scss",    "0.6.0", require: false
+  gem "pronto",         "0.7.0"
+  gem "pronto-eslint",  "0.7.0"
+  gem "pronto-rubocop", "0.7.0"
+  gem "pronto-haml",    "0.7.0"
+  gem "pronto-scss",    "0.7.0", require: false
 
   # Preloading environment
 
@@ -286,7 +285,7 @@ group :test do
   gem "webmock",            "2.1.0", require: false
   gem "shoulda-matchers",   "3.1.1"
 
-  gem "diaspora_federation-test", "0.1.2"
+  gem "diaspora_federation-test", "0.1.3"
 
   # Coverage
   gem 'coveralls', require: false
@@ -294,7 +293,7 @@ end
 
 group :development, :test do
   # RSpec (unit tests, some integration tests)
-  gem "rspec-rails", "3.4.2"
+  gem "rspec-rails", "3.5.1"
 
   # Cucumber (integration tests)
   gem "cucumber-rails", "1.4.3", require: false

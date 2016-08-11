@@ -31,7 +31,8 @@ app.views.PublisherMention = app.views.SearchBase.extend({
     app.views.SearchBase.prototype.initialize.call(this, {
       typeaheadInput: this.typeaheadInput,
       customSearch: true,
-      autoselect: true
+      autoselect: true,
+      remoteRoute: "/contacts"
     });
   },
 
@@ -90,7 +91,7 @@ app.views.PublisherMention = app.views.SearchBase.extend({
    */
   updateMessageTexts: function() {
     var fakeMessageText = this.inputBox.val(),
-        mentionBoxText = fakeMessageText,
+        mentionBoxText = _.escape(fakeMessageText),
         messageText = fakeMessageText;
 
     this.mentionedPeople.forEach(function(person) {

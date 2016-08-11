@@ -5,9 +5,11 @@
 require 'spec_helper'
 
 describe UsersController, :type => :controller do
+  include_context :gon
+
   before do
     @user = alice
-    sign_in :user, @user
+    sign_in @user, scope: :user
     allow(@controller).to receive(:current_user).and_return(@user)
   end
 
@@ -116,11 +118,6 @@ describe UsersController, :type => :controller do
       expect(response).to render_template('edit')
     end
 
-    it 'responds with a 204 on a js request' do
-      put :update, @params.merge(:format => :js)
-      expect(response.status).to eq(204)
-    end
-
     describe 'password updates' do
       let(:password_params) do
         {:current_password => 'bluepin7',
@@ -184,7 +181,7 @@ describe UsersController, :type => :controller do
       end
 
       it 'informs the user about failure' do
-        put(:update, :id => @user.id, :user => { :email => "my@newemailcom"})
+        put(:update, id: @user.id, user: {email: "mynewemailcom"})
         expect(request.flash[:error]).to eql(I18n.t('users.update.unconfirmed_email_not_changed'))
         expect(request.flash[:notice]).to be_blank
       end
@@ -318,6 +315,20 @@ describe UsersController, :type => :controller do
     it 'does not fail miserably on mobile' do
       get :getting_started, :format => :mobile
       expect(response).to be_success
+    end
+
+    context "with inviter" do
+      [bob, eve].each do |inviter|
+        sharing = !alice.contact_for(inviter.person).nil?
+
+        context sharing ? "when sharing" : "when don't share" do
+          it "preloads data using gon for the aspect memberships dropdown" do
+            alice.invited_by = inviter
+            get :getting_started
+            expect_gon_preloads_for_aspect_membership_dropdown(:inviter, sharing)
+          end
+        end
+      end
     end
   end
 end

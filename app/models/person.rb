@@ -51,11 +51,14 @@ class Person < ActiveRecord::Base
   has_many :mentions, :dependent => :destroy
 
   validate :owner_xor_pod
+  validate :other_person_with_same_guid, on: :create
   validates :profile, :presence => true
   validates :serialized_public_key, :presence => true
   validates :diaspora_handle, :uniqueness => true
 
-  scope :searchable, -> { joins(:profile).where(:profiles => {:searchable => true}) }
+  scope :searchable, -> (user) {
+    joins(:profile).where("profiles.searchable = true OR contacts.user_id = ?", user.id)
+  }
   scope :remote, -> { where('people.owner_id IS NULL') }
   scope :local, -> { where('people.owner_id IS NOT NULL') }
   scope :for_json, -> {
@@ -142,27 +145,23 @@ class Person < ActiveRecord::Base
     [where_clause, q_tokens]
   end
 
-  def self.search(query, user)
-    return self.where("1 = 0") if query.to_s.blank? || query.to_s.length < 2
+  def self.search(search_str, user, only_contacts: false)
+    search_str.strip!
+    return none if search_str.blank? || search_str.size < 2
 
-    sql, tokens = self.search_query_string(query)
+    sql, tokens = search_query_string(search_str)
 
-    Person.searchable.where(sql, *tokens).joins(
-      "LEFT OUTER JOIN contacts ON contacts.user_id = #{user.id} AND contacts.person_id = people.id"
-    ).includes(:profile
-    ).order(search_order)
-  end
+    query = if only_contacts
+              joins(:contacts).where(contacts: {user_id: user.id})
+            else
+              joins(
+                "LEFT OUTER JOIN contacts ON contacts.user_id = #{user.id} AND contacts.person_id = people.id"
+              ).searchable(user)
+            end
 
-  # @return [Array<String>] postgreSQL and mysql deal with null values in orders differently, it seems.
-  def self.search_order
-    @search_order ||= Proc.new {
-      order = if AppConfig.postgres?
-        "ASC"
-      else
-        "DESC"
-      end
-      ["contacts.user_id #{order}", "profiles.last_name ASC", "profiles.first_name ASC"]
-    }.call
+    query.where(sql, *tokens)
+         .includes(:profile)
+         .order(["contacts.user_id IS NULL", "profiles.last_name ASC", "profiles.first_name ASC"])
   end
 
   def name(opts = {})
@@ -300,5 +299,10 @@ class Person < ActiveRecord::Base
 
   def owner_xor_pod
     errors.add(:base, "Specify an owner or a pod, not both") unless owner.blank? ^ pod.blank?
+  end
+
+  def other_person_with_same_guid
+    diaspora_id = Person.where(guid: guid).where.not(diaspora_handle: diaspora_handle).pluck(:diaspora_handle).first
+    errors.add(:base, "Person with same GUID already exists: #{diaspora_id}") if diaspora_id
   end
 end

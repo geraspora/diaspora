@@ -93,7 +93,8 @@ support_files.each {|f| require f }
 require fixture_builder_file
 
 RSpec.configure do |config|
-  config.include Devise::TestHelpers, :type => :controller
+  config.include Devise::Test::ControllerHelpers, type: :controller
+  config.include Devise::Test::IntegrationHelpers, type: :request
   config.mock_with :rspec
 
   config.example_status_persistence_file_path = "tmp/rspec-persistance.txt"
@@ -126,6 +127,11 @@ RSpec.configure do |config|
   # Reset test mails
   config.after(:each) do
     ActionMailer::Base.deliveries.clear
+  end
+
+  # Reset gon
+  config.after(:each) do
+    RequestStore.store[:gon].gon.clear unless RequestStore.store[:gon].nil?
   end
 
   config.include FactoryGirl::Syntax::Methods

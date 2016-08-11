@@ -334,7 +334,6 @@ app.views.Publisher = Backbone.View.extend({
       "author" : app.currentUser ? app.currentUser.attributes : {},
       "mentioned_people" : mentionedPeople,
       "photos" : photos,
-      "frame_name" : "status",
       "title" : serializedForm["status_message[text]"],
       "location" : location,
       "interactions" : {"likes":[],"reshares":[],"comments_count":0,"likes_count":0,"reshares_count":0},
@@ -476,8 +475,8 @@ app.views.Publisher = Backbone.View.extend({
 
   setButtonsEnabled: function(bool) {
     if (bool) {
-      this.submitEl.removeProp("disabled");
-      this.previewEl.removeProp("disabled");
+      this.submitEl.removeAttr("disabled");
+      this.previewEl.removeAttr("disabled");
     } else {
       this.submitEl.prop("disabled", true);
       this.previewEl.prop("disabled", true);
@@ -486,8 +485,8 @@ app.views.Publisher = Backbone.View.extend({
 
   setInputEnabled: function(bool) {
     if (bool) {
-      this.inputEl.removeProp("disabled");
-      this.hiddenInputEl.removeProp("disabled");
+      this.inputEl.removeAttr("disabled");
+      this.hiddenInputEl.removeAttr("disabled");
     } else {
       this.inputEl.prop("disabled", true);
       this.hiddenInputEl.prop("disabled", true);

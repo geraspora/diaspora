@@ -21,6 +21,16 @@ var factory = {
     return _.extend(defaultAttrs, overrides);
   },
 
+  aspectMembershipAttrs: function(overrides) {
+    var id = this.id.next();
+    var defaultAttrs = {
+      "id": id,
+      "aspect": factory.aspectAttrs()
+    };
+
+    return _.extend(defaultAttrs, overrides);
+  },
+
   comment : function(overrides) {
     var defaultAttrs = {
       "created_at" : "2012-01-04T00:55:30Z",
@@ -31,6 +41,18 @@ var factory = {
     };
 
     return new app.models.Comment(_.extend(defaultAttrs, overrides));
+  },
+
+  contact: function(overrides) {
+    var person = factory.personAttrs();
+    var attrs = {
+      "id": this.id.next(),
+      "person_id": person.id,
+      "person": person,
+      "aspect_memberships": factory.aspectMembershipAttrs()
+    };
+
+    return new app.models.Contact(_.extend(attrs, overrides));
   },
 
   user : function(overrides) {
@@ -59,13 +81,11 @@ var factory = {
       "interacted_at" : '2012-01-03T19:53:13Z',
       "public" : false,
       "guid" : this.guid(),
-      "image_url" : null,
       "o_embed_cache" : null,
       "open_graph_cache": null,
       "photos" : [],
       "text" : "jasmine is bomb",
       "id" : this.id.next(),
-      "object_url" : null,
       "root" : null,
       "post_type" : "StatusMessage",
       "interactions" : {
@@ -189,6 +209,7 @@ var factory = {
   aspectAttrs: function(overrides) {
     var names = ['Work','School','Family','Friends','Just following','People','Interesting'];
     var defaultAttrs = {
+      id: this.id.next(),
       name: names[Math.floor(Math.random()*names.length)]+' '+Math.floor(Math.random()*100),
       selected: false
     };

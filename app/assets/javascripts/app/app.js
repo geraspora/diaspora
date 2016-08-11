@@ -47,6 +47,7 @@ var app = {
 
     this.setupDummyPreloads();
     this.setupUser();
+    this.setupAspects();
     this.setupHeader();
     this.setupBackboneLinks();
     this.setupGlobalViews();
@@ -81,6 +82,10 @@ var app = {
 
   setupUser: function() {
     app.currentUser = app.user(window.gon.user) || new app.models.User();
+  },
+
+  setupAspects: function() {
+    app.aspects = new app.collections.Aspects(app.currentUser.get("aspects"));
   },
 
   setupHeader: function() {
@@ -120,9 +125,6 @@ var app = {
 
   setupGlobalViews: function() {
     app.hovercard = new app.views.Hovercard();
-    $('.aspect_membership_dropdown').each(function(){
-      new app.views.AspectMembership({el: this});
-    });
     app.sidebar = new app.views.Sidebar();
     app.backToTop = new app.views.BackToTop({el: $(document)});
     app.flashMessages = new app.views.FlashMessages({el: $("#flash-container")});

@@ -265,6 +265,7 @@ en:
     spotlight:
       community_spotlight: "Community spotlight"
       suggest_member: "Suggest a member"
+      no_members: "There are no members yet."
 
   conversations:
     index:
@@ -1024,7 +1025,6 @@ en:
       mobile_row_checked: "%{name} (remove)"
       mobile_row_unchecked: "%{name} (add)"
       toggle:
-        zero: "Add contact"
         one: "In %{count} aspect"
         other: "In %{count} aspects"
     publisher:
