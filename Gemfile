@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-gem "rails", "4.2.7"
+gem "rails", "4.2.7.1"
 
 # Legacy Rails features, remove me!
 # responders (class level)
@@ -32,7 +32,7 @@ gem "simple_captcha2", "0.4.0", require: "simple_captcha"
 
 # Background processing
 
-gem "sidekiq", "4.1.2"
+gem "sidekiq", "4.1.4"
 gem "sinatra", "1.4.7"
 
 # Scheduled processing
@@ -257,7 +257,7 @@ group :development do
   gem "pry-byebug"
 
   # test coverage
-  gem "simplecov", "0.11.2", require: false
+  gem "simplecov", "0.12.0", require: false
 
   gem "turbo_dev_assets", "0.0.2"
 end
@@ -273,7 +273,7 @@ group :test do
 
   gem "capybara",           "2.7.1"
   gem "database_cleaner",   "1.5.3"
-  gem "poltergeist",        "1.9.0"
+  gem "poltergeist",        "1.10.0"
 
   gem "cucumber-api-steps", "0.13", require: false
   gem "json_spec", "1.1.4"
@@ -296,7 +296,7 @@ group :development, :test do
   gem "rspec-rails", "3.5.1"
 
   # Cucumber (integration tests)
-  gem "cucumber-rails", "1.4.3", require: false
+  gem "cucumber-rails", "1.4.4", require: false
 
   # Jasmine (client side application tests (JS))
   gem "jasmine",                   "2.4.0"
