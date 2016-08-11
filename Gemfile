@@ -307,5 +307,3 @@ group :development, :test do
   # silence assets
   gem "quiet_assets", "1.1.0"
 end
-
-gem "sentry-raven", :git => "https://github.com/getsentry/raven-ruby.git"

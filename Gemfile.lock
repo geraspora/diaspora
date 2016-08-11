@@ -1,10 +1,3 @@
-GIT
-  remote: https://github.com/getsentry/raven-ruby.git
-  revision: 865ce346e7eb5aab392e7f4e1f46ccdc8beb709b
-  specs:
-    sentry-raven (1.2.2)
-      faraday (>= 0.7.6, < 0.10.x)
-
 GEM
   remote: https://rubygems.org/
   remote: https://rails-assets.org/
@@ -1021,7 +1014,6 @@ DEPENDENCIES
   ruby-oembed (= 0.10.1)
   rubyzip (= 1.2.0)
   sass-rails (= 5.0.4)
-  sentry-raven!
   shoulda-matchers (= 3.1.1)
   sidekiq (= 4.1.2)
   sidekiq-cron (= 0.4.2)
