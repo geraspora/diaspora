@@ -45,10 +45,8 @@ module PublishingCukeHelpers
   end
 
   def click_publisher
-    page.execute_script('
-     $("#publisher").removeClass("closed");
-     $("#publisher").find("#status_message_fake_text").focus();
-    ')
+    find("#status_message_fake_text").click
+    expect(find("#publisher")).to have_css(".publisher-textarea-wrapper.active")
   end
 
   def publisher_submittable?
@@ -111,10 +109,6 @@ module PublishingCukeHelpers
     within("#single-post-actions") do
       find(:css, 'a.like').click
     end
-  end
-
-  def stream_posts
-    all('.stream_element')
   end
 
   def comment_on_show_page(comment_text)

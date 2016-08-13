@@ -15,6 +15,7 @@ Feature: new user registration
     Then I should be on the stream page
     And I close the publisher
     And I should not see "awesome_button"
+    And I should not see any posts in my stream
 
   Scenario: new user tries to XSS itself
     When I fill in the following:
@@ -55,7 +56,6 @@ Feature: new user registration
   Scenario: closing a popover clears getting started
     When I confirm the alert after I follow "awesome_button"
     Then I should be on the stream page
-    And I have turned off jQuery effects
     And I wait for the popovers to appear
     And I click close on all the popovers
     And I close the publisher

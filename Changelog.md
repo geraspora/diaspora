@@ -137,6 +137,7 @@ The command will report queues that still have jobs and launch sidekiq process f
 * Remove outdated columns from posts table [#6940](https://github.com/diaspora/diaspora/pull/6940)
 * Remove some unused routes [#6781](https://github.com/diaspora/diaspora/pull/6781)
 * Consolidate sidekiq queues [#6950](https://github.com/diaspora/diaspora/pull/6950)
+* Don't re-render the whole comment stream when adding comments [#6406](https://github.com/diaspora/diaspora/pull/6406)
 
 ## Bug fixes
 * Destroy Participation when removing interactions with a post [#5852](https://github.com/diaspora/diaspora/pull/5852)
@@ -189,6 +190,9 @@ The command will report queues that still have jobs and launch sidekiq process f
 * Expose Sidekiq dead queue configuration options
 * Properly support pluralization in timeago strings [#6926](https://github.com/diaspora/diaspora/pull/6926)
 * Return all contacts in people search [#6951](https://github.com/diaspora/diaspora/pull/6951)
+* Make screenreaders read alerts [#6973](https://github.com/diaspora/diaspora/pull/6973)
+* Display message when there are no posts in a stream [#6974](https://github.com/diaspora/diaspora/pull/6974)
+* Add bootstrap-markdown editor to the publisher [#6551](https://github.com/diaspora/diaspora/pull/6551)
 
 # 0.5.10.2
 
