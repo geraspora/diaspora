@@ -69,11 +69,14 @@ If you run your sidekiq with a custom queue configuration, please make sure to u
 
 The new queues are: `urgent, high, medium, low, default`.
 
-When you upgrade to the new version, some jobs may persist in the old queues. To ensure that jobs to be processed, launch
-job processing for old queues using command:
+When you upgrade to the new version, some jobs may persist in the old queues. To move them to the default queue,
+so they're processed, run:
+
 ```
-bin/rake migrations:run_legacy_queues
+bin/rake migrations:legacy_queues
 ```
+
+Note that this will retry all dead jobs, if you want to prevent that empty the dead queue first.
 
 The command will report queues that still have jobs and launch sidekiq process for that queues.
 
@@ -138,6 +141,7 @@ The command will report queues that still have jobs and launch sidekiq process f
 * Remove some unused routes [#6781](https://github.com/diaspora/diaspora/pull/6781)
 * Consolidate sidekiq queues [#6950](https://github.com/diaspora/diaspora/pull/6950)
 * Don't re-render the whole comment stream when adding comments [#6406](https://github.com/diaspora/diaspora/pull/6406)
+* Drop legacy invitation system [#6976](https://github.com/diaspora/diaspora/pull/6976)
 
 ## Bug fixes
 * Destroy Participation when removing interactions with a post [#5852](https://github.com/diaspora/diaspora/pull/5852)
@@ -193,6 +197,7 @@ The command will report queues that still have jobs and launch sidekiq process f
 * Make screenreaders read alerts [#6973](https://github.com/diaspora/diaspora/pull/6973)
 * Display message when there are no posts in a stream [#6974](https://github.com/diaspora/diaspora/pull/6974)
 * Add bootstrap-markdown editor to the publisher [#6551](https://github.com/diaspora/diaspora/pull/6551)
+* Don't create notifications for ignored users [#6984](https://github.com/diaspora/diaspora/pull/6984)
 
 # 0.5.10.2
 
