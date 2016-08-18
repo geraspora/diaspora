@@ -2,35 +2,34 @@
 
 app.Router = Backbone.Router.extend({
   routes: {
-    "activity": "stream",
-    "admin/pods": "adminPods",
-    "admins/dashboard": "adminDashboard",
-    "aspects": "aspects",
-    "commented": "stream",
-    "community_spotlight": "spotlight",
-    "contacts": "contacts",
-    "conversations": "conversations",
-    "followed_tags": "followed_tags",
-    "getting_started": "gettingStarted",
-    "help": "help",
-    "help/": "help",
-    "help/:section": "help",
-    "liked": "stream",
-    "mentions": "stream",
-    "notifications": "notifications",
-    "p/:id": "singlePost",
-    "people": "pageWithAspectMembershipDropdowns",
-    "people/:id": "profile",
-    "people/:id/contacts": "profile",
-    "people/:id/photos": "photos",
-    "posts/:id": "singlePost",
-    "profile/edit": "settings",
-    "public": "stream",
-    "stream": "stream",
-    "tags/:name": "followed_tags",
-    "u/:name": "profile",
-    "user/edit": "settings",
-    "users/sign_up": "registration"
+    "activity(/)": "stream",
+    "admin/pods(/)": "adminPods",
+    "admins/dashboard(/)": "adminDashboard",
+    "aspects(/)": "aspects",
+    "commented(/)": "stream",
+    "community_spotlight(/)": "spotlight",
+    "contacts(/)": "contacts",
+    "conversations(/)": "conversations",
+    "followed_tags(/)": "followed_tags",
+    "getting_started(/)": "gettingStarted",
+    "help(/)": "help",
+    "help/:section(/)": "help",
+    "liked(/)": "stream",
+    "mentions(/)": "stream",
+    "notifications(/)": "notifications",
+    "p/:id(/)": "singlePost",
+    "people(/)": "pageWithAspectMembershipDropdowns",
+    "people/:id(/)": "profile",
+    "people/:id/contacts(/)": "profile",
+    "people/:id/photos(/)": "photos",
+    "posts/:id(/)": "singlePost",
+    "profile/edit(/)": "settings",
+    "public(/)": "stream",
+    "stream(/)": "stream",
+    "tags/:name(/)": "followed_tags",
+    "u/:name(/)": "profile",
+    "user/edit(/)": "settings",
+    "users/sign_up(/)": "registration"
   },
 
   initialize: function() {
@@ -81,13 +80,14 @@ app.Router = Backbone.Router.extend({
     ).render();
   },
 
-  contacts: function() {
+  contacts: function(params) {
     app.aspect = new app.models.Aspect(gon.preloads.aspect);
     this._loadContacts();
 
     var stream = new app.views.ContactStream({
       collection: app.contacts,
-      el: $(".stream.contacts #contact_stream")
+      el: $(".stream.contacts #contact_stream"),
+      urlParams: params
     });
 
     app.page = new app.pages.Contacts({stream: stream});

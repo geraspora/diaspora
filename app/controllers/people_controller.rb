@@ -63,7 +63,7 @@ class PeopleController < ApplicationController
       self.formats = self.formats + [:html]
       @answer_html = render_to_string :partial => 'people/person', :locals => @hashes.first
     end
-    render :json => { :search_count => @people.count, :search_html => @answer_html }.to_json
+    render json: {search_html: @answer_html, contacts: gon.preloads[:contacts]}.to_json
   end
 
   # renders the persons user profile page
@@ -185,7 +185,7 @@ class PeopleController < ApplicationController
   end
 
   def diaspora_id?(query)
-    !query.try(:match, /^(\w)*@([a-zA-Z0-9]|[-]|[.]|[:])*$/).nil?
+    !(query.nil? || query.lstrip.empty?) && Validation::Rule::DiasporaId.new.valid_value?(query)
   end
 
   # view this profile on the home pod, if you don't want to sign in...

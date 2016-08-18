@@ -167,6 +167,7 @@ The command will report queues that still have jobs and launch sidekiq process f
 * Add aspects to the aspect membership dropdown when creating them on the getting started page [#6864](https://github.com/diaspora/diaspora/pull/6864)
 * Strip markdown from message preview in conversations list [#6923](https://github.com/diaspora/diaspora/pull/6923)
 * Improve tag stream performance [#6903](https://github.com/diaspora/diaspora/pull/6903)
+* Only show mutual contacts in conversations auto suggestions [#7001](https://github.com/diaspora/diaspora/pull/7001)
 
 ## Features
 * Support color themes [#6033](https://github.com/diaspora/diaspora/pull/6033)
@@ -191,7 +192,7 @@ The command will report queues that still have jobs and launch sidekiq process f
 * Add links to the single post view of the related post to photos in the photo stream [#6621](https://github.com/diaspora/diaspora/pull/6621)
 * Add a note for people with disabled JavaScript [#6777](https://github.com/diaspora/diaspora/pull/6777)
 * Do not include conversation subject in notification mail [#6910](https://github.com/diaspora/diaspora/pull/6910)
-* Add 'Be excellent to each other!' to the sidebar [#6914](https://github.com/diaspora/diaspora/pull/6910)
+* Add 'Be excellent to each other!' to the sidebar [#6914](https://github.com/diaspora/diaspora/pull/6914)
 * Expose Sidekiq dead queue configuration options
 * Properly support pluralization in timeago strings [#6926](https://github.com/diaspora/diaspora/pull/6926)
 * Return all contacts in people search [#6951](https://github.com/diaspora/diaspora/pull/6951)
@@ -199,6 +200,7 @@ The command will report queues that still have jobs and launch sidekiq process f
 * Display message when there are no posts in a stream [#6974](https://github.com/diaspora/diaspora/pull/6974)
 * Add bootstrap-markdown editor to the publisher [#6551](https://github.com/diaspora/diaspora/pull/6551)
 * Don't create notifications for ignored users [#6984](https://github.com/diaspora/diaspora/pull/6984)
+* Fetch missing persons when receiving a mention for them [#6992](https://github.com/diaspora/diaspora/pull/6992)
 
 # 0.5.10.2
 
