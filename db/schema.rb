@@ -162,17 +162,6 @@ ActiveRecord::Schema.define(version: 20160813115514) do
   add_index "conversations", ["author_id"], name: "conversations_author_id_fk", using: :btree
   add_index "conversations", ["guid"], name: "index_conversations_on_guid", unique: true, using: :btree
 
-<<<<<<< HEAD
-  create_table "id_tokens", force: :cascade do |t|
-    t.integer  "authorization_id"
-    t.datetime "expires_at"
-    t.string   "nonce"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
-  end
-
-  add_index "id_tokens", ["authorization_id"], name: "index_id_tokens_on_authorization_id", using: :btree
-
   create_table "invitation_codes", force: :cascade do |t|
     t.string   "token",      limit: 255
     t.integer  "user_id"
@@ -607,25 +596,13 @@ ActiveRecord::Schema.define(version: 20160813115514) do
   end
 
   create_table "users", force: :cascade do |t|
-<<<<<<< HEAD
-    t.string   "username",                           limit: 255
+    t.string   "username",                                                       null: false
     t.text     "serialized_private_key"
     t.boolean  "getting_started",                                default: true,  null: false
     t.boolean  "disable_mail",                                   default: false, null: false
     t.string   "language",                           limit: 255
     t.string   "email",                              limit: 255, default: "",    null: false
     t.string   "encrypted_password",                 limit: 128, default: "",    null: false
-    t.string   "invitation_token",                   limit: 20
-    t.datetime "invitation_sent_at"
-=======
-    t.string   "username",                           limit: 255,                   null: false
-    t.text     "serialized_private_key",             limit: 65535
-    t.boolean  "getting_started",                                  default: true,  null: false
-    t.boolean  "disable_mail",                                     default: false, null: false
-    t.string   "language",                           limit: 255
-    t.string   "email",                              limit: 255,   default: "",    null: false
-    t.string   "encrypted_password",                 limit: 255,   default: "",    null: false
->>>>>>> e712e4c92f7f5db8f57de537ec2ac02d328ea9d6
     t.string   "reset_password_token",               limit: 255
     t.datetime "remember_created_at"
     t.integer  "sign_in_count",                                  default: 0
@@ -633,19 +610,9 @@ ActiveRecord::Schema.define(version: 20160813115514) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip",                 limit: 255
     t.string   "last_sign_in_ip",                    limit: 255
-<<<<<<< HEAD
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "invitation_service",                 limit: 127
-    t.string   "invitation_identifier",              limit: 127
-    t.integer  "invitation_limit"
     t.integer  "invited_by_id"
-    t.string   "invited_by_type",                    limit: 255
-=======
-    t.datetime "created_at",                                                       null: false
-    t.datetime "updated_at",                                                       null: false
-    t.integer  "invited_by_id",                      limit: 4
->>>>>>> e712e4c92f7f5db8f57de537ec2ac02d328ea9d6
     t.string   "authentication_token",               limit: 30
     t.datetime "locked_at"
     t.string   "unconfirmed_email",                  limit: 255
@@ -668,15 +635,8 @@ ActiveRecord::Schema.define(version: 20160813115514) do
   end
 
   add_index "users", ["authentication_token"], name: "index_users_on_authentication_token", unique: true, using: :btree
-<<<<<<< HEAD
-  add_index "users", ["email"], name: "index_users_on_email", using: :btree
-  add_index "users", ["invitation_service", "invitation_identifier"], name: "index_users_on_invitation_service_and_invitation_identifier", unique: true, using: :btree
-  add_index "users", ["invitation_token"], name: "index_users_on_invitation_token", using: :btree
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["username"], name: "index_users_on_username", unique: true, using: :btree
-=======
-  add_index "users", ["email"], name: "index_users_on_email", unique: true, length: {"email"=>191}, using: :btree
-  add_index "users", ["username"], name: "index_users_on_username", unique: true, length: {"username"=>191}, using: :btree
->>>>>>> e712e4c92f7f5db8f57de537ec2ac02d328ea9d6
 
   add_foreign_key "aspect_memberships", "aspects", name: "aspect_memberships_aspect_id_fk", on_delete: :cascade
   add_foreign_key "aspect_memberships", "contacts", name: "aspect_memberships_contact_id_fk", on_delete: :cascade
