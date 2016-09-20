@@ -553,6 +553,7 @@ en:
 
   invitation_codes:
     not_valid: "That invite code is no longer valid"
+    already_logged_in: "You have been invited by %{inviter} to join this pod but you are already logged in."
 
   invitations:
     create:
@@ -939,6 +940,10 @@ en:
     status:
       destroyed: "The post was destroyed"
       failed: "Something went wrong"
+    unreviewed_reports:
+      zero: "There are no unreviewed reports."
+      one: "There is one unreviewed report."
+      other: "There are %{count} unreviewed reports."
 
   profiles:
     edit:
