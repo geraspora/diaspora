@@ -43,7 +43,7 @@
     = stylesheet_link_tag '/diacontents/overwrites.css', {id: 'diacontents_css', media: 'all'}
     = javascript_include_tag '/diacontents/overwrites.js', {id: 'diacontents_js'}
 
-    = include_gon(camel_case:  true)
+    = include_gon(camel_case: true, nonce: content_security_policy_nonce(:script))
 
   %body{ class:  "page-#{controller_name} action-#{action_name}" }
     = yield :before_content
