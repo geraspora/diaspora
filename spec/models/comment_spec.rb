@@ -2,12 +2,12 @@
 #   licensed under the Affero General Public License version 3 or later.  See
 #   the COPYRIGHT file.
 
-require "spec_helper"
-
 describe Comment, type: :model do
   let(:alices_aspect) { alice.aspects.first }
   let(:status_bob) { bob.post(:status_message, text: "hello", to: bob.aspects.first.id) }
   let(:comment_alice) { alice.comment!(status_bob, "why so formal?") }
+
+  it_behaves_like "it is mentions container"
 
   describe "#destroy" do
     it "should delete a participation" do
@@ -20,6 +20,55 @@ describe Comment, type: :model do
       comment_alice.destroy
       participations = Participation.where(target_id: comment_alice.commentable_id, author_id: comment_alice.author_id)
       expect(participations.first.count).to eq(1)
+    end
+  end
+
+  describe "#people_allowed_to_be_mentioned" do
+    let(:kate) { FactoryGirl.create(:user_with_aspect, friends: [bob]) }
+    let(:olga) { FactoryGirl.create(:user_with_aspect, friends: [bob]) }
+
+    it "returns the author and people who have commented or liked the private post" do
+      eve.comment!(status_bob, "comment text")
+      kate.like!(status_bob)
+      olga.participate!(status_bob)
+      status_bob.reload
+      expect(comment_alice.people_allowed_to_be_mentioned).to match_array([alice, bob, eve, kate].map(&:person_id))
+    end
+
+    it "returns :all for public posts" do
+      # set parent public
+      status_bob.update(public: true)
+      expect(comment_alice.people_allowed_to_be_mentioned).to eq(:all)
+    end
+  end
+
+  describe "#subscribers" do
+    let(:status_bob) { FactoryGirl.create(:status_message, public: true, author: bob.person) }
+    let(:comment_alice) {
+      FactoryGirl.create(
+        :comment,
+        text:   text_mentioning(remote_raphael, local_luke),
+        post:   status_bob,
+        author: alice.person
+      )
+    }
+
+    context "on the parent post pod" do
+      it "includes mentioned people to subscribers list" do
+        expect(comment_alice.subscribers).to include(remote_raphael)
+      end
+
+      it "doesn't include local mentioned people if they aren't participant or contact" do
+        expect(comment_alice.subscribers).not_to include(local_luke)
+      end
+    end
+
+    context "on a non parent post pod" do
+      let(:status_bob) { FactoryGirl.create(:status_message) } # make the message remote
+
+      it "doesn't include mentioned people to subscribers list" do
+        expect(comment_alice.subscribers).not_to include(remote_raphael)
+      end
     end
   end
 
