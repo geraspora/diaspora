@@ -10,8 +10,10 @@
 # 0.6.3.0
 
 ## Refactor
+* Increase the spacing above and below post contents [#7267](https://github.com/diaspora/diaspora/pull/7267)
 
 ## Bug fixes
+* Fix background color of year on notifications page with dark theme [#7263](https://github.com/diaspora/diaspora/pull/7263)
 
 ## Features
 
@@ -29,7 +31,7 @@
 * Only require AWS-module for fog [#7201](https://github.com/diaspora/diaspora/pull/7201)
 * Only show community spotlight links on the contacts page if community spotlight is enabled [#7213](https://github.com/diaspora/diaspora/pull/7213)
 * Require spec\_helper in .rspec [#7223](https://github.com/diaspora/diaspora/pull/7223)
-* Make the CSRF mail a bit more friendly [#7238](https://github.com/diaspora/diaspora/pull/7238)
+* Make the CSRF mail a bit more friendly [#7238](https://github.com/diaspora/diaspora/pull/7238) [#7241](https://github.com/diaspora/diaspora/pull/7241)
 
 ## Bug fixes
 * Fix fetching comments after fetching likes [#7167](https://github.com/diaspora/diaspora/pull/7167)
