@@ -119,11 +119,9 @@ fallbacks:
     - "ur"
   de_formal:
     - "de"
-<<<<<<< HEAD
   de_moo:
-=======
+    - "de"
   de-CH:
->>>>>>> a025a23c71bd1649af57fd5cb44c5d5abf77c0d6
     - "de"
   nds:
     - "de"
