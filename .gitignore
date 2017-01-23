@@ -88,6 +88,9 @@ diaspora.iml
 # Dolphin's directory's preferences files
 *.directory
 
+# WebTranslateIt
+.wti
+
 # Geraspora deployment files
 .config/
 config/puma.rb

@@ -10,6 +10,7 @@ available:
   da: "Dansk"
   de: "Deutsch"
   de_formal: "Deutsch (Sie)"
+  de-CH: "Deutsch (Schwiizerdütsch)"
   de_moo: "Deutsch (Muh!)"
   el: "Ελληνικά"
   en: "English"
@@ -31,6 +32,7 @@ available:
   fr: "Français"
   fy: "Frysk"
   ga: "Gaeilge"
+  gd: "Gàidhlig"
   gl: "Galego"
   he: "עברית"
   hu: "magyar nyelv"
@@ -50,6 +52,7 @@ available:
   nds: "Niederdeutsch"
   nl: "Nederlands"
   nn: "Nynorsk"
+  oc: "Occitan"
   pa: "ਪੰਜਾਬੀ"
   pl: "polski"
   pt-PT: "Português (Portugal)"
@@ -116,7 +119,11 @@ fallbacks:
     - "ur"
   de_formal:
     - "de"
+<<<<<<< HEAD
   de_moo:
+=======
+  de-CH:
+>>>>>>> a025a23c71bd1649af57fd5cb44c5d5abf77c0d6
     - "de"
   nds:
     - "de"
