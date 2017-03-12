@@ -1,24 +1,21 @@
-.row.publisher#publisher{class: ((aspect == :profile || publisher_open) ? "mention_popup" : "closed")}
+.row.publisher#publisher{class: ((aspect == :profile || publisher_open?) ? "mention_popup" : "closed")}
   .content_creation
     = form_for(StatusMessage.new) do |status|
       = status.error_messages
       %params
         .publisher-textarea-wrapper#publisher_textarea_wrapper
           .mentions-input-box
-            .mentions-box
-              .mentions
             - if current_user.getting_started?
-              = status.text_area :fake_text, :rows => 2, :value => h(publisher_formatted_text),
+              = status.text_area :text, :rows => 2, :value => h(publisher_formatted_text),
                 :tabindex => 1, :placeholder => "#{t('contacts.index.start_a_conversation')}...",
                 "data-title" => popover_with_close_html("1. " + t("shared.public_explain.share")),
                 "data-content" => t("shared.public_explain.new_user_welcome_message"),
                 "class" => "form-control"
             - else
-              = status.text_area :fake_text, :rows => 2, :value => h(publisher_formatted_text),
+              = status.text_area :text, :rows => 2, :value => h(publisher_formatted_text),
                 :tabindex => 1, :placeholder => "#{t('contacts.index.start_a_conversation')}...",
                 "class" => "form-control"
             %input.typeahead-mention-box.hidden{type: "text"}
-          = status.hidden_field :text, value: h(publisher_hidden_text), class: "clear_on_submit"
 
           .container-fluid.photodropzone-container#photodropzone_container
             %ul#photodropzone
@@ -42,7 +39,7 @@
 
       - if public_selected?(selected_aspects)
         = hidden_field_tag "aspect_ids[]", "public"
-      - elsif all_aspects_selected?(all_aspects, selected_aspects)
+      - elsif all_aspects_selected?(selected_aspects)
         = hidden_field_tag "aspect_ids[]", "all_aspects"
       - else
         - for aspect_id in aspect_ids
