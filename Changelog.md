@@ -6,6 +6,7 @@
 * Display @ before mentions [#7324](https://github.com/diaspora/diaspora/pull/7324)
 * Simplify mentions in the publisher [#7302](https://github.com/diaspora/diaspora/pull/7302)
 * Remove chartbeat and mixpanel support [#7280](https://github.com/diaspora/diaspora/pull/7280)
+* Upgrade to jQuery 3 [#7303](https://github.com/diaspora/diaspora/pull/7303)
 
 ## Bug fixes
 
@@ -13,16 +14,20 @@
 * Add support for mentions in comments to the backend [#6818](https://github.com/diaspora/diaspora/pull/6818)
 * Add support for new mention syntax [#7300](https://github.com/diaspora/diaspora/pull/7300)
 * Render mentions as links in comments [#7327](https://github.com/diaspora/diaspora/pull/7327)
+* Add support for mentions in comments to the front-end [#7386](https://github.com/diaspora/diaspora/pull/7386)
 
 # 0.6.5.0
 
 ## Refactor
 * Remove unused setPreload function [#7354](https://github.com/diaspora/diaspora/pull/7354)
 * Remove jQuery deprecations [#7356](https://github.com/diaspora/diaspora/pull/7356)
+* Use empty selector where "#" was used as a selector before (prepare jQuery 3 upgrade) [#7372](https://github.com/diaspora/diaspora/pull/7372)
 
 ## Bug fixes
+* Don't hide posts when blocking someone from the profile [#7379](https://github.com/diaspora/diaspora/pull/7379)
 
 ## Features
+* Add links to liked and commented pages [#5502](https://github.com/diaspora/diaspora/pull/5502)
 
 # 0.6.4.0
 
