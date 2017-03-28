@@ -240,6 +240,14 @@ en:
     post_something: "Post to diaspora*"
     explanation: "Post to diaspora* from anywhere by bookmarking this link => %{link}."
 
+  color_themes:
+    dark: "Dark"
+    dark_green: "Dark green"
+    egyptian_blue: "Egyptian blue"
+    magenta: "Magenta"
+    original: "Original gray"
+    original_white: "Original white background"
+
   comments:
     create:
       error: "Failed to comment."
@@ -1098,8 +1106,6 @@ en:
   status_messages:
     new:
       mentioning: "Mentioning: %{person}"
-    create:
-      success: "Successfully mentioned: %{names}"
     too_long: "Please make your status message fewer than %{count} characters. Right now it is %{current_length} characters"
 
   stream_helper:
