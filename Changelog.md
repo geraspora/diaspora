@@ -18,6 +18,14 @@
 * Render mentions as links in comments [#7327](https://github.com/diaspora/diaspora/pull/7327)
 * Add support for mentions in comments to the front-end [#7386](https://github.com/diaspora/diaspora/pull/7386)
 
+# 0.6.6.0
+
+## Refactor
+
+## Bug fixes
+
+## Features
+
 # 0.6.5.0
 
 ## Refactor
@@ -28,6 +36,8 @@
 * Reduce conversation recipient size [#7376](https://github.com/diaspora/diaspora/pull/7376)
 * Cleanup rtl css [#7374](https://github.com/diaspora/diaspora/pull/7374)
 * Increase visual spacing between list items [#7401](https://github.com/diaspora/diaspora/pull/7401)
+* Remove unused gem and cucumber step [#7410](https://github.com/diaspora/diaspora/pull/7410)
+* Disable CSP header when `report_only` and no `report_uri` is set [#7367](https://github.com/diaspora/diaspora/pull/7367)
 
 ## Bug fixes
 * Don't hide posts when blocking someone from the profile [#7379](https://github.com/diaspora/diaspora/pull/7379)
@@ -35,6 +45,7 @@
 * Fix sharing indicator on profile page for blocked users [#7382](https://github.com/diaspora/diaspora/pull/7382)
 * Remove post only after a successful deletion on the server [#7385](https://github.com/diaspora/diaspora/pull/7385)
 * Fix an issue where pod admins could get logged out when using sidekiq-web [#7395](https://github.com/diaspora/diaspora/pull/7395)
+* Add avatar fallback for typeahead and conversations [#7414](https://github.com/diaspora/diaspora/pull/7414)
 
 ## Features
 * Add links to liked and commented pages [#5502](https://github.com/diaspora/diaspora/pull/5502)
