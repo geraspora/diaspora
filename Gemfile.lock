@@ -461,7 +461,7 @@ GEM
       byebug (~> 9.0)
       pry (~> 0.10)
     public_suffix (2.0.5)
-    puma (3.8.2)
+    puma (3.9.1)
     quiet_assets (1.1.0)
       railties (>= 3.1, < 5.0)
     rack (1.6.5)
@@ -887,4 +887,4 @@ DEPENDENCIES
   will_paginate (= 3.1.5)
 
 BUNDLED WITH
-   1.14.6
+   1.15.1
