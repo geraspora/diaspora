@@ -9,16 +9,11 @@
         .container-fluid
           .row
             .col-md-12
-              .navbar-header
-                %button.navbar-toggle.collapsed{type: "button", data: {toggle: "collapse", target: "#navbar-collapse"}}
-                  %span.sr-only
-                    = t("layouts.header.toggle_navigation")
-                  %span.icon-bar
-                  %span.icon-bar
-                  %span.icon-bar
-                = link_to root_path, class: "navbar-brand" do
-                  #diacontents_logo.diaspora_header_logo
-                    = image_tag "/diacontents/header-logo.png"
-
-              .collapse.navbar-collapse#navbar-collapse
+              .not-connected-menu
+                .navbar-header.navbar-left
+                  .hidden-xs
+                    = link_to AppConfig.settings.pod_name, root_path, class: "navbar-brand"
+                  #diacontents_logo.diaspora_header_logo.visible-xs-block.header-title
+                    = link_to(image_tag("/diacontents/header-logo.png", class: "img-responsive"),
+                        root_path, class: "navbar-brand")
                 = render "layouts/header_not_connected"

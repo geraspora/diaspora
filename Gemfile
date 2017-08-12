@@ -12,7 +12,8 @@ gem "puma"
 
 # Federation
 
-gem "diaspora_federation-rails", "0.2.0"
+gem "diaspora_federation-json_schema", "0.2.1"
+gem "diaspora_federation-rails", "0.2.1"
 
 # API and JSON
 
@@ -31,7 +32,7 @@ gem "simple_captcha2", "0.4.3", require: "simple_captcha"
 
 # Background processing
 
-gem "sidekiq", "4.2.10"
+gem "sidekiq", "5.0.4"
 
 # Scheduled processing
 
@@ -56,7 +57,7 @@ gem "bootstrap-sass",         "3.3.7"
 gem "bootstrap-switch-rails", "3.3.3"
 gem "compass-rails",          "3.0.2"
 gem "sass-rails",             "5.0.6"
-gem "sprockets",              "2.12.4"
+gem "sprockets-rails",        "3.2.0"
 
 # Database
 
@@ -95,7 +96,7 @@ source "https://rails-assets.org" do
   gem "rails-assets-jquery.ui",                           "1.11.4"
 
   gem "rails-assets-highlightjs",                         "9.12.0"
-  gem "rails-assets-markdown-it",                         "8.3.1"
+  gem "rails-assets-markdown-it",                         "8.3.2"
   gem "rails-assets-markdown-it-hashtag",                 "0.4.0"
   gem "rails-assets-markdown-it-diaspora-mention",        "1.2.0"
   gem "rails-assets-markdown-it-sanitizer",               "0.4.3"
@@ -169,7 +170,7 @@ gem "rails-assets-diaspora_jsxc", "0.1.5.develop.7", source: "https://rails-asse
 
 # Tags
 
-gem "acts-as-taggable-on", "3.5.0"
+gem "acts-as-taggable-on", "5.0.0"
 
 # URIs and HTTP
 
@@ -276,6 +277,8 @@ group :test do
 
   gem "fixture_builder",   "0.5.0"
   gem "fuubar",            "2.2.0"
+  gem "json-schema-rspec", "0.0.4"
+  gem "rspec-json_expectations", "~> 2.1"
   gem "test_after_commit", "1.1.0"
 
   # Cucumber (integration tests)
@@ -293,7 +296,7 @@ group :test do
   gem "timecop",            "0.9.1"
   gem "webmock",            "3.0.1", require: false
 
-  gem "diaspora_federation-test", "0.2.0"
+  gem "diaspora_federation-test", "0.2.1"
 
   # Coverage
   gem 'coveralls', require: false
@@ -307,11 +310,8 @@ group :development, :test do
   gem "cucumber-rails", "1.5.0", require: false
 
   # Jasmine (client side application tests (JS))
-  gem "jasmine",                   "2.5.2"
+  gem "jasmine",                   "2.6.0"
   gem "jasmine-jquery-rails",      "2.0.3"
   gem "rails-assets-jasmine-ajax", "3.3.1", source: "https://rails-assets.org"
   gem "sinon-rails",               "1.15.0"
-
-  # silence assets
-  gem "quiet_assets", "1.1.0"
 end
