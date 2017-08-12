@@ -9,10 +9,14 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a href="/stream" class="navbar-brand" data-stream-title="{{t "my_stream"}}">
-            <span class="hidden-xs">{{ podname }}</span>
-            <div class="visible-xs-block header-title diaspora_header_logo" id="diacontents_logo">
+          <a href="/stream" class="navbar-brand hidden-xs" data-stream-title="{{t "my_stream"}}">
+            <div class="diaspora_header_logo" id="diacontents_logo">
               <img src="/diacontents/header-logo.png" alt="{{ podname }}" />
+            </div>
+          </a>
+          <a href="/stream" class="navbar-brand visible-xs-block" data-stream-title="{{t "my_stream"}}">
+            <div class="header-title">
+              <img src="{{imageUrl 'branding/logos/asterisk_white_mobile.png'}}" alt="{{ podname }}" />
             </div>
           </a>
           <ul class="nav navbar-nav hidden-xs">
