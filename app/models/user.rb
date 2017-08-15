@@ -54,6 +54,8 @@ class User < ApplicationRecord
   belongs_to :auto_follow_back_aspect, class_name: "Aspect", optional: true
   belongs_to :invited_by, class_name: "User", optional: true
 
+  has_many :invited_users, class_name: "User", inverse_of: :invited_by, foreign_key: :invited_by_id
+
   has_many :aspect_memberships, :through => :aspects
 
   has_many :contacts
@@ -297,18 +299,22 @@ class User < ApplicationRecord
   mount_uploader :export, ExportedUser
 
   def queue_export
-    update exporting: true
+    update exporting: true, export: nil, exported_at: nil
     Workers::ExportUser.perform_async(id)
   end
 
   def perform_export!
-    export = Tempfile.new([username, '.json.gz'], encoding: 'ascii-8bit')
+    export = Tempfile.new([username, ".json.gz"], encoding: "ascii-8bit")
     export.write(compressed_export) && export.close
     if export.present?
       update exporting: false, export: export, exported_at: Time.zone.now
     else
       update exporting: false
     end
+  rescue => error
+    logger.error "Unexpected error while exporting user '#{username}': #{error.class}: #{error.message}\n" \
+                 "#{error.backtrace.first(15).join("\n")}"
+    update exporting: false
   end
 
   def compressed_export
@@ -319,12 +325,16 @@ class User < ApplicationRecord
   mount_uploader :exported_photos_file, ExportedPhotos
 
   def queue_export_photos
-    update exporting_photos: true
+    update exporting_photos: true, exported_photos_file: nil, exported_photos_at: nil
     Workers::ExportPhotos.perform_async(id)
   end
 
   def perform_export_photos!
     PhotoExporter.new(self).perform
+  rescue => error
+    logger.error "Unexpected error while exporting photos for '#{username}': #{error.class}: #{error.message}\n" \
+                 "#{error.backtrace.first(15).join("\n")}"
+    update exporting_photos: false
   end
 
   ######### Mailer #######################
@@ -507,7 +517,7 @@ class User < ApplicationRecord
   def close_account!
     self.person.lock_access!
     self.lock_access!
-    AccountDeletion.create(:person => self.person)
+    AccountDeletion.create(person: person)
   end
 
   def closed_account?

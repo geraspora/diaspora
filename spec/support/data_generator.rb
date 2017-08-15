@@ -38,6 +38,7 @@ class DataGenerator
     private_post_as_receipient
     tag_following
     generic_person_data
+    remote_mutual_friend
   end
 
   def generic_person_data
@@ -60,7 +61,8 @@ class DataGenerator
   end
 
   def conversations
-    a_friend = person.contacts.first.user.person
+    a_friend = FactoryGirl.create(:contact, person: person).user.person
+    FactoryGirl.create(:contact, user: user, person: a_friend) unless user.nil?
     create_conversation_with_message(a_friend, person, "Subject", "Hey #{person.name}")
     create_conversation_with_message(person, a_friend, "Subject", "Hey #{a_friend.name}")
   end
@@ -95,6 +97,10 @@ class DataGenerator
     FactoryGirl.create(:user_with_aspect).tap {|friend|
       connect_users(user, first_aspect, friend, friend.aspects.first)
     }
+  end
+
+  def remote_mutual_friend
+    FactoryGirl.create(:contact, user: user, sharing: true, receiving: true)
   end
 
   def first_aspect

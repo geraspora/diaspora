@@ -1,3 +1,19 @@
+# 0.8.0.0
+
+## Refactor
+
+## Bug fixes
+
+## Features
+
+# 0.7.1.0
+
+## Refactor
+
+## Bug fixes
+
+## Features
+
 # 0.7.0.0
 
 ## Supported Ruby versions
@@ -30,6 +46,10 @@ If so, please delete it since it will prevent the federation from working proper
 * Remove no-posts-info when adding posts to the stream [#7523](https://github.com/diaspora/diaspora/pull/7523)
 * Upgrade to rails 5.1 [#7514](https://github.com/diaspora/diaspora/pull/7514)
 * Refactoring single post view interactions [#7182](https://github.com/diaspora/diaspora/pull/7182)
+* Update help pages [#7528](https://github.com/diaspora/diaspora/pull/7528)
+* Disable rendering logging in production [#7529](https://github.com/diaspora/diaspora/pull/7529)
+* Add some missing indexes and cleanup the database if needed [#7533](https://github.com/diaspora/diaspora/pull/7533)
+* Remove avatar, name, timestamp and interactions from publisher preview [#7536](https://github.com/diaspora/diaspora/pull/7536)
 
 ## Bug fixes
 
@@ -38,6 +58,7 @@ If so, please delete it since it will prevent the federation from working proper
 * Fix order of comments across pods [#7436](https://github.com/diaspora/diaspora/pull/7436)
 * Prevent publisher from closing in preview mode [#7518](https://github.com/diaspora/diaspora/pull/7518)
 * Increase reshare counter after reshare on mobile [#7520](https://github.com/diaspora/diaspora/pull/7520)
+* Reset stuck exports and handle errors [#7535](https://github.com/diaspora/diaspora/pull/7535)
 
 ## Features
 * Add support for mentions in comments to the backend [#6818](https://github.com/diaspora/diaspora/pull/6818)
@@ -50,14 +71,8 @@ If so, please delete it since it will prevent the federation from working proper
 * Improve responsive header in desktop version [#7509](https://github.com/diaspora/diaspora/pull/7509)
 * Support cmd+enter to submit posts, comments and conversations [#7524](https://github.com/diaspora/diaspora/pull/7524)
 * Add markdown editor for posts, comments and conversations on mobile [#7235](https://github.com/diaspora/diaspora/pull/7235)
-
-# 0.6.8.0
-
-## Refactor
-
-## Bug fixes
-
-## Features
+* Mark as "Mobile Web App Capable" on Android [#7534](https://github.com/diaspora/diaspora/pull/7534)
+* Add support for receiving account migrations [#6750](https://github.com/diaspora/diaspora/pull/6750)
 
 # 0.6.7.0
 

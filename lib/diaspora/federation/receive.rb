@@ -8,7 +8,15 @@ module Diaspora
       end
 
       def self.account_deletion(entity)
-        AccountDeletion.create!(person: author_of(entity), diaspora_handle: entity.author)
+        AccountDeletion.create!(person: author_of(entity))
+      end
+
+      def self.account_migration(entity)
+        profile = profile(entity.profile)
+        AccountMigration.create!(
+          old_person: Person.by_account_identifier(entity.author),
+          new_person: profile.person
+        )
       end
 
       def self.comment(entity)
