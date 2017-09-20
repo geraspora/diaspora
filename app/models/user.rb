@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #   Copyright (c) 2010-2011, Diaspora Inc.  This file is
 #   licensed under the Affero General Public License version 3 or later.  See
 #   the COPYRIGHT file.
@@ -176,7 +178,7 @@ class User < ApplicationRecord
       if pref_hash[key] == 'true'
         self.user_preferences.find_or_create_by(email_type: key)
       else
-        block = self.user_preferences.where(:email_type => key).first
+        block = user_preferences.find_by(email_type: key)
         if block
           block.destroy
         end
@@ -289,9 +291,9 @@ class User < ApplicationRecord
   # @return [Like]
   def like_for(target)
     if target.likes.loaded?
-      return target.likes.detect{ |like| like.author_id == self.person.id }
+      target.likes.find {|like| like.author_id == person.id }
     else
-      return Like.where(:author_id => self.person.id, :target_type => target.class.base_class.to_s, :target_id => target.id).first
+      Like.find_by(author_id: person.id, target_type: target.class.base_class.to_s, target_id: target.id)
     end
   end
 

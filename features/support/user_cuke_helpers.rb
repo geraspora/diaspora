@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module UserCukeHelpers
 
   # creates a new user object from the factory with some default attributes
@@ -69,8 +71,8 @@ module UserCukeHelpers
 
   def fill_in_new_user_form
     @username = "ohai"
-    fill_in('user_username', with: @username)
     fill_in('user_email', with: "#{@username}@example.com")
+    fill_in('user_username', with: @username)
     fill_in('user_password', with: 'secret')
     fill_in('user_password_confirmation', with: 'secret')
 

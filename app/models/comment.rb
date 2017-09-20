@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #   Copyright (c) 2010-2011, Diaspora Inc.  This file is
 #   licensed under the Affero General Public License version 3 or later.  See
 #   the COPYRIGHT file.
@@ -45,7 +47,7 @@ class Comment < ApplicationRecord
 
   after_destroy do
     self.parent.update_comments_counter
-    participation = author.participations.where(target_id: post.id).first
+    participation = author.participations.find_by(target_id: post.id)
     participation.unparticipate! if participation.present?
   end
 
