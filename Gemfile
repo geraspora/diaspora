@@ -14,8 +14,8 @@ gem "puma"
 
 # Federation
 
-gem "diaspora_federation-json_schema", "0.2.2"
-gem "diaspora_federation-rails", "0.2.2"
+gem "diaspora_federation-json_schema", "0.2.3"
+gem "diaspora_federation-rails", "0.2.3"
 
 # API and JSON
 
@@ -291,7 +291,7 @@ group :test do
   gem "timecop",            "0.9.1"
   gem "webmock",            "3.0.1", require: false
 
-  gem "diaspora_federation-test", "0.2.2"
+  gem "diaspora_federation-test", "0.2.3"
 
   # Coverage
   gem "coveralls", "0.8.21", require: false
