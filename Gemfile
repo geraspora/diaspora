@@ -14,8 +14,8 @@ gem "puma"
 
 # Federation
 
-gem "diaspora_federation-json_schema", "0.2.3"
-gem "diaspora_federation-rails", "0.2.3"
+gem "diaspora_federation-json_schema", "0.2.4"
+gem "diaspora_federation-rails", "0.2.4"
 
 # API and JSON
 
@@ -25,7 +25,7 @@ gem "json-schema", "2.8.0"
 
 # Authentication
 
-gem "devise", "4.3.0"
+gem "devise", "4.4.1"
 gem "devise_lastseenable", "0.0.6"
 
 # Captcha
@@ -88,6 +88,7 @@ gem "entypo-rails", "3.0.0"
 
 # JavaScript
 
+gem "sprockets-es6",     "0.9.2"
 gem "handlebars_assets", "0.23.2"
 gem "jquery-rails",      "4.3.1"
 gem "js-routes",         "1.4.1"
@@ -109,6 +110,7 @@ source "https://rails-assets.org" do
   gem "rails-assets-backbone",                            "1.3.3"
   gem "rails-assets-bootstrap-markdown",                  "2.10.0"
   gem "rails-assets-corejs-typeahead",                    "1.1.1"
+  gem "rails-assets-cropperjs",                           "1.2.1"
   gem "rails-assets-fine-uploader",                       "5.13.0"
 
   # jQuery plugins
@@ -120,6 +122,8 @@ source "https://rails-assets.org" do
   gem "rails-assets-jquery-textchange",                   "0.2.3"
   gem "rails-assets-perfect-scrollbar",                   "0.6.16"
 end
+
+gem "markdown-it-html5-embed", "1.0.0"
 
 # Localization
 
@@ -185,7 +189,7 @@ gem "typhoeus",           "1.3.0"
 # Views
 
 gem "gon",                     "6.1.0"
-gem "hamlit",                  "2.8.4"
+gem "hamlit",                  "2.8.6"
 gem "mobile-fu",               "1.4.0"
 gem "rails-timeago",           "2.16.0"
 gem "will_paginate",           "3.1.6"
@@ -291,7 +295,7 @@ group :test do
   gem "timecop",            "0.9.1"
   gem "webmock",            "3.0.1", require: false
 
-  gem "diaspora_federation-test", "0.2.3"
+  gem "diaspora_federation-test", "0.2.4"
 
   # Coverage
   gem "coveralls", "0.8.21", require: false
