@@ -1,18 +1,22 @@
 # 0.8.0.0
 
 ## Refactor
-* Add bootstrapping for using ECMAScript 6 with automatic transpiling for compatiblilty [#7581](https://github.com/diaspora/diaspora/pull/7581)
+* Add bootstrapping for using ECMAScript 6 with automatic transpiling for compatibility [#7581](https://github.com/diaspora/diaspora/pull/7581)
 
 ## Bug fixes
 
 ## Features
 * Add client-side cropping of profile image uploads [#7581](https://github.com/diaspora/diaspora/pull/7581)
+* Add client-site rescaling of post images if they exceed the maximum possible size [#7734](https://github.com/diaspora/diaspora/pull/7734)
 
 # 0.7.5.0
 
 ## Refactor
 
 ## Bug fixes
+* Prefill conversation form on contacts page only with mutual contacts [#7744](https://github.com/diaspora/diaspora/pull/7744)
+* Fix profiles sometimes not loading properly in background tabs [#7740](https://github.com/diaspora/diaspora/pull/7740)
+* Show error message when creating posts with invalid aspects [#7742](https://github.com/diaspora/diaspora/pull/7742)
 
 ## Features
 
