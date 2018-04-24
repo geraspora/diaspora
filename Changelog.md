@@ -2,6 +2,7 @@
 
 ## Refactor
 * Add bootstrapping for using ECMAScript 6 with automatic transpiling for compatibility [#7581](https://github.com/diaspora/diaspora/pull/7581)
+* Remove backporting of mention syntax [#7788](https://github.com/diaspora/diaspora/pull/7788)
 
 ## Bug fixes
 
@@ -9,11 +10,20 @@
 * Add client-side cropping of profile image uploads [#7581](https://github.com/diaspora/diaspora/pull/7581)
 * Add client-site rescaling of post images if they exceed the maximum possible size [#7734](https://github.com/diaspora/diaspora/pull/7734)
 
+# 0.7.6.0
+
+## Refactor
+
+## Bug fixes
+
+## Features
+
 # 0.7.5.0
 
 ## Refactor
 * Remove the 'make contacts in this aspect visible to each other' option [#7769](https://github.com/diaspora/diaspora/pull/7769)
 * Remove the requirement to have at least two users to disable the /podmin redirect [#7783](https://github.com/diaspora/diaspora/pull/7783)
+* Randomize start times of daily Sidekiq-Cron jobs [#7787](https://github.com/diaspora/diaspora/pull/7787)
 
 ## Bug fixes
 * Prefill conversation form on contacts page only with mutual contacts [#7744](https://github.com/diaspora/diaspora/pull/7744)
@@ -21,6 +31,7 @@
 * Show error message when creating posts with invalid aspects [#7742](https://github.com/diaspora/diaspora/pull/7742)
 * Fix mention syntax backport for two immediately consecutive mentions [#7777](https://github.com/diaspora/diaspora/pull/7777)
 * Fix link to 'make yourself an admin' [#7783](https://github.com/diaspora/diaspora/pull/7783)
+* Fix calculation of content lengths when cross-posting to twitter [#7791](https://github.com/diaspora/diaspora/pull/7791)
 
 ## Features
 * Make public stream accessible for logged out users [#7775](https://github.com/diaspora/diaspora/pull/7775)
