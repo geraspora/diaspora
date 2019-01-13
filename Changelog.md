@@ -12,6 +12,15 @@
 * Add client-side cropping of profile image uploads [#7581](https://github.com/diaspora/diaspora/pull/7581)
 * Add client-site rescaling of post images if they exceed the maximum possible size [#7734](https://github.com/diaspora/diaspora/pull/7734)
 
+# 0.7.10.0
+
+## Refactor
+
+## Bug fixes
+* Fix incorrect post sorting on tag streams and tag searches for tags containing the word "activity" [#7422](https://github.com/diaspora/diaspora/issues/7422)
+
+## Features
+
 # 0.7.9.0
 
 ## Refactor
