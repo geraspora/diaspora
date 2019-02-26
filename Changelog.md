@@ -12,14 +12,21 @@
 * Add client-side cropping of profile image uploads [#7581](https://github.com/diaspora/diaspora/pull/7581)
 * Add client-site rescaling of post images if they exceed the maximum possible size [#7734](https://github.com/diaspora/diaspora/pull/7734)
 
-# 0.7.10.0
+# 0.7.11.0
 
 ## Refactor
 
 ## Bug fixes
-* Fix incorrect post sorting on tag streams and tag searches for tags containing the word "activity" [#7422](https://github.com/diaspora/diaspora/issues/7422)
 
 ## Features
+
+# 0.7.10.0
+
+## Refactor
+* Replace dandelion.jpg with a public domain photo [#7976](https://github.com/diaspora/diaspora/pull/7976)
+
+## Bug fixes
+* Fix incorrect post sorting on tag streams and tag searches for tags containing the word "activity" [#7959](https://github.com/diaspora/diaspora/issues/7959)
 
 # 0.7.9.0
 
