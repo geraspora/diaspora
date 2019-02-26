@@ -229,6 +229,9 @@ en:
       donate_liberapay: "Donate to liberapay"
       welcome_to_diaspora: "Welcome to diaspora*, %{name}!"
       introduce_yourself: "This is your stream. Jump in and introduce yourself."
+      patreon:
+        intro: "You can support the podmin's work on diaspora* via Patreon. %{link}."
+        link: "Get more information"
 
       new_here:
         title: "Welcome new users"

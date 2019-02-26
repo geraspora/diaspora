@@ -147,6 +147,16 @@
                   = t("aspects.index.keep_pod_running", pod: AppConfig.pod_uri.host)
                 = render "shared/donatepod"
 
+          .section.collapsed
+            .title
+              %h5.title-header
+                .entypo-triangle-right
+                .entypo-triangle-down
+                = t("aspects.index.donate")
+            .content
+              %p
+                != t("aspects.index.patreon.intro", link: link_to(t("aspects.index.patreon.link"), "https://www.patreon.com/denschub"))
+
           - if AppConfig.admins.podmin_email.present?
             .section.collapsed
               .title

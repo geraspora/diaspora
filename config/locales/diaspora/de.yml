@@ -258,6 +258,9 @@ de:
         tutorials_and_wiki: "%{faq}, %{tutorial} & %{wiki} helfen dir bei deinen ersten Schritten."
       introduce_yourself: "Das ist dein Stream. Leg los und stell dich vor."
       keep_pod_running: "Hilf %{pod} schnell zu arbeiten und kauf unseren Servern ihren monatlichen Schuss Kaffee!"
+      patreon:
+        intro: "Du kannst den Podmin bei der Arbeit an diaspora* auf Patreon unterstützen. %{link}."
+        link: "Mehr Informationen"
       new_here:
         follow: "Folge %{link} und begrüße neue Benutzer bei diaspora*!"
         learn_more: "mehr erfahren"
