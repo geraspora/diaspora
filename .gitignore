@@ -12,7 +12,6 @@ app/assets/images/custom/
 config/diaspora.yml
 config/initializers/secret_token.rb
 config/initializers/raven.rb
-config/initializers/twofa_encryption_key.rb
 .bundle
 vendor/bundle/
 vendor/cache/
