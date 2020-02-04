@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "spec_helper"
+require_relative "api_spec_helper"
 
 describe Api::V1::ConversationsController do
   let(:auth) {
@@ -57,8 +57,7 @@ describe Api::V1::ConversationsController do
     context "without valid data" do
       it "fails with empty body" do
         post api_v1_conversations_path, params: {access_token: access_token}
-        expect(response.status).to eq(422)
-        expect(response.body).to eq(I18n.t("api.endpoint_errors.conversations.cant_process"))
+        confirm_api_error(response, 422, "Couldn’t accept or process the conversation")
       end
 
       it "fails with missing subject " do
@@ -68,8 +67,7 @@ describe Api::V1::ConversationsController do
           access_token: access_token
         }
         post api_v1_conversations_path, params: incomplete_conversation
-        expect(response.status).to eq(422)
-        expect(response.body).to eq(I18n.t("api.endpoint_errors.conversations.cant_process"))
+        confirm_api_error(response, 422, "Couldn’t accept or process the conversation")
       end
 
       it "fails with missing body " do
@@ -79,8 +77,7 @@ describe Api::V1::ConversationsController do
           access_token: access_token
         }
         post api_v1_conversations_path, params: incomplete_conversation
-        expect(response.status).to eq(422)
-        expect(response.body).to eq(I18n.t("api.endpoint_errors.conversations.cant_process"))
+        confirm_api_error(response, 422, "Couldn’t accept or process the conversation")
       end
 
       it "fails with missing recipients " do
@@ -90,8 +87,7 @@ describe Api::V1::ConversationsController do
           access_token: access_token
         }
         post api_v1_conversations_path, params: incomplete_conversation
-        expect(response.status).to eq(422)
-        expect(response.body).to eq(I18n.t("api.endpoint_errors.conversations.cant_process"))
+        confirm_api_error(response, 422, "Couldn’t accept or process the conversation")
       end
 
       it "fails with bad recipient ID " do
@@ -102,8 +98,7 @@ describe Api::V1::ConversationsController do
           access_token: access_token
         }
         post api_v1_conversations_path, params: incomplete_conversation
-        expect(response.status).to eq(422)
-        expect(response.body).to eq(I18n.t("api.endpoint_errors.conversations.cant_process"))
+        confirm_api_error(response, 422, "Couldn’t accept or process the conversation")
       end
 
       it "fails with invalid recipient (not allowed to message) " do
@@ -114,8 +109,7 @@ describe Api::V1::ConversationsController do
           access_token: access_token
         }
         post api_v1_conversations_path, params: incomplete_conversation
-        expect(response.status).to eq(422)
-        expect(response.body).to eq(I18n.t("api.endpoint_errors.conversations.cant_process"))
+        confirm_api_error(response, 422, "Couldn’t accept or process the conversation")
       end
     end
 
@@ -170,7 +164,7 @@ describe Api::V1::ConversationsController do
       actual_conversation = returned_conversations.select {|c| c["guid"] == @read_conversation_guid }[0]
       confirm_conversation_format(actual_conversation, @read_conversation, [auth.user, alice])
 
-      expect(returned_conversations.to_json).to match_json_schema(:api_v1_schema)
+      expect(returned_conversations.to_json).to match_json_schema(:api_v1_schema, fragment: "#/definitions/conversations")
     end
 
     it "returns all the user unread conversations" do
@@ -227,7 +221,7 @@ describe Api::V1::ConversationsController do
         conversation = response_body(response)
         confirm_conversation_format(conversation, @conversation, [auth.user, alice])
 
-        expect(conversation.to_json).to match_json_schema(:api_v1_schema)
+        expect(conversation.to_json).to match_json_schema(:api_v1_schema, fragment: "#/definitions/conversation")
       end
     end
 
@@ -237,8 +231,7 @@ describe Api::V1::ConversationsController do
           api_v1_conversation_path(-1),
           params: {access_token: access_token}
         )
-        expect(response.status).to eq(404)
-        expect(response.body).to eq(I18n.t("api.endpoint_errors.conversations.not_found"))
+        confirm_api_error(response, 404, "Conversation with provided guid could not be found")
       end
     end
 
@@ -291,8 +284,7 @@ describe Api::V1::ConversationsController do
           @conversation_guid,
           params: {access_token: access_token}
         )
-        expect(response.status).to eq 404
-        expect(response.body).to eq(I18n.t("api.endpoint_errors.conversations.not_found"))
+        confirm_api_error(response, 404, "Conversation with provided guid could not be found")
         get api_v1_conversation_path(
           @conversation_guid,
           params: {access_token: access_token_participant}
@@ -317,8 +309,7 @@ describe Api::V1::ConversationsController do
           @conversation_guid,
           params: {access_token: access_token_participant}
         )
-        expect(response.status).to eq 404
-        expect(response.body).to eq(I18n.t("api.endpoint_errors.conversations.not_found"))
+        confirm_api_error(response, 404, "Conversation with provided guid could not be found")
 
         expect {
           Conversation.find(guid: @conversation_guid)
@@ -332,8 +323,7 @@ describe Api::V1::ConversationsController do
           api_v1_conversation_path(42),
           params: {access_token: access_token}
         )
-        expect(response.status).to eq 404
-        expect(response.body).to eq(I18n.t("api.endpoint_errors.conversations.not_found"))
+        confirm_api_error(response, 404, "Conversation with provided guid could not be found")
       end
     end
 

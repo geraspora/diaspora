@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "spec_helper"
+require_relative "api_spec_helper"
 
 describe Api::V1::PostsController do
   let(:auth) {
@@ -74,19 +74,22 @@ describe Api::V1::PostsController do
         post = response_body(response)
         confirm_post_format(post, alice, @status, [bob, eve])
 
-        expect(post.to_json).to match_json_schema(:api_v1_schema)
+        expect(post.to_json).to match_json_schema(:api_v1_schema, fragment: "#/definitions/post")
       end
     end
 
     context "access full post by post ID" do
       it "gets post" do
-        base_params = {status_message: {text: "myText"}, public: true}
+        base_params = {status_message: {text: "myText #nsfw"}, public: true}
         poll_params = {poll_question: "something?", poll_answers: %w[yes no maybe]}
         location_params = {location_address: "somewhere", location_coords: "1,2"}
         merged_params = base_params.merge(location_params)
         merged_params = merged_params.merge(poll_params)
         merged_params = merged_params.merge(photos: @alice_photo_ids)
         status_message = StatusMessageCreationService.new(alice).create(merged_params)
+        status_message.open_graph_cache = FactoryGirl.create(:open_graph_cache, video_url: "http://example.org")
+        status_message.o_embed_cache = FactoryGirl.create(:o_embed_cache)
+        status_message.save
 
         get(
           api_v1_post_path(status_message.guid),
@@ -98,7 +101,30 @@ describe Api::V1::PostsController do
         post = response_body(response)
         confirm_post_format(post, alice, status_message)
 
-        expect(post.to_json).to match_json_schema(:api_v1_schema)
+        expect(post.to_json).to match_json_schema(:api_v1_schema, fragment: "#/definitions/post")
+      end
+    end
+
+    context "access interacted with post by ID" do
+      it "gets post" do
+        auth.user.like!(@status)
+        auth.user.reshare!(@status)
+        @status.reload
+
+        get(
+          api_v1_post_path(@status.guid),
+          params: {
+            access_token: access_token
+          }
+        )
+        expect(response.status).to eq(200)
+        post = response_body(response)
+        confirm_post_format(post, alice, @status, [bob, eve])
+        expect(post["own_interaction_state"]["liked"]).to be true
+        expect(post["own_interaction_state"]["reshared"]).to be true
+        expect(post["own_interaction_state"]["subscribed"]).to be true
+
+        expect(post.to_json).to match_json_schema(:api_v1_schema, fragment: "#/definitions/post")
       end
     end
 
@@ -115,7 +141,7 @@ describe Api::V1::PostsController do
         post = response_body(response)
         confirm_reshare_format(post, @status, alice)
 
-        expect(post.to_json).to match_json_schema(:api_v1_schema)
+        expect(post.to_json).to match_json_schema(:api_v1_schema, fragment: "#/definitions/post")
       end
     end
 
@@ -128,8 +154,7 @@ describe Api::V1::PostsController do
             access_token: access_token
           }
         )
-        expect(response.status).to eq(404)
-        expect(response.body).to eq(I18n.t("api.endpoint_errors.posts.post_not_found"))
+        confirm_api_error(response, 404, "Post with provided guid could not be found")
       end
     end
 
@@ -146,8 +171,7 @@ describe Api::V1::PostsController do
             access_token: access_token_public_only_read_only
           }
         )
-        expect(response.status).to eq(404)
-        expect(response.body).to eq(I18n.t("api.endpoint_errors.posts.post_not_found"))
+        confirm_api_error(response, 404, "Post with provided guid could not be found")
 
         get(
           api_v1_post_path(shared_post.guid),
@@ -167,8 +191,7 @@ describe Api::V1::PostsController do
             access_token: access_token
           }
         )
-        expect(response.status).to eq(404)
-        expect(response.body).to eq(I18n.t("api.endpoint_errors.posts.post_not_found"))
+        confirm_api_error(response, 404, "Post with provided guid could not be found")
       end
     end
 
@@ -322,8 +345,7 @@ describe Api::V1::PostsController do
             photos:       ["999_999_999"]
           }
         )
-        expect(response.status).to eq(422)
-        expect(response.body).to eq(I18n.t("api.endpoint_errors.posts.failed_create"))
+        confirm_api_error(response, 422, "Failed to create the post")
       end
 
       it "creates with poll" do
@@ -364,8 +386,7 @@ describe Api::V1::PostsController do
             }
           }
         )
-        expect(response.status).to eq(422)
-        expect(response.body).to eq(I18n.t("api.endpoint_errors.posts.failed_create"))
+        confirm_api_error(response, 422, "Failed to create the post")
       end
 
       it "fails poll with blank answer" do
@@ -382,8 +403,7 @@ describe Api::V1::PostsController do
             }
           }
         )
-        expect(response.status).to eq(422)
-        expect(response.body).to eq(I18n.t("api.endpoint_errors.posts.failed_create"))
+        confirm_api_error(response, 422, "Failed to create the post")
       end
 
       it "fails poll with blank question and message text" do
@@ -399,8 +419,7 @@ describe Api::V1::PostsController do
             }
           }
         )
-        expect(response.status).to eq(422)
-        expect(response.body).to eq(I18n.t("api.endpoint_errors.posts.failed_create"))
+        confirm_api_error(response, 422, "Failed to create the post")
       end
 
       it "creates with location" do
@@ -476,8 +495,7 @@ describe Api::V1::PostsController do
             public:       true
           }
         )
-        expect(response.status).to eq(422)
-        expect(response.body).to eq(I18n.t("api.endpoint_errors.posts.failed_create"))
+        confirm_api_error(response, 422, "Failed to create the post")
       end
 
       it "fails when no public field and no aspects" do
@@ -489,8 +507,7 @@ describe Api::V1::PostsController do
             body:         message_text
           }
         )
-        expect(response.status).to eq(422)
-        expect(response.body).to eq(I18n.t("api.endpoint_errors.posts.failed_create"))
+        confirm_api_error(response, 422, "Failed to create the post")
       end
 
       it "fails when private no aspects" do
@@ -503,8 +520,7 @@ describe Api::V1::PostsController do
             public:       false
           }
         )
-        expect(response.status).to eq(422)
-        expect(response.body).to eq(I18n.t("api.endpoint_errors.posts.failed_create"))
+        confirm_api_error(response, 422, "Failed to create the post")
       end
 
       it "fails when unknown aspect IDs" do
@@ -518,8 +534,7 @@ describe Api::V1::PostsController do
             aspects:      ["-1"]
           }
         )
-        expect(response.status).to eq(422)
-        expect(response.body).to eq(I18n.t("api.endpoint_errors.posts.failed_create"))
+        confirm_api_error(response, 422, "Failed to create the post")
       end
 
       it "fails when no public field but aspects" do
@@ -534,8 +549,7 @@ describe Api::V1::PostsController do
             aspects:      [aspect.id]
           }
         )
-        expect(response.status).to eq(422)
-        expect(response.body).to eq(I18n.t("api.endpoint_errors.posts.failed_create"))
+        confirm_api_error(response, 422, "Failed to create the post")
       end
     end
 
@@ -638,8 +652,7 @@ describe Api::V1::PostsController do
           api_v1_post_path("999_999_999"),
           params: {access_token: access_token}
         )
-        expect(response.status).to eq(404)
-        expect(response.body).to eq(I18n.t("api.endpoint_errors.posts.post_not_found"))
+        confirm_api_error(response, 404, "Post with provided guid could not be found")
       end
     end
 
@@ -656,8 +669,7 @@ describe Api::V1::PostsController do
           api_v1_post_path(status.guid),
           params: {access_token: access_token}
         )
-        expect(response.status).to eq(403)
-        expect(response.body).to eq(I18n.t("api.endpoint_errors.posts.failed_delete"))
+        confirm_api_error(response, 403, "Not allowed to delete the post")
       end
     end
   end
@@ -673,6 +685,7 @@ describe Api::V1::PostsController do
     confirm_post_top_level(post, reference_post)
     confirm_person_format(post["author"], user)
     confirm_interactions(post["interaction_counters"], reference_post)
+    confirm_own_interaction_state(post["own_interaction_state"], reference_post)
 
     mentions.each do |mention|
       post_mentions = post["mentioned_people"]
@@ -683,6 +696,8 @@ describe Api::V1::PostsController do
     confirm_poll(post["poll"], reference_post.poll, false) if reference_post.poll
     confirm_location(post["location"], reference_post.location) if reference_post.location
     confirm_photos(post["photos"], reference_post.photos) if reference_post.photos
+    confirm_open_graph_object(post["open_graph_object"], reference_post.open_graph_cache)
+    confirm_oembed(post["oembed"], reference_post.o_embed_cache)
   end
 
   def confirm_post_top_level(post, reference_post)
@@ -694,13 +709,19 @@ describe Api::V1::PostsController do
     expect(post["post_type"]).to eq(reference_post.post_type)
     expect(post["provider_display_name"]).to eq(reference_post.provider_display_name)
     expect(post["public"]).to eq(reference_post.public)
-    expect(post["nsfw"]).to eq(reference_post.nsfw)
+    expect(post["nsfw"]).to eq(!!reference_post.nsfw) # rubocop:disable Style/DoubleNegation
   end
 
   def confirm_interactions(interactions, reference_post)
     expect(interactions["comments"]).to eq(reference_post.comments_count)
     expect(interactions["likes"]).to eq(reference_post.likes_count)
     expect(interactions["reshares"]).to eq(reference_post.reshares_count)
+  end
+
+  def confirm_own_interaction_state(state, reference_post)
+    expect(state["liked"]).to eq(reference_post.likes.where(author: auth.user.person).exists?)
+    expect(state["reshared"]).to eq(reference_post.reshares.where(author: auth.user.person).exists?)
+    expect(state["subscribed"]).to eq(reference_post.participations.where(author: auth.user.person).exists?)
   end
 
   def confirm_person_format(post_person, user)
@@ -741,6 +762,24 @@ describe Api::V1::PostsController do
       expect(photo["sizes"]["medium"]).to be_truthy
       expect(photo["sizes"]["large"]).to be_truthy
     end
+  end
+
+  def confirm_open_graph_object(object, ref_cache)
+    return unless ref_cache
+
+    expect(object["type"]).to eq(ref_cache.ob_type)
+    expect(object["url"]).to eq(ref_cache.url)
+    expect(object["title"]).to eq(ref_cache.title)
+    expect(object["image"]).to eq(ref_cache.image)
+    expect(object["description"]).to eq(ref_cache.description)
+    expect(object["video_url"]).to eq(ref_cache.video_url)
+  end
+
+  def confirm_oembed(response, ref_cache)
+    return unless ref_cache
+
+    expect(response).to eq(ref_cache.data)
+    expect(response["trusted_endpoint_url"]).to_not be_nil
   end
 
   def confirm_reshare_format(post, root_post, root_poster)

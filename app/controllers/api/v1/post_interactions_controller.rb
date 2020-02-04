@@ -10,26 +10,38 @@ module Api
       end
 
       rescue_from ActiveRecord::RecordNotFound do
-        render json: I18n.t("api.endpoint_errors.posts.post_not_found"), status: :not_found
+        render_error 404, "Post with provided guid could not be found"
       end
 
       def subscribe
         post = find_post
+        return head :conflict if current_user.participations.find_by(target_id: post.id)
+
         current_user.participate!(post)
         head :no_content
       rescue ActiveRecord::RecordInvalid
-        render json: I18n.t("api.endpoint_errors.interactions.cant_subscribe"), status: :unprocessable_entity
+        render_error 422, "Cannot subscribe to this post"
       end
 
       def hide
+        return render_error(422, "Missing parameter") if params[:hide].nil?
+
         post = find_post
-        current_user.toggle_hidden_shareable(post)
-        head :no_content
+        hidden = current_user.is_shareable_hidden?(post)
+
+        if (params[:hide] && !hidden) || (!params[:hide] && hidden)
+          current_user.toggle_hidden_shareable(post)
+          head :no_content
+        else
+          render_error(params[:hide] ? 409 : 410, params[:hide] ? "Post already hidden" : "Post not hidden")
+        end
       end
 
       def mute
         post = find_post
-        participation = current_user.participations.find_by!(target_id: post.id)
+        participation = current_user.participations.find_by(target_id: post.id)
+        return head :gone unless participation
+
         participation.destroy
         head :no_content
       end
@@ -45,27 +57,27 @@ module Api
         if report.save
           head :no_content
         else
-          render json: I18n.t("api.endpoint_errors.posts.cant_report"), status: :conflict
+          render_error 409, "Failed to create report on this post"
         end
       rescue ActionController::ParameterMissing
-        render json: I18n.t("api.endpoint_errors.posts.cant_report"), status: :unprocessable_entity
+        render_error 422, "Failed to create report on this post"
       end
 
       def vote
+        post = find_post
         begin
-          post = find_post
+          poll_vote = poll_service.vote(post.id, params[:poll_answer])
         rescue ActiveRecord::RecordNotFound
-          render json: I18n.t("api.endpoint_errors.posts.post_not_found"), status: :not_found
-          return
+          # This, but not the find_post above, should return a 422,
+          # we just keep poll_vote nil so it goes into the else below
         end
-        poll_vote = poll_service.vote(post.id, params[:poll_answer_id])
         if poll_vote
           head :no_content
         else
-          render json: I18n.t("api.endpoint_errors.interactions.cant_vote"), status: :unprocessable_entity
+          render_error 422, "Cant vote on this post"
         end
-      rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotFound
-        render json: I18n.t("api.endpoint_errors.interactions.cant_vote"), status: :unprocessable_entity
+      rescue ActiveRecord::RecordInvalid
+        render_error 422, "Cant vote on this post"
       end
 
       private

@@ -12,11 +12,11 @@ module Api
       end
 
       rescue_from ActiveRecord::RecordNotFound do
-        render json: I18n.t("api.endpoint_errors.posts.post_not_found"), status: :not_found
+        render_error 404, "Post with provided guid could not be found"
       end
 
       rescue_from ActiveRecord::RecordInvalid do
-        render json: I18n.t("api.endpoint_errors.likes.user_not_allowed_to_like"), status: :unprocessable_entity
+        render_error 422, "User is not allowed to like"
       end
 
       def show
@@ -31,12 +31,13 @@ module Api
 
       def create
         post = post_service.find!(params.require(:post_id))
-        raise ActiveRecord::RecordInvalid unless post.public? || private_modify?
+        raise ActiveRecord::RecordInvalid unless post.public? || private_read?
 
         like_service.create(params[:post_id])
       rescue ActiveRecord::RecordInvalid => e
-        return render json: I18n.t("api.endpoint_errors.likes.like_exists"), status: :unprocessable_entity if
-          e.message == "Validation failed: Target has already been taken"
+        if e.message == "Validation failed: Target has already been taken"
+          return render_error 409, "Like already exists"
+        end
 
         raise
       else
@@ -45,13 +46,13 @@ module Api
 
       def destroy
         post = post_service.find!(params.require(:post_id))
-        raise ActiveRecord::RecordInvalid unless post.public? || private_modify?
+        raise ActiveRecord::RecordInvalid unless post.public? || private_read?
 
         success = like_service.unlike_post(params[:post_id])
         if success
           head :no_content
         else
-          render json: I18n.t("api.endpoint_errors.likes.no_like"), status: :not_found
+          render_error 410, "Like doesn’t exist"
         end
       end
 

@@ -1,6 +1,6 @@
 # frozen_sTring_literal: true
 
-require "spec_helper"
+require_relative "api_spec_helper"
 
 describe Api::V1::AspectsController do
   let(:auth) {
@@ -46,7 +46,7 @@ describe Api::V1::AspectsController do
         expect(aspect["order"]).to eq(found_aspect.order_id)
       end
 
-      expect(aspects.to_json).to match_json_schema(:api_v1_schema)
+      expect(aspects.to_json).to match_json_schema(:api_v1_schema, fragment: "#/definitions/aspects")
     end
 
     context "without impromper credentials" do
@@ -81,7 +81,7 @@ describe Api::V1::AspectsController do
         expect(aspect["name"]).to eq(@aspect2.name)
         expect(aspect["order"]).to eq(@aspect2.order_id)
 
-        expect(aspect.to_json).to match_json_schema(:api_v1_schema)
+        expect(aspect.to_json).to match_json_schema(:api_v1_schema, fragment: "#/definitions/aspect")
       end
     end
 
@@ -91,8 +91,7 @@ describe Api::V1::AspectsController do
           api_v1_aspect_path("-1"),
           params: {access_token: access_token}
         )
-        expect(response.status).to eq(404)
-        expect(response.body).to eq(I18n.t("api.endpoint_errors.aspects.not_found"))
+        confirm_api_error(response, 404, "Aspect with provided ID could not be found")
       end
     end
 
@@ -137,8 +136,7 @@ describe Api::V1::AspectsController do
           params: {name: @aspect1.name, access_token: access_token}
         )
 
-        expect(response.status).to eq(422)
-        expect(response.body).to eq(I18n.t("api.endpoint_errors.aspects.cant_create"))
+        confirm_api_error(response, 422, "Failed to create the aspect")
       end
     end
 
@@ -149,8 +147,7 @@ describe Api::V1::AspectsController do
           params: {order: 0, access_token: access_token}
         )
 
-        expect(response.status).to eq(422)
-        expect(response.body).to eq(I18n.t("api.endpoint_errors.aspects.cant_create"))
+        confirm_api_error(response, 422, "Failed to create the aspect")
       end
     end
 
@@ -237,8 +234,7 @@ describe Api::V1::AspectsController do
           params: {name: @aspect1.name, access_token: access_token}
         )
 
-        expect(response.status).to eq(422)
-        expect(response.body).to eq(I18n.t("api.endpoint_errors.aspects.cant_update"))
+        confirm_api_error(response, 422, "Failed to update the aspect")
       end
 
       it "fails with bad id" do
@@ -247,8 +243,7 @@ describe Api::V1::AspectsController do
           params: {name: "NewAspectName", access_token: access_token}
         )
 
-        expect(response.status).to eq(404)
-        expect(response.body).to eq(I18n.t("api.endpoint_errors.aspects.cant_update"))
+        confirm_api_error(response, 404, "Failed to update the aspect")
       end
     end
 
@@ -289,8 +284,7 @@ describe Api::V1::AspectsController do
           api_v1_aspect_path("-1"),
           params: {access_token: access_token}
         )
-        expect(response.status).to eq(422)
-        expect(response.body).to eq(I18n.t("api.endpoint_errors.aspects.cant_delete"))
+        confirm_api_error(response, 422, "Failed to delete the aspect")
       end
     end
 

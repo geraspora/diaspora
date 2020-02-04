@@ -8,22 +8,22 @@ module Api
       end
 
       before_action only: %i[create destroy] do
-        require_access_token %w[interactions public:modify]
+        require_access_token %w[interactions public:read]
       end
 
       rescue_from ActiveRecord::RecordNotFound do
-        render json: I18n.t("api.endpoint_errors.posts.post_not_found"), status: :not_found
+        render_error 404, "Post with provided guid could not be found"
       end
 
       rescue_from ActiveRecord::RecordInvalid do
-        render json: I18n.t("api.endpoint_errors.comments.not_allowed"), status: :unprocessable_entity
+        render_error 422, "User is not allowed to comment"
       end
 
       def create
         find_post
         comment = comment_service.create(params.require(:post_id), params.require(:body))
       rescue ActiveRecord::RecordNotFound
-        render json: I18n.t("api.endpoint_errors.posts.post_not_found"), status: :not_found
+        render_error 404, "Post with provided guid could not be found"
       else
         render json: comment_as_json(comment), status: :created
       end
@@ -45,7 +45,7 @@ module Api
           head :no_content
         end
       rescue ActiveRecord::RecordInvalid
-        render json: I18n.t("api.endpoint_errors.comments.no_delete"), status: :forbidden
+        render_error 403, "User not allowed to delete the comment"
       end
 
       def report
@@ -64,7 +64,7 @@ module Api
         if report.save
           head :no_content
         else
-          render json: I18n.t("api.endpoint_errors.comments.duplicate_report"), status: :conflict
+          render_error 409, "This item already has been reported by this user"
         end
       end
 
@@ -72,10 +72,10 @@ module Api
 
       def comment_and_post_validate(post_guid, comment_guid)
         if !comment_exists(comment_guid)
-          render json: I18n.t("api.endpoint_errors.comments.not_found"), status: :not_found
+          render_error 404, "Comment not found for the given post"
           false
         elsif !comment_is_for_post(post_guid, comment_guid)
-          render json: I18n.t("api.endpoint_errors.comments.not_found"), status: :not_found
+          render_error 404, "Comment not found for the given post"
           false
         else
           true

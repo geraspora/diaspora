@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "spec_helper"
+require_relative "api_spec_helper"
 
 describe Api::V1::TagFollowingsController do
   let(:auth) {
@@ -56,8 +56,7 @@ describe Api::V1::TagFollowingsController do
           params: {access_token: access_token}
         )
 
-        expect(response.status).to eq(422)
-        expect(response.body).to eq(I18n.t("api.endpoint_errors.tags.cant_process"))
+        confirm_api_error(response, 422, "Failed to process the tag followings request")
       end
     end
 
@@ -68,8 +67,7 @@ describe Api::V1::TagFollowingsController do
           params: {name: "tag3", access_token: access_token}
         )
 
-        expect(response.status).to eq(422)
-        expect(response.body).to eq(I18n.t("api.endpoint_errors.tags.cant_process"))
+        confirm_api_error(response, 409, "Already following this tag")
       end
     end
 
@@ -104,7 +102,7 @@ describe Api::V1::TagFollowingsController do
         expect(items.length).to eq(@expected_tags.length)
         @expected_tags.each {|tag| expect(items.find(tag)).to be_truthy }
 
-        expect(items.to_json).to match_json_schema(:api_v1_schema)
+        expect(items.to_json).to match_json_schema(:api_v1_schema, fragment: "#/definitions/tags")
       end
     end
 
@@ -152,7 +150,7 @@ describe Api::V1::TagFollowingsController do
           api_v1_tag_following_path(SecureRandom.uuid.to_s),
           params: {access_token: access_token}
         )
-        expect(response.status).to eq(204)
+        confirm_api_error(response, 410, "Not following this tag")
 
         get(
           api_v1_tag_followings_path,

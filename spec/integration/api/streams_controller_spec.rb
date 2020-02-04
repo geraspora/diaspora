@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "spec_helper"
+require_relative "api_spec_helper"
 
 describe Api::V1::StreamsController do
   let(:auth_read_only) {
@@ -84,7 +84,7 @@ describe Api::V1::StreamsController do
 
       posts = response_body_data(response)
 
-      expect(posts.to_json).to match_json_schema(:api_v1_schema)
+      expect(posts.to_json).to match_json_schema(:api_v1_schema, fragment: "#/definitions/posts")
     end
 
     it "contains expected aspect message" do
@@ -146,7 +146,7 @@ describe Api::V1::StreamsController do
       posts = response_body_data(response)
       expect(posts.length).to eq(3)
 
-      expect(posts.to_json).to match_json_schema(:api_v1_schema)
+      expect(posts.to_json).to match_json_schema(:api_v1_schema, fragment: "#/definitions/posts")
     end
 
     it "public posts only tags expected" do
@@ -185,7 +185,7 @@ describe Api::V1::StreamsController do
       expect(response.status).to eq(200)
       posts = response_body_data(response)
 
-      expect(posts.to_json).to match_json_schema(:api_v1_schema)
+      expect(posts.to_json).to match_json_schema(:api_v1_schema, fragment: "#/definitions/posts")
     end
 
     it "contains activity message" do
@@ -228,7 +228,7 @@ describe Api::V1::StreamsController do
       expect(response.status).to eq(200)
       posts = response_body_data(response)
 
-      expect(posts.to_json).to match_json_schema(:api_v1_schema)
+      expect(posts.to_json).to match_json_schema(:api_v1_schema, fragment: "#/definitions/posts")
     end
 
     it "contains main message" do
@@ -271,7 +271,7 @@ describe Api::V1::StreamsController do
       expect(response.status).to eq(200)
       posts = response_body_data(response)
 
-      expect(posts.to_json).to match_json_schema(:api_v1_schema)
+      expect(posts.to_json).to match_json_schema(:api_v1_schema, fragment: "#/definitions/posts")
     end
 
     it "contains commented message" do
@@ -312,7 +312,7 @@ describe Api::V1::StreamsController do
       expect(response.status).to eq(200)
       posts = response_body_data(response)
 
-      expect(posts.to_json).to match_json_schema(:api_v1_schema)
+      expect(posts.to_json).to match_json_schema(:api_v1_schema, fragment: "#/definitions/posts")
     end
 
     it "contains mentions message" do
@@ -353,7 +353,7 @@ describe Api::V1::StreamsController do
       expect(response.status).to eq(200)
       posts = response_body_data(response)
 
-      expect(posts.to_json).to match_json_schema(:api_v1_schema)
+      expect(posts.to_json).to match_json_schema(:api_v1_schema, fragment: "#/definitions/posts")
     end
 
     it "contains liked message" do

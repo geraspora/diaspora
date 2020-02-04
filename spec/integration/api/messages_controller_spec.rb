@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "spec_helper"
+require_relative "api_spec_helper"
 
 describe Api::V1::MessagesController do
   let(:auth) {
@@ -71,8 +71,7 @@ describe Api::V1::MessagesController do
           api_v1_conversation_messages_path(@conversation_guid),
           params: {access_token: access_token}
         )
-        expect(response.status).to eq(422)
-        expect(response.body).to eq I18n.t("api.endpoint_errors.conversations.cant_process")
+        confirm_api_error(response, 422, "Couldn’t accept or process the conversation")
       end
 
       it "empty string returns a unprocessable entity (422)" do
@@ -80,8 +79,7 @@ describe Api::V1::MessagesController do
           api_v1_conversation_messages_path(@conversation_guid),
           params: {body: "", access_token: access_token}
         )
-        expect(response.status).to eq(422)
-        expect(response.body).to eq I18n.t("api.endpoint_errors.conversations.cant_process")
+        confirm_api_error(response, 422, "Couldn’t accept or process the conversation")
       end
     end
 
@@ -91,8 +89,7 @@ describe Api::V1::MessagesController do
           api_v1_conversation_messages_path(42),
           params: {access_token: access_token}
         )
-        expect(response.status).to eq(404)
-        expect(response.body).to eq I18n.t("api.endpoint_errors.conversations.not_found")
+        confirm_api_error(response, 404, "Conversation with provided guid could not be found")
       end
     end
 
@@ -131,7 +128,7 @@ describe Api::V1::MessagesController do
         messages = response_body_data(response)
         expect(messages.length).to eq(1)
 
-        expect(messages.to_json).to match_json_schema(:api_v1_schema)
+        expect(messages.to_json).to match_json_schema(:api_v1_schema, fragment: "#/definitions/comments_or_messages")
 
         confirm_message_format(messages[0], "first message", auth.user)
         conversation = get_conversation(@conversation_guid)

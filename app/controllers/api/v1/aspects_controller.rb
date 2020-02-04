@@ -23,7 +23,7 @@ module Api
         if aspect
           render json: aspect_as_json(aspect, true)
         else
-          render json: I18n.t("api.endpoint_errors.aspects.not_found"), status: :not_found
+          render_error 404, "Aspect with provided ID could not be found"
         end
       end
 
@@ -33,24 +33,24 @@ module Api
         if aspect&.save
           render json: aspect_as_json(aspect, true)
         else
-          render json: I18n.t("api.endpoint_errors.aspects.cant_create"), status: :unprocessable_entity
+          render_error 422, "Failed to create the aspect"
         end
       rescue ActionController::ParameterMissing
-        render json: I18n.t("api.endpoint_errors.aspects.cant_create"), status: :unprocessable_entity
+        render_error 422, "Failed to create the aspect"
       end
 
       def update
         aspect = current_user.aspects.where(id: params[:id]).first
 
         if !aspect
-          render json: I18n.t("api.endpoint_errors.aspects.cant_update"), status: :not_found
+          render_error 404, "Failed to update the aspect"
         elsif aspect.update!(aspect_params(true))
           render json: aspect_as_json(aspect, true)
         else
-          render json: I18n.t("api.endpoint_errors.aspects.cant_update"), status: :unprocessable_entity
+          render_error 422, "Failed to update the aspect"
         end
       rescue ActionController::ParameterMissing, ActiveRecord::RecordInvalid
-        render json: I18n.t("api.endpoint_errors.aspects.cant_update"), status: :unprocessable_entity
+        render_error 422, "Failed to update the aspect"
       end
 
       def destroy
@@ -58,7 +58,7 @@ module Api
         if aspect&.destroy
           head :no_content
         else
-          render json: I18n.t("api.endpoint_errors.aspects.cant_delete"), status: :unprocessable_entity
+          render_error 422, "Failed to delete the aspect"
         end
       end
 
