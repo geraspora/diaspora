@@ -4,7 +4,8 @@
   "oneOf": [
     {"$ref": "https://diaspora.software/api/v1/schema.json#/definitions/aspects"},
     {"$ref": "https://diaspora.software/api/v1/schema.json#/definitions/aspect"},
-    {"$ref": "https://diaspora.software/api/v1/schema.json#/definitions/comments_or_messages"},
+    {"$ref": "https://diaspora.software/api/v1/schema.json#/definitions/comments"},
+    {"$ref": "https://diaspora.software/api/v1/schema.json#/definitions/messages"},
     {"$ref": "https://diaspora.software/api/v1/schema.json#/definitions/users"},
     {"$ref": "https://diaspora.software/api/v1/schema.json#/definitions/conversations"},
     {"$ref": "https://diaspora.software/api/v1/schema.json#/definitions/conversation"},
@@ -87,7 +88,27 @@
       "additionalProperties": false
     },
 
-    "comments_or_messages": {
+    "comments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "guid": { "$ref": "https://diaspora.software/api/v1/schema.json#/definitions/guid" },
+          "created_at": { "$ref": "https://diaspora.software/api/v1/schema.json#/definitions/timestamp" },
+          "author": { "$ref": "https://diaspora.software/api/v1/schema.json#/definitions/short_profile" },
+          "body": { "type": "string" },
+          "mentioned_people": {
+            "type": "array",
+            "items": { "$ref": "https://diaspora.software/api/v1/schema.json#/definitions/short_profile" }
+          },
+          "reported": { "type": "boolean" }
+        },
+        "required": ["guid", "created_at", "author", "body", "reported"],
+        "additionalProperties": false
+      }
+    },
+
+    "messages": {
       "type": "array",
       "items": {
         "type": "object",
@@ -193,7 +214,7 @@
           "items": { "$ref": "https://diaspora.software/api/v1/schema.json#/definitions/short_profile" }
         }
       },
-      "required": ["guid", "type", "read", "created_at", "target"],
+      "required": ["guid", "type", "read", "created_at"],
       "additionalProperties": false
     },
 
@@ -262,9 +283,10 @@
           "properties": {
             "liked": { "type": "boolean" },
             "reshared": { "type": "boolean" },
-            "subscribed": { "type": "boolean" }
+            "subscribed": { "type": "boolean" },
+            "reported": { "type": "boolean" }
           },
-          "required": ["liked", "reshared", "subscribed"],
+          "required": ["liked", "reshared", "subscribed", "reported"],
           "additionalProperties": false
         },
         "mentioned_people": {

@@ -72,6 +72,19 @@ describe Api::V1::CommentsController do
         comment = response_body(response)
         confirm_comment_format(comment, auth.user, comment_text)
       end
+
+      it "creates with mentions" do
+        comment_text = "hello @{#{alice.diaspora_handle}} from Bob!"
+        post(
+          api_v1_post_comments_path(post_id: @status.guid),
+          params: {body: comment_text, access_token: access_token}
+        )
+        expect(response.status).to eq(201)
+        comment = response_body(response)
+        confirm_comment_format(comment, auth.user, comment_text)
+        expect(comment["mentioned_people"].size).to eq(1)
+        expect(comment["mentioned_people"][0]).to include("diaspora_id" => alice.diaspora_handle)
+      end
     end
 
     context "wrong post id" do
@@ -126,7 +139,7 @@ describe Api::V1::CommentsController do
     before do
       @comment_text1 = "This is a comment"
       @comment_text2 = "This is a comment 2"
-      comment_service.create(@status.guid, @comment_text1)
+      @comment1 = comment_service.create(@status.guid, @comment_text1)
       comment_service.create(@status.guid, @comment_text2)
     end
 
@@ -141,8 +154,20 @@ describe Api::V1::CommentsController do
         expect(comments.length).to eq(2)
         confirm_comment_format(comments[0], auth.user, @comment_text1)
         confirm_comment_format(comments[1], auth.user, @comment_text2)
+        expect(comments).to all(include("reported" => false))
 
-        expect(comments.to_json).to match_json_schema(:api_v1_schema, fragment: "#/definitions/comments_or_messages")
+        expect(comments.to_json).to match_json_schema(:api_v1_schema, fragment: "#/definitions/comments")
+      end
+
+      it "returns reported status of a comment" do
+        auth_minimum_scopes.user.reports.create!(item: @comment1, text: "Meh!")
+        get(
+          api_v1_post_comments_path(post_id: @status.guid),
+          params: {access_token: access_token_minimum_scopes}
+        )
+        comments = response_body(response)
+        expect(comments[0]["reported"]).to eq(true)
+        expect(comments[1]["reported"]).to eq(false)
       end
     end
 
