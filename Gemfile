@@ -241,6 +241,8 @@ group :production do # we don"t install these on travis to speed up test runs
 end
 
 group :development do
+  gem "irb"
+
   # Linters
   gem "haml_lint",      "0.37.1", require: false
   gem "pronto",         "0.11.0", require: false
