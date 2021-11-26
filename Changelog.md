@@ -32,9 +32,10 @@ Although the chat was never enabled per default and was marked as experimental, 
 ## Features
 * Add client-side cropping of profile image uploads [#7581](https://github.com/diaspora/diaspora/pull/7581)
 * Add client-site rescaling of post images if they exceed the maximum possible size [#7734](https://github.com/diaspora/diaspora/pull/7734)
-* Add backend for archive import [#7660](https://github.com/diaspora/diaspora/pull/7660)
+* Add backend for archive import [#7660](https://github.com/diaspora/diaspora/pull/7660) [#8254](https://github.com/diaspora/diaspora/pull/8254) [#8264](https://github.com/diaspora/diaspora/pull/8264) [#8010](https://github.com/diaspora/diaspora/pull/8010) [#8260](https://github.com/diaspora/diaspora/pull/8260) [#8302](https://github.com/diaspora/diaspora/pull/8302) [#8298](https://github.com/diaspora/diaspora/pull/8298)
 * For pods running PostgreSQL, make sure that no upper-case/mixed-case tags exist, and create a `lower(name)` index on tags to speed up ActsAsTaggableOn [#8206](https://github.com/diaspora/diaspora/pull/8206)
-* Allow podmins/moderators to see all local public posts to improve moderation [#8232](https://github.com/diaspora/diaspora/pull/8232)
+* Allow podmins/moderators to see all local public posts to improve moderation [#8232](https://github.com/diaspora/diaspora/pull/8232) [#8320](https://github.com/diaspora/diaspora/pull/8320)
+* Add support for directly paste images to upload them [#8237](https://github.com/diaspora/diaspora/pull/8237)
 
 # 0.7.16.0
 
@@ -42,13 +43,26 @@ Although the chat was never enabled per default and was marked as experimental, 
 * Cache local posts/comments count for statistics [#8241](https://github.com/diaspora/diaspora/pull/8241)
 * Fix html-syntax in some handlebars templates [#8251](https://github.com/diaspora/diaspora/pull/8251)
 * Remove `chat_enabled` flag from archive export [#8265](https://github.com/diaspora/diaspora/pull/8265)
+* Change thumbnails in image slideshow to squares [#8275](https://github.com/diaspora/diaspora/pull/8275)
+* Replace uglifier with terser for JS compression [#8268](https://github.com/diaspora/diaspora/pull/8268)
 
 ## Bug fixes
+* Ensure the log folder exists [#8287](https://github.com/diaspora/diaspora/pull/8287)
+* Limit name length in header [#8313] (https://github.com/diaspora/diaspora/pull/8313)
+* Fix fallback avatar in hovercards [#8316](https://github.com/diaspora/diaspora/pull/8316)
+* Use old person private key for export if relayable author migrated away [#8310](https://github.com/diaspora/diaspora/pull/8310)
 
 ## Features
 * Add tags to tumblr posts [#8244](https://github.com/diaspora/diaspora/pull/8244)
 * Add blocks to the archive export [#8263](https://github.com/diaspora/diaspora/pull/8263)
 * Allow points and dashes in the username [#8266](https://github.com/diaspora/diaspora/pull/8266)
+* Add support for footnotes in markdown [#8277](https://github.com/diaspora/diaspora/pull/8277)
+* Send `AccountMigration` if receiving message to a migrated account [#8288](https://github.com/diaspora/diaspora/pull/8288)
+* Add podmin mail address to the footer [#8242](https://github.com/diaspora/diaspora/pull/8242)
+* Add username to password-reset mail [#8037](https://github.com/diaspora/diaspora/pull/8037)
+* Resend account migration and deletion for closed recipients [#8309](https://github.com/diaspora/diaspora/pull/8309)
+* Add sharing status to hovercards [#8317](https://github.com/diaspora/diaspora/pull/8317)
+* Migrate photo URLs and cleanup old uploaded photos [#8314](https://github.com/diaspora/diaspora/pull/8314)
 
 # 0.7.15.0
 

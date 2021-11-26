@@ -79,6 +79,8 @@ diaspora.iml
 # WebTranslateIt
 .wti
 
+/__MACOSX/
+
 # Geraspora deployment files
 .config/
 config/puma.rb

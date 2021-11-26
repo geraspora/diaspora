@@ -55,7 +55,9 @@ describe "Receive federation messages feature" do
         it "receives account migration correctly" do
           run_migration
           expect(AccountMigration.where(old_person: sender.person, new_person: new_user.person)).to exist
-          expect(AccountMigration.find_by(old_person: sender.person, new_person: new_user.person)).to be_performed
+          account_migration = AccountMigration.find_by(old_person: sender.person, new_person: new_user.person)
+          expect(account_migration).to be_performed
+          expect(account_migration.remote_photo_path).to eq("https://diaspora.example.tld/uploads/images/")
         end
 
         it "doesn't run the same migration for the second time" do
@@ -70,15 +72,6 @@ describe "Receive federation messages feature" do
           run_migration
           expect {
             entity = create_account_migration_entity(sender_id, create_remote_user("example.org"))
-            post_message(generate_payload(entity, sender))
-          }.to raise_error(ActiveRecord::RecordInvalid)
-        end
-
-        it "doesn't accept second migration for the same new user profile" do
-          run_migration
-          expect {
-            sender = create_remote_user("example.org")
-            entity = create_account_migration_entity(sender.diaspora_handle, new_user)
             post_message(generate_payload(entity, sender))
           }.to raise_error(ActiveRecord::RecordInvalid)
         end
