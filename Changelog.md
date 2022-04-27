@@ -21,7 +21,7 @@ Although the chat was never enabled per default and was marked as experimental, 
 * Remove backporting of mention syntax [#7788](https://github.com/diaspora/diaspora/pull/7788)
 * Enable Content-Security-Policy header by default [#7781](https://github.com/diaspora/diaspora/pull/7781)
 * Do not show getting started after account import [#8036](https://github.com/diaspora/diaspora/pull/8036)
-* Remove the JSXC/Prosody integration [#8069](https://github.com/diaspora/diaspora/pull/8069)
+* Remove the JSXC/Prosody integration [#8069](https://github.com/diaspora/diaspora/pull/8069) [#8341](https://github.com/diaspora/diaspora/pull/8341)
 * Replace factory\_girl with factory\_bot [#8218](https://github.com/diaspora/diaspora/pull/8218)
 * Drop relay support [#8243](https://github.com/diaspora/diaspora/pull/8243)
 
@@ -37,13 +37,22 @@ Although the chat was never enabled per default and was marked as experimental, 
 * Allow podmins/moderators to see all local public posts to improve moderation [#8232](https://github.com/diaspora/diaspora/pull/8232) [#8320](https://github.com/diaspora/diaspora/pull/8320)
 * Add support for directly paste images to upload them [#8237](https://github.com/diaspora/diaspora/pull/8237)
 
-# 0.7.17.0
+# 0.7.18.0
 
 ## Refactor
 
 ## Bug fixes
 
-## Features
+## Bug fixes
+
+# 0.7.17.0
+
+## Security
+* Bump Rails to 5.2.7 to address [CVE-2022-22577](https://discuss.rubyonrails.org/t/cve-2022-22577-possible-xss-vulnerability-in-action-pack/80533) and [CVE-2022-27777](https://discuss.rubyonrails.org/t/cve-2022-27777-possible-xss-vulnerability-in-action-view-tag-helpers/80534) [#8350](https://github.com/diaspora/diaspora/pull/8350)
+* Do not allow the user to mass assign their own password and 2fa settings alongside other parameters. Reported by Breno Vitório (@brenu) - thank you! [#8351](https://github.com/diaspora/diaspora/pull/8351)
+
+## Bug fixes
+* Don't suggest to retry exports on failure [#8343](https://github.com/diaspora/diaspora/pull/8343)
 
 # 0.7.16.0
 
