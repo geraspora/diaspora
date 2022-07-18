@@ -7,7 +7,6 @@ app/assets/images/custom/
 config/diaspora.toml
 config/diaspora.yml
 config/initializers/secret_token.rb
-config/initializers/raven.rb
 .bundle
 vendor/bundle/
 vendor/cache/
@@ -79,7 +78,11 @@ diaspora.iml
 # WebTranslateIt
 .wti
 
+# MacOS
 /__MACOSX/
+
+# yarn
+node_modules
 
 # Geraspora deployment files
 .config/
