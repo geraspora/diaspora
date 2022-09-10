@@ -86,4 +86,3 @@ node_modules
 
 # Geraspora deployment files
 .config/
-config/puma.rb

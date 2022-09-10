@@ -10,12 +10,12 @@ gem "responders", "3.0.1"
 
 # Appserver
 
-gem "puma"
+gem "puma", "5.6.5", require: false
 
 # Federation
 
-gem "diaspora_federation-json_schema", "1.0.0"
-gem "diaspora_federation-rails", "1.0.0"
+gem "diaspora_federation-json_schema", "1.0.1"
+gem "diaspora_federation-rails",       "1.0.1"
 
 # API and JSON
 
@@ -172,13 +172,6 @@ gem "minitest",  "5.15.0"
 
 gem "versionist", "2.0.1"
 
-# Windows and OSX have an execjs compatible runtime built-in, Linux users should
-# install Node.js or use "therubyracer".
-#
-# See https://github.com/sstephenson/execjs#readme for more supported runtimes
-
-# gem "therubyracer", :platform => :ruby
-
 group :production do # we don"t install these on travis to speed up test runs
   # Analytics
 
@@ -246,7 +239,7 @@ group :test do
   gem "timecop",           "0.9.5"
   gem "webmock",           "3.14.0", require: false
 
-  gem "diaspora_federation-test", "1.0.0"
+  gem "diaspora_federation-test", "1.0.1"
 end
 
 group :development, :test do
