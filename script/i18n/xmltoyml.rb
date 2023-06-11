@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby-2.7
+#!/usr/bin/env ruby
 # frozen_string_literal: true
 
 # Copyright (c) 2010-2011, Diaspora Inc.  This file is
