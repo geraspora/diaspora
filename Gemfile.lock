@@ -264,6 +264,7 @@ GEM
     fog-xml (0.1.4)
       fog-core
       nokogiri (>= 1.5.11, < 2.0.0)
+    foreman (0.88.1)
     formatador (1.1.0)
     fugit (1.11.0)
       et-orbi (~> 1, >= 1.2.11)
@@ -508,6 +509,8 @@ GEM
     raabro (1.4.0)
     racc (1.8.0)
     rack (2.2.9)
+    rack-attack (6.7.0)
+      rack (>= 1.0, < 4)
     rack-cors (2.0.2)
       rack (>= 2.0.0)
     rack-google-analytics (1.2.0)
@@ -798,6 +801,7 @@ DEPENDENCIES
   faraday-typhoeus (= 1.1.0)
   fixture_builder (= 0.5.2)
   fog-aws (= 3.22.0)
+  foreman (= 0.88.1)
   fuubar (= 2.5.1)
   gon (= 6.4.0)
   haml_lint (= 0.58.0)
@@ -839,6 +843,7 @@ DEPENDENCIES
   pry
   pry-byebug
   puma (= 6.4.2)
+  rack-attack (= 6.7.0)
   rack-cors (= 2.0.2)
   rack-google-analytics (= 1.2.0)
   rack-piwik (= 0.3.0)
