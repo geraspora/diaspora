@@ -1,6 +1,5 @@
 # Trademark sillyness
 app/views/home/_show.*
-app/views/terms/terms.*
 app/assets/images/custom/
 
 # Configuration files
