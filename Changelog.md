@@ -11,6 +11,7 @@
 ## Refactor
 
 ## Bug fixes
+* Fix processing for a specific set of uploaded images, like scenes full of snow, by allowing for a larger on-disk cache for ImageMagick [#8460](https://github.com/diaspora/diaspora/pull/8460)
 
 ## Features
 
