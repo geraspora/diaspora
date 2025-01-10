@@ -6,7 +6,7 @@ SecureHeaders::Configuration.default do |config|
   # rubocop:disable Lint/PercentStringArray
   csp = {
     default_src:     %w['none'],
-    connect_src:     %w['self' embedr.flickr.com geo.query.yahoo.com nominatim.openstreetmap.org api.github.com],
+    connect_src:     %w['self' *.geraspora.de embedr.flickr.com geo.query.yahoo.com nominatim.openstreetmap.org api.github.com],
     font_src:        %w['self'],
     form_action:     %w['self' platform.twitter.com syndication.twitter.com],
     frame_ancestors: %w['self'],
@@ -15,9 +15,9 @@ SecureHeaders::Configuration.default do |config|
                         bandcamp.com www.instagram.com],
     img_src:         %w['self' data: blob: *],
     media_src:       %w[https:],
-    script_src:      %w['self' blob: 'unsafe-eval' platform.twitter.com cdn.syndication.twimg.com widgets.flickr.com
+    script_src:      %w['self' blob: 'unsafe-eval' *.geraspora.de platform.twitter.com cdn.syndication.twimg.com widgets.flickr.com
                         embedr.flickr.com www.instagram.com 'unsafe-inline'],
-    style_src:       %w['self' 'unsafe-inline' platform.twitter.com *.twimg.com],
+    style_src:       %w['self' 'unsafe-inline' *.geraspora.de platform.twitter.com *.twimg.com],
     manifest_src:    %w['self']
   }
   # rubocop:enable Lint/PercentStringArray
