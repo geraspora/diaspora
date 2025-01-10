@@ -19,6 +19,9 @@ Sidekiq.configure_server do |config|
 
   # Make sure each Sidekiq process has its own sequence of UUIDs
   UUID.generator.next_sequence
+
+  config.logger = Sidekiq::Logger.new($stdout)
+  config.logger.level = Logger::WARN
 end
 
 Sidekiq.configure_client do |config|
