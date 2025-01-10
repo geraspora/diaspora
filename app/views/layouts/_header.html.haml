@@ -11,8 +11,9 @@
             .col-md-12
               .not-connected-menu
                 .navbar-header.navbar-left
-                  .hidden-xs
-                    = link_to AppConfig.settings.pod_name, root_path, class: "navbar-brand"
+                  = link_to(root_path, class: "navbar-brand hidden-xs") do
+                    #diacontents_logo.diaspora_header_logo
+                      = image_tag("/diacontents/header-logo.png", class: "img-responsive")
                   .visible-xs-block.header-title
                     = link_to(image_tag("branding/logos/asterisk_white_mobile.png", class: "img-responsive"),
                         root_path, class: "navbar-brand")

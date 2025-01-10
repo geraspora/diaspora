@@ -27,6 +27,8 @@ class ApplicationController < ActionController::Base
   before_action :gon_set_preloads
   before_action :configure_permitted_parameters, if: :devise_controller?
 
+  before_action :set_ddn_cookie
+
   helper_method :all_aspects,
                 :all_contacts_count,
                 :my_contacts_count,
@@ -155,6 +157,29 @@ class ApplicationController < ActionController::Base
   def gon_set_preloads
     return unless gon.preloads.nil?
     gon.preloads = {}
+  end
+
+  def set_ddn_cookie
+    return unless user_signed_in?
+
+    cookie_payload = {
+      expires:  1.hour.from_now.to_i,
+      username: current_user.username
+    }.to_json
+
+    iv = Random.new.bytes 16
+
+    cipher = OpenSSL::Cipher.new("AES-256-CBC")
+    cipher.encrypt
+    cipher.key = Digest::SHA256.new.update(Diaspora::Application.config.ddn_key).digest
+    cipher.iv = iv
+
+    enc_payload = Base64.encode64(cipher.update(cookie_payload) + cipher.final).strip
+
+    cookies[:ddn_key] = {
+      domain: Diaspora::Application.config.ddn_cookie_domain,
+      value:  "#{enc_payload}|#{Base64.encode64(iv).strip}"
+    }
   end
 
   protected
