@@ -7,6 +7,7 @@
 * Fix a bug with parsing certain OpenGraph metadata structures [#8463](https://github.com/diaspora/diaspora/pull/8463)
 
 ## Features
+* For admins, the offending content's author is now visible in the reports overview [#8464](https://github.com/diaspora/diaspora/pull/8464)
 
 # 0.9.0.0
 
