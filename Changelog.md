@@ -1,6 +1,7 @@
 # 0.9.1.0 (unreleased)
 
 ## Refactor
+* Improved compatibility with non-specification-compliant OpenGraph metadata [#8465](https://github.com/diaspora/diaspora/pull/8465)
 
 ## Bug fixes
 * Fix processing for a specific set of uploaded images, like scenes full of snow, by allowing for a larger on-disk cache for ImageMagick [#8460](https://github.com/diaspora/diaspora/pull/8460)
