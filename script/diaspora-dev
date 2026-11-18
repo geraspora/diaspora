@@ -191,10 +191,10 @@ dia_docker_compose() {
   docker_socket="${docker_socket#unix://}"
   # Check permissions of docker socket and use sudo if needed
   if [ -r "${docker_socket}" ] && [ -w "${docker_socket}" ]; then
-    docker-compose "$@"
+    docker compose "$@"
   else
     echo "Attention: Docker socket not writable, using sudo for the docker command. You might be asked for your password now." >&2
-    sudo -E docker-compose "$@"
+    sudo -E docker compose "$@"
   fi
 }
 
@@ -339,7 +339,7 @@ dia_print_summary_line() {
   local label="$1"
   local state="$2"
   local detail="$3"
-  
+
   local color="$(dia_status_color "$state")"
   local display_state="$(dia_color_text "$color" "$state")"
 
